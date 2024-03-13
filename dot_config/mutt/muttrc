@@ -1,0 +1,8 @@
+# vim: filetype=neomuttrc
+
+source $XDG_CONFIG_HOME/mutt/mappings
+
+source /usr/share/mutt-wizard/mutt-wizard.muttrc
+source /home/wings/.config/mutt/accounts/wings.xiangyi.zeng@gmail.com.muttrc
+macro index,pager i1 '<sync-mailbox><enter-command>source /home/wings/.config/mutt/accounts/wings.xiangyi.zeng@gmail.com.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to wings.xiangyi.zeng@gmail.com"
+macro index,pager i2 '<sync-mailbox><enter-command>source /home/wings/.config/mutt/accounts/xyzeng@stu.xidian.edu.cn.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to xyzeng@stu.xidian.edu.cn"

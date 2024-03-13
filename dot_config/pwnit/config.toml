@@ -1,0 +1,6 @@
+script_name = "exp.py"
+
+[template]
+bin_name = "elf"
+
+

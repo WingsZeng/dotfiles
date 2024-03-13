@@ -1,0 +1,54 @@
+IMAPStore wings.xiangyi.zeng@gmail.com-remote
+Host imap.gmail.com
+Port 993
+User wings.xiangyi.zeng@gmail.com
+# FIX: use pass if auto login gpg
+#PassCmd "pass wings.xiangyi.zeng@gmail.com"
+Pass "nbgzxqhgfundncxd"
+AuthMechs LOGIN
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore wings.xiangyi.zeng@gmail.com-local
+Subfolders Verbatim
+Path /home/wings/.local/share/mail/wings.xiangyi.zeng@gmail.com/
+Inbox /home/wings/.local/share/mail/wings.xiangyi.zeng@gmail.com/Inbox
+
+Channel wings.xiangyi.zeng@gmail.com
+Expunge Both
+Far :wings.xiangyi.zeng@gmail.com-remote:
+Near :wings.xiangyi.zeng@gmail.com-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages 0
+ExpireUnread no
+# End profile
+
+IMAPStore xyzeng@stu.xidian.edu.cn-remote
+Host mail.stu.xidian.edu.cn
+Port 143
+User xyzeng@stu.xidian.edu.cn
+# FIX: use pass if auto login gpg
+#PassCmd "pass xyzeng@stu.xidian.edu.cn"
+Pass "Jn7sbAWwXQ8UIvem"
+AuthMechs LOGIN
+SSLType None
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore xyzeng@stu.xidian.edu.cn-local
+Subfolders Verbatim
+Path /home/wings/.local/share/mail/xyzeng@stu.xidian.edu.cn/
+Inbox /home/wings/.local/share/mail/xyzeng@stu.xidian.edu.cn/Inbox
+
+Channel xyzeng@stu.xidian.edu.cn
+Expunge Both
+Far :xyzeng@stu.xidian.edu.cn-remote:
+Near :xyzeng@stu.xidian.edu.cn-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages 0
+ExpireUnread no
+# End profile
+

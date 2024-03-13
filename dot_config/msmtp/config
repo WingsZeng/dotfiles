@@ -1,0 +1,24 @@
+account wings.xiangyi.zeng@gmail.com
+host smtp.gmail.com
+port 587
+from wings.xiangyi.zeng@gmail.com
+user wings.xiangyi.zeng@gmail.com
+passwordeval "pass wings.xiangyi.zeng@gmail.com"
+auth on
+tls on
+tls_trust_file	/etc/ssl/certs/ca-certificates.crt
+logfile /home/wings/.config/msmtp/msmtp.log
+# tls_starttls
+
+account xyzeng@stu.xidian.edu.cn
+host mail.stu.xidian.edu.cn
+port 25
+from xyzeng@stu.xidian.edu.cn
+user xyzeng@stu.xidian.edu.cn
+passwordeval "pass xyzeng@stu.xidian.edu.cn"
+auth on
+tls off
+tls_trust_file	/etc/ssl/certs/ca-certificates.crt
+logfile /home/wings/.config/msmtp/msmtp.log
+tls_starttls on
+

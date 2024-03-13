@@ -1,0 +1,22 @@
+# vim: filetype=neomuttrc
+# muttrc file for account wings.xiangyi.zeng@gmail.com
+set realname = "wings.xiangyi.zeng"
+set from = "wings.xiangyi.zeng@gmail.com"
+set sendmail = "msmtp -a wings.xiangyi.zeng@gmail.com"
+alias me wings.xiangyi.zeng <wings.xiangyi.zeng@gmail.com>
+set folder = "/home/wings/.local/share/mail/wings.xiangyi.zeng@gmail.com"
+set header_cache = /home/wings/.cache/mutt-wizard/wings.xiangyi.zeng@gmail.com/headers
+set message_cachedir = /home/wings/.cache/mutt-wizard/wings.xiangyi.zeng@gmail.com/bodies
+set mbox_type = Maildir
+set hostname = "gmail.com"
+source /usr/share/mutt-wizard/switch.muttrc
+set spoolfile = +Inbox
+set postponed = +Drafts
+set trash = +Trash
+#set record = +Sent
+
+macro index o "<shell-escape>mbsync -c $XDG_CONFIG_HOME/isync/isyncrc wings.xiangyi.zeng@gmail.com<enter>" "run mbsync to sync wings.xiangyi.zeng@gmail.com"
+#macro index \eg "<enter-command>unset wait_key<enter><shell-escape>gpg --list-secret-keys; printf 'Enter email ID of user to publish: '; read eID; printf 'Enter fingerprint of GPG key to publish: '; read eFGPT; /usr/libexec/gpg-wks-client --create \$eFGPT \$eID | msmtp --read-envelope-from --read-recipients -a wings.xiangyi.zeng@gmail.com<enter>"  "publish GPG key to WKS provider"
+#macro index \eh "<pipe-message>/usr/libexec/gpg-wks-client --receive | msmtp --read-envelope-from --read-recipients -a wings.xiangyi.zeng@gmail.com<enter>" "confirm GPG publication"
+
+mailboxes "=Inbox" "=[Gmail]/Sent Mail" "=[Gmail]/Spam" "=Trash"

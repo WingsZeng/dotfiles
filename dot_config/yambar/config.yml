@@ -1,0 +1,217 @@
+color:
+  red: &red f92672ff
+  green: &green a6e22eff
+  yellow: &yellow e6db74ff
+  orange: &orange fd971fff
+  purple: &purple ae81ffff
+  blue: &blue 66d9efff
+  write: &write f8f8f2ff
+  black: &black 222222ff
+  gray: &gray a9a9b3ff
+
+  prompt_color: &prompt_color f8f8f2ff
+
+delimiter: &delimiter
+  label:
+    content:
+      string: {text: , foreground: 444444ff}
+
+prompt_font: &prompt_font "UbuntuMono Nerd Font:style=bold:size=32"
+
+bar:
+  height: 32
+  location: top
+  layer: top
+  monitor: HDMI-A-1
+  background: 00000000
+  foreground: *write
+  margin: 20
+  spacing: 8
+  font: "UbuntuMono Nerd Font:size=28"
+
+  left:
+
+    - label:
+        content:
+          string: {text: cpu, foreground: *prompt_color, font: *prompt_font}
+    - cpu:
+        poll-interval: 1000
+        content:
+          map:
+            conditions:
+              id < 0:
+                map:
+                  default:
+                    - string: {text: "{cpu}% "}
+                  conditions:
+                    cpu < 10:
+                      - string: {text: "0{cpu}% "}
+                    cpu >= 100:
+                      - string: {text: "{cpu}%"}
+                    cpu >= 90:
+                      - string: {text: "{cpu}%", foreground: *red}
+
+    - *delimiter
+
+    - label:
+        content:
+          string: {text: mem, foreground: *prompt_color, font: *prompt_font}
+    - mem:
+        poll-interval: 500
+        content:
+          map:
+            default:
+              - string: {text: "{percent_used}% "}
+            conditions:
+              percent_used < 10:
+                - string: {text: "0{percent_used}% "}
+              percent_used >= 100:
+                - string: {text: "{percent_used}%"}
+              percent_used >= 80:
+                - string: {text: "{percent_used}%", foreground: *red}
+              percent_used >= 60:
+                - string: {text: "{percent_used}%", foreground: *yellow}
+
+    - *delimiter
+
+    - label:
+        content:
+          string: {text: eth, foreground: *prompt_color, font: *prompt_font}
+    - network:
+        name: enp0s31f6
+        poll-interval: 1000
+        content:
+          map:
+            default:
+              - string: {text: "null", foreground: *gray}
+            conditions:
+              state == up && ipv4 != "":
+                - string: {text: "{dl-speed:mb}"}
+
+    - *delimiter
+
+    - label:
+        content:
+          string: {text: wif, foreground: *prompt_color, font: *prompt_font}
+    - network:
+        name: wlan0
+        poll-interval: 1000
+        content:
+          map:
+            default:
+              - string: {text: "null", foreground: *gray}
+            conditions:
+              state == up:
+                - string: {text: "{dl-speed:mb}"}
+
+
+  center:
+    - clock:
+        time-format: "%H:%M:%S"
+        date-format: "%b %d %a"
+        content:
+          string: {text: "{date}  {time}", font: "UbuntuMono Nerd Font:size=32"}
+
+
+  right:
+
+    - label:
+        content:
+          string: {text: mic, foreground: *prompt_color, font: *prompt_font}
+    - pipewire:
+        content:
+          map:
+            conditions:
+              type == "source":
+                map:
+                  default:
+                    - string: {text: "{cubic_volume}% "}
+                  conditions:
+                    muted:
+                      - string: {text: "mute", foreground: *gray}
+                    cubic_volume == 0:
+                      - string: {text: "0{cubic_volume}% ", foreground: *gray}
+                    cubic_volume < 10:
+                      - string: {text: "0{cubic_volume}% "}
+                    cubic_volume == 100:
+                      - string: {text: "{cubic_volume}%"}
+                    cubic_volume > 100:
+                      - string: {text: "{cubic_volume}%", foreground: *yellow}
+
+    - *delimiter
+
+    - label:
+        content:
+          string: {text: vol, foreground: *prompt_color, font: *prompt_font}
+    - pipewire:
+        content:
+          map:
+            conditions:
+              type == "sink":
+                map:
+                  default:
+                    - string: {text: "{cubic_volume}% "}
+                  conditions:
+                    muted:
+                      - string: {text: "mute", foreground: *gray}
+                    cubic_volume == 0:
+                      - string: {text: "0{cubic_volume}% ", foreground: *gray}
+                    cubic_volume < 10:
+                      - string: {text: "0{cubic_volume}% "}
+                    cubic_volume == 100:
+                      - string: {text: "{cubic_volume}%"}
+                    cubic_volume > 100:
+                      - string: {text: "{cubic_volume}%", foreground: *yellow}
+
+    - *delimiter
+
+    - label:
+        content:
+          string: {text: lgt, foreground: *prompt_color, font: *prompt_font}
+    - backlight:
+        name: intel_backlight
+        content:
+          map:
+            default:
+              - string: {text: " {percent}%"}
+            conditions:
+              percent < 10:
+                - string: {text: " 0{percent}%"}
+              percent == 100:
+                - string: {text: "{percent}%"}
+
+    - *delimiter
+
+    - label:
+        content:
+          string: {text: bat, foreground: *prompt_color, font: *prompt_font}
+    - battery:
+        name: BAT0
+        poll-interval: 10000
+        content:
+          map:
+            default:
+              map:
+                default:
+                  - string: {text: "{capacity}% "}
+                conditions:
+                  capacity < 10:
+                    - string: {text: "0{capacity}% ", foreground: *red}
+                  capacity <= 30:
+                    - string: {text: "{capacity}% ", foreground: *red}
+                  capacity <= 60:
+                    - string: {text: "{capacity}% ", foreground: *yellow}
+            conditions:
+              state == full:
+                - string: {text: "full"}
+              state == charging:
+                map:
+                  default:
+                    - string: {text: "{capacity}% ", foreground: *green}
+                  conditions:
+                    cpaacity == 100:
+                      - string: {text: "full"}
+                    capacity < 10:
+                      - string: {text: "0{capacity}% ", foreground: *green}
+
+
