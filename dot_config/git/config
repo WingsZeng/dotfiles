@@ -1,3 +1,42 @@
 [user]
 	email = wings.xiangyi.zeng@gmail.com
 	name = Wings
+
+[core]
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only --features=interactive
+
+[delta]
+    navigate = true
+    features = interactive decorations theme
+
+[delta "theme"]
+    dark = true
+    true-color = always
+    line-numbers = true
+    side-by-side = true
+    line-numbers-minus-style = red
+    line-numbers-plus-style = green
+    minus-style = normal "#51021f"
+    minus-emph-style = syntax "#c5054a"
+    plus-style = syntax "#2b3c08"
+    plus-emph-style = syntax "#75a417"
+
+[delta "interactive"]
+    keep-plus-minus-markers = false
+
+[delta "decorations"]
+    commit-decoration-style = blue ol
+    commit-style = raw
+    file-style = omit
+    hunk-header-file-style = yellow bold
+    hunk-header-decoration-style = blue ol ul
+    hunk-header-style = file syntax italic
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
