@@ -124,3 +124,10 @@ theme "monokai-soda"
 // that will be used by default if this option is not set.
 //
 copy_command "wl-copy"                    // wayland
+
+ui {
+    pane_frames {
+        rounded_corners true
+        hide_session_name true
+    }
+}
