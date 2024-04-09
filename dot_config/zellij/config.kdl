@@ -67,7 +67,7 @@ keybinds clear-defaults=true {
         bind "Ctrl t" { NewTab; }
     }
     shared_except "prompt" {
-        bind "Esc" { SwitchToMode "Prompt"; }
+        bind "Alt q" { SwitchToMode "Prompt"; }
     }
 }
 
