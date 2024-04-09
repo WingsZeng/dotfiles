@@ -9,8 +9,10 @@ layout {
 
                 hide_frame_for_single_pane "true"
 
-                mode_normal         "#[fg=#222222,bg=green] {name} "
-                mode_prompt         "#[fg=#222222,bg=yellow] {name} "
+                mode_default_to_mode "prompt"
+
+                mode_normal         "#[fg=#222222,bg=green] Insert "
+                mode_prompt         "#[fg=#222222,bg=yellow] Normal "
                 mode_scroll         "#[fg=#222222,bg=magenta] {name} "
                 mode_search         "#[fg=#222222,bg=blue] {name} "
                 mode_enter_search   "#[fg=#222222,bg=blue] EntSch "
