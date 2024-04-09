@@ -26,7 +26,6 @@ keybinds clear-defaults=true {
         bind "_" { NewPane "Down"; }
         bind "|" { NewPane "Right"; }
         bind "f" { ToggleFocusFullscreen; }
-        bind "z" { TogglePaneFrames; }
         bind "Space" { TogglePaneEmbedOrFloating; }
         bind "[" { SwitchToMode "Scroll"; }
         bind "/" { SwitchToMode "EnterSearch"; SearchInput 0; }
