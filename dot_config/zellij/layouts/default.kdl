@@ -1,0 +1,24 @@
+layout {
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:zjstatus" {
+                format_left   "{mode}{tabs}"
+                format_space  "#[bg=#111111]"
+
+                border_enabled  "false"
+
+                hide_frame_for_single_pane "true"
+
+                mode_normal         "#[fg=#222222,bg=green] {name} "
+                mode_prompt         "#[fg=#222222,bg=yellow] {name} "
+                mode_scroll         "#[fg=#222222,bg=magenta] {name} "
+                mode_search         "#[fg=#222222,bg=blue] {name} "
+                mode_enter_search   "#[fg=#222222,bg=blue] EntSch "
+
+                tab_normal          "#[fg=#6f6f6f,bg=#111111] {index} "
+                tab_active          "#[fg=#a2a2a2,bold] {index} "
+            }
+        }
+        children
+    }
+}
