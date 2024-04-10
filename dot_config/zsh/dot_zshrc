@@ -97,6 +97,8 @@ alias wget='wget2'
 function build_universal() {
     docker run --rm -v "$PWD":/codes -w /codes wingszeng/gcc "$@"
 }
+# ssh
+alias ssh='TERM=xterm-256color ssh'
 # ssh vps
 alias ssh_canangeles='ssh root@wingszeng.top -p 3858'
 ### End of alias and functions
