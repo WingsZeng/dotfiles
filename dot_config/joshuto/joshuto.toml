@@ -1,9 +1,0 @@
-[display]
-column_ratio = [0, 1, 1]
-collapse_preview = false
-show_borders = true
-show_hidden = true
-show_icons = true
-
-[preview]
-preview_script = "~/.config/joshuto/preview_file.sh"
