@@ -76,10 +76,23 @@ export MBSYNC_CONFIG=$XDG_CONFIG_HOME/isync/isyncrc
 export GDBHISTFILE=$XDG_DATA_HOME/gdb/history
 ### End of environment
 
-### Alias and functions
+### Alias
 # eza
 alias e='eza -lah --group-directories-first --icons=always --smart-group --no-quotes --git --git-repos'
 alias t='eza -T --group-directories-first --icons=always --no-quotes'
+# wget2
+alias wget='wget2'
+# ssh
+alias ssh='TERM=xterm-256color ssh'
+# ssh vps
+alias ssh_canangeles='ssh root@wingszeng.top -p 3858'
+### End of alias
+
+### Functions
+# docker gcc for universal build
+function build_universal() {
+    docker run --rm -v "$PWD":/codes -w /codes wingszeng/gcc "$@"
+}
 # yazi
 function yy() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
@@ -89,16 +102,7 @@ function yy() {
 	fi
 	rm -f -- "$tmp"
 }
-# wget2
-alias wget='wget2'
-# docker gcc for universal build
-function build_universal() {
-    docker run --rm -v "$PWD":/codes -w /codes wingszeng/gcc "$@"
-}
-# ssh
-alias ssh='TERM=xterm-256color ssh'
-# ssh vps
-alias ssh_canangeles='ssh root@wingszeng.top -p 3858'
+# change 2 files
 function chg() {
     if [ $# -ne 2 ]; then
         echo "Usage: chg <file1> <file2>"
@@ -123,4 +127,4 @@ function chg() {
     mv "$file2" "$file1"
     mv "$temp_file" "$file2"
 }
-### End of alias and functions
+### End of functions
