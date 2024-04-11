@@ -51,10 +51,6 @@ zinit wait lucid light-mode for \
 		zsh-users/zsh-completions
 ### End of plugins
 
-#	jeffreytse/zsh-vi-mode \
-#	atload"bindkey '^[[5~' history-substring-search-up; bindkey '^[[6~' history-substring-search-down" \
-#		zsh-users/zsh-history-substring-search \
-
 ### Key binding
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
