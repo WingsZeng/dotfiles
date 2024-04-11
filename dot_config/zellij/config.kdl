@@ -55,15 +55,15 @@ keybinds clear-defaults=true {
         bind "Alt -" { Resize "Decrease"; }
         bind "Alt [" { PreviousSwapLayout; }
         bind "Alt ]" { NextSwapLayout; }
-        bind "Alt 1" { GoToTab 1; SwitchToMode "Prompt"; }
-        bind "Alt 2" { GoToTab 2; SwitchToMode "Prompt"; }
-        bind "Alt 3" { GoToTab 3; SwitchToMode "Prompt"; }
-        bind "Alt 4" { GoToTab 4; SwitchToMode "Prompt"; }
-        bind "Alt 5" { GoToTab 5; SwitchToMode "Prompt"; }
-        bind "Alt 6" { GoToTab 6; SwitchToMode "Prompt"; }
-        bind "Alt 7" { GoToTab 7; SwitchToMode "Prompt"; }
-        bind "Alt 8" { GoToTab 8; SwitchToMode "Prompt"; }
-        bind "Alt 9" { GoToTab 9; SwitchToMode "Prompt"; }
+        bind "Alt 1" { GoToTab 1; }
+        bind "Alt 2" { GoToTab 2; }
+        bind "Alt 3" { GoToTab 3; }
+        bind "Alt 4" { GoToTab 4; }
+        bind "Alt 5" { GoToTab 5; }
+        bind "Alt 6" { GoToTab 6; }
+        bind "Alt 7" { GoToTab 7; }
+        bind "Alt 8" { GoToTab 8; }
+        bind "Alt 9" { GoToTab 9; }
         bind "Ctrl t" { NewTab; }
     }
     shared_except "prompt" {
