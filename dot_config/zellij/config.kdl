@@ -21,7 +21,7 @@ keybinds clear-defaults=true {
         bind "o" { SearchToggleOption "WholeWord"; }
     }
     prompt {
-        bind "Ctrl d" "Ctrl u" { CloseFocus; }
+        bind "Ctrl d" { CloseFocus; }
         bind "i" { SwitchToMode "Normal"; }
         bind "_" { NewPane "Down"; }
         bind "|" { NewPane "Right"; }
