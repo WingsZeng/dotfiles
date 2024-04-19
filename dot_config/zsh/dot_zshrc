@@ -76,8 +76,6 @@ export GDBHISTFILE=$XDG_DATA_HOME/gdb/history
 # eza
 alias e='eza -lah --group-directories-first --icons=always --smart-group --no-quotes --git --git-repos'
 alias t='eza -T --group-directories-first --icons=always --no-quotes'
-# ssh
-alias ssh='TERM=xterm-256color ssh'
 ### End of alias
 
 ### Functions
