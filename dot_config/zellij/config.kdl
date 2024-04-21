@@ -102,7 +102,7 @@ pane_frames false
 themes {
      monokai-soda {
          fg 248 248 242
-         bg 34 34 34
+         bg 60 60 60
          red 249 38 114
          green 166 226 46
          yellow 230 219 116
