@@ -1,15 +1,15 @@
 keybinds clear-defaults=true {
     scroll {
-        bind "e" { EditScrollback; SwitchToMode "Prompt"; }
+        bind "e" { EditScrollback; SwitchToMode "Normal"; }
         bind "/" { SwitchToMode "EnterSearch"; SearchInput 0; }
-        bind "Ctrl c" { ScrollToBottom; SwitchToMode "Prompt"; }
+        bind "Ctrl c" "Esc" { ScrollToBottom; SwitchToMode "Prompt"; }
         bind "j" "Down" { ScrollDown; }
         bind "k" "Up" { ScrollUp; }
         bind "PageDown" "Right" "l" { PageScrollDown; }
         bind "PageUp" "Left" "h" { PageScrollUp; }
     }
     search {
-        bind "Ctrl c" { ScrollToBottom; SwitchToMode "Prompt"; }
+        bind "Ctrl c" "Esc" { ScrollToBottom; SwitchToMode "Prompt"; }
         bind "j" "Down" { ScrollDown; }
         bind "k" "Up" { ScrollUp; }
         bind "PageDown" "Right" "l" { PageScrollDown; }
