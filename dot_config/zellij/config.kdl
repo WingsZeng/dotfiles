@@ -1,19 +1,17 @@
 keybinds clear-defaults=true {
-    scroll {
-        bind "e" { EditScrollback; SwitchToMode "Normal"; }
-        bind "/" { SwitchToMode "EnterSearch"; SearchInput 0; }
-        bind "Ctrl c" "Esc" { ScrollToBottom; SwitchToMode "Prompt"; }
-        bind "j" "Down" { ScrollDown; }
-        bind "k" "Up" { ScrollUp; }
-        bind "PageDown" "Right" "l" { PageScrollDown; }
-        bind "PageUp" "Left" "h" { PageScrollUp; }
+    normal {
+        bind "Esc" { SwitchToMode "Prompt"; }
+        bind "Ctrl g" { SwitchToMode "Locked"; }
+    }
+    locked {
+        bind "Ctrl g" { SwitchToMode "Normal"; }
     }
     search {
-        bind "Ctrl c" "Esc" { ScrollToBottom; SwitchToMode "Prompt"; }
+        bind "Esc" { ScrollToBottom; SwitchToMode "Prompt"; }
         bind "j" "Down" { ScrollDown; }
         bind "k" "Up" { ScrollUp; }
-        bind "PageDown" "Right" "l" { PageScrollDown; }
-        bind "PageUp" "Left" "h" { PageScrollUp; }
+        bind "PageDown" { PageScrollDown; }
+        bind "PageUp" { PageScrollUp; }
         bind "n" { Search "down"; }
         bind "N" { Search "up"; }
         bind "c" { SearchToggleOption "CaseSensitivity"; }
@@ -23,38 +21,31 @@ keybinds clear-defaults=true {
     prompt {
         bind "Ctrl d" { CloseFocus; }
         bind "i" { SwitchToMode "Normal"; }
+        bind "e" { EditScrollback; SwitchToMode "Normal"; }
         bind "_" { NewPane "Down"; }
         bind "|" { NewPane "Right"; }
         bind "f" { ToggleFocusFullscreen; }
         bind "Space" { TogglePaneEmbedOrFloating; }
-        bind "[" { SwitchToMode "Scroll"; }
         bind "/" { SwitchToMode "EnterSearch"; SearchInput 0; }
-        bind "Alt h" { MovePane "Left"; }
-        bind "Alt j" { MovePane "Down"; }
-        bind "Alt k" { MovePane "Up"; }
-        bind "Alt l" { MovePane "Right"; }
-        bind "h" { MoveFocusOrTab "Left"; }
-        bind "l" { MoveFocusOrTab "Right"; }
-        bind "j" { MoveFocus "Down"; }
-        bind "k" { MoveFocus "Up"; }
-        bind "Ctrl h" { Resize "Increase Left"; }
-        bind "Ctrl j" { Resize "Increase Down"; }
-        bind "Ctrl k" { Resize "Increase Up"; }
-        bind "Ctrl l" { Resize "Increase Right"; }
-        bind "Ctrl H" { Resize "Decrease Left"; }
-        bind "Ctrl J" { Resize "Decrease Down"; }
-        bind "Ctrl K" { Resize "Decrease Up"; }
-        bind "Ctrl L" { Resize "Decrease Right"; }
+        bind "j" "Down" { ScrollDown; }
+        bind "k" "Up" { ScrollUp; }
+        bind "PageDown" { PageScrollDown; }
+        bind "PageUp" { PageScrollUp; }
+        bind "Esc" "Enter" "G" { ScrollToBottom; }
+        bind "J" { GoToPreviousTab; }
+        bind "K" { GoToNextTab; }
+        bind "Ctrl h" { MovePane "Left"; }
+        bind "Ctrl j" { MovePane "Down"; }
+        bind "Ctrl k" { MovePane "Up"; }
+        bind "Ctrl l" { MovePane "Right"; }
     }
     entersearch {
-        bind "Ctrl c" "Esc" { SwitchToMode "Scroll"; }
+        bind "Esc" { SwitchToMode "Prompt"; }
         bind "Enter" { SwitchToMode "Search"; }
     }
     shared {
         bind "Alt =" "Alt +" { Resize "Increase"; }
         bind "Alt -" { Resize "Decrease"; }
-        bind "Alt [" { PreviousSwapLayout; }
-        bind "Alt ]" { NextSwapLayout; }
         bind "Alt 1" { GoToTab 1; }
         bind "Alt 2" { GoToTab 2; }
         bind "Alt 3" { GoToTab 3; }
@@ -66,8 +57,11 @@ keybinds clear-defaults=true {
         bind "Alt 9" { GoToTab 9; }
         bind "Ctrl t" { NewTab; }
     }
-    shared_except "prompt" {
-        bind "Alt q" { SwitchToMode "Prompt"; }
+    shared_except "locked" {
+        bind "Alt h" { MoveFocus "Left"; }
+        bind "Alt l" { MoveFocus "Right"; }
+        bind "Alt j" { MoveFocus "Down"; }
+        bind "Alt k" { MoveFocus "Up"; }
     }
 }
 
