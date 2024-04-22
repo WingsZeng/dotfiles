@@ -16,6 +16,7 @@ layout {
                 mode_scroll         "#[fg=#222222,bg=magenta] {name} "
                 mode_search         "#[fg=#222222,bg=blue] {name} "
                 mode_enter_search   "#[fg=#222222,bg=blue] EntSch "
+                mode_locked         "#[fg=#222222,bg=green] Focsed "
 
                 tab_normal          "#[fg=#6f6f6f,bg=#111111] {index} "
                 tab_active          "#[fg=#a2a2a2,bold] {index} "
