@@ -40,6 +40,7 @@ zinit light starship/starship
 ### Plugins
 zinit wait lucid light-mode for \
 	atinit"export _ZL_DATA=$XDG_DATA_HOME/zsh/zlua" \
+	atload"export ZLUA_SCRIPT=$ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua" \
 		skywind3000/z.lua \
 	Aloxaf/fzf-tab \
 	joshskidmore/zsh-fzf-history-search \
