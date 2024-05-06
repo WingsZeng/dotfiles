@@ -1,7 +1,8 @@
 [manager]
-ratio          = [2, 3, 4]
+ratio           = [2, 3, 4]
 linemode        = "mtime"
 show_hidden     = true
+sort_dir_first  = true
 
 [opener]
 extract = [
