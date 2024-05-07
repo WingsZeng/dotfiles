@@ -1,12 +1,13 @@
 return {
   "goolord/alpha-nvim",
   dependencies = {
-    {
-      "AstroNvim/astrocore",
-      opts = function(_, opts)
-        local maps = opts.mappings
-        maps.n["<Leader>h"] = false
-      end,
+    "AstroNvim/astrocore",
+    opts = {
+      mappings = {
+        n = {
+          ["<Leader>h"] = false,
+        },
+      },
     },
   },
   opts = function(_, opts)

@@ -1,5 +1,8 @@
 return {
   "stevearc/resession.nvim",
+  -- TODO: Refactor opts.
+  -- how to get _map_sections without opts?
+  -- do I need to set _map_sections S to s?
   dependencies = {
     {
       "AstroNvim/astrocore",

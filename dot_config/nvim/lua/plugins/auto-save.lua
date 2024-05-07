@@ -6,5 +6,5 @@ return {
       enabled = false,
     },
     debounce_delay = 100,
-  }
+  },
 }
