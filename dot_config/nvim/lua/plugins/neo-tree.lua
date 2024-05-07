@@ -1,15 +1,16 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
   dependencies = {
-    {
-      "AstroNvim/astrocore",
-      opts = function(_, opts)
-        local maps = opts.mappings
-        maps.n["<Leader>e"] = false
-        maps.n["<Leader>o"] = false
-        maps.n["<C-e>"] = { "<Cmd>Neotree toggle<CR>", desc = "Toggle Explorer" }
-      end,
-    }
+    "AstroNvim/astrocore",
+    opts = {
+      mappings = {
+        n = {
+          ["<Leader>e"] = false,
+          ["<Leader>o"] = false,
+          ["<C-e>"] = { "<Cmd>Neotree toggle<CR>", desc = "Toggle Explorer" },
+        },
+      },
+    },
   },
   opts = {
     filesystem = {
