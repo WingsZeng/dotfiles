@@ -8,10 +8,6 @@ return {
     },
     mappings = {
       n = {
-        -- navigate buffer tabs with `H` and `L`
-        K = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
-        J = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
-
         -- Standard Operations
         ["<Leader>w"] = false,
         ["<Leader>q"] = false,
@@ -26,6 +22,8 @@ return {
         ["_"] = { "<cmd>split<cr>", desc = "Horizontal Split" },
         ["<C-S-j>"] = {"<cmd>move +<cr>", desc = "Move one line down" },
         ["<C-S-k>"] = {"<cmd>move -2<cr>", desc = "Move one line up" },
+        K = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
+        J = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
 
         -- Manage Buffers
         ["<Leader>c"] = false,
