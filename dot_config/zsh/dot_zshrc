@@ -71,6 +71,8 @@ export PASSWORD_STORE_DIR=$XDG_DATA_HOME/password-store
 export MBSYNC_CONFIG=$XDG_CONFIG_HOME/isync/isyncrc
 # gdb history
 export GDBHISTFILE=$XDG_DATA_HOME/gdb/history
+# npmrc
+export NPM_CONFIG_USERCONFIG=$XDG_CONFIG_HOME/npm/npmrc
 ### End of environment
 
 ### Alias
