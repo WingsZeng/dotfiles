@@ -61,8 +61,10 @@ bindkey "^[[3~" delete-char
 ### Environment
 # python cli
 export PYTHONSTARTUP=$XDG_CONFIG_HOME/python/pythonrc
-# cargo home
+# rust home
+export RUSTUP_HOME=$XDG_DATA_HOME/rustup
 export CARGO_HOME=$XDG_DATA_HOME/cargo
+export PATH=$CARGO_HOME/bin:$PATH
 # GPG home
 export GNUPGHOME=$XDG_DATA_HOME/gnupg
 # pass home
