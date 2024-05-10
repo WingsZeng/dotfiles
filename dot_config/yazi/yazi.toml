@@ -16,9 +16,13 @@ prepend_rules = [
 ]
 
 [plugin]
+prepend_preloaders = [
+	{ mime = "image/svg+xml",               run = "convert" },
+]
 prepend_previewers = [
 	{ mime = "application/x-xz",            run = "archive" },
 	{ mime = "application/vnd.gentoo.*", 		run = "code" },
+	{ mime = "image/svg+xml", 							run = "convert" },
 ]
 append_previewers = [
   { name = "*", 													run = "hexyl" },
