@@ -1,6 +1,6 @@
 return {
   "numToStr/Comment.nvim",
-  dependencies =  {
+  dependencies = {
     "AstroNvim/astrocore",
     opts = {
       mappings = {
