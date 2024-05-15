@@ -1,6 +1,44 @@
 return {
   "folke/flash.nvim",
-  event = "VeryLazy",
+  -- FIX: lazy loading not working
+  layz = true,
+  dependencies = {
+    "AstroNvim/astrocore",
+    opts = {
+      mappings = {
+        x = {
+          ["f"] = {
+            function() require("flash").jump() end,
+            desc = "Flash",
+          },
+          ["F"] = {
+            function() require("flash").treesitter() end,
+            desc = "Flash Treesitter",
+          },
+        },
+        o = {
+          ["f"] = {
+            function() require("flash").jump() end,
+            desc = "Flash",
+          },
+          ["F"] = {
+            function() require("flash").treesitter() end,
+            desc = "Flash Treesitter",
+          },
+        },
+        n = {
+          ["f"] = {
+            function() require("flash").jump() end,
+            desc = "Flash",
+          },
+          ["F"] = {
+            function() require("flash").treesitter() end,
+            desc = "Flash Treesitter",
+          },
+        },
+      },
+    },
+  },
   opts = {
     labels = "asdfghjkl",
     search = {
@@ -25,9 +63,5 @@ return {
     prompt = {
       enabled = false,
     },
-  },
-  keys = {
-    { "f", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-    { "F", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
   },
 }
