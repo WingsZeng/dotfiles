@@ -1,8 +1,11 @@
 #!/bin/zsh
 killall xdg-desktop-portal-wlr
+killall xdg-desktop-portal-hyprland
 killall xdg-desktop-portal
 logger 'killed all xdg-desktop'
-/usr/libexec/xdg-desktop-portal-wlr &
+sleep 2
+/usr/libexec/xdg-desktop-portal-hyprland &
 logger 'xdg-desktop-portal-hyprland started'
+sleep 2
 /usr/libexec/xdg-desktop-portal &
 logger 'xdg-desktop-portal started'
