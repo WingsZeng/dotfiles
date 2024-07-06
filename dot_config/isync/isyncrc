@@ -2,9 +2,7 @@ IMAPStore wings.xiangyi.zeng@gmail.com-remote
 Host imap.gmail.com
 Port 993
 User wings.xiangyi.zeng@gmail.com
-# FIX: use pass if auto login gpg
-#PassCmd "pass wings.xiangyi.zeng@gmail.com"
-Pass "nbgzxqhgfundncxd"
+PassCmd "pass wings.xiangyi.zeng@gmail.com"
 AuthMechs LOGIN
 SSLType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
@@ -29,9 +27,7 @@ IMAPStore xyzeng@stu.xidian.edu.cn-remote
 Host mail.stu.xidian.edu.cn
 Port 143
 User xyzeng@stu.xidian.edu.cn
-# FIX: use pass if auto login gpg
-#PassCmd "pass xyzeng@stu.xidian.edu.cn"
-Pass "Jn7sbAWwXQ8UIvem"
+PassCmd "pass xyzeng@stu.xidian.edu.cn"
 AuthMechs LOGIN
 SSLType None
 CertificateFile /etc/ssl/certs/ca-certificates.crt
