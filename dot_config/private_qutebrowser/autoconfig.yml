@@ -11,8 +11,6 @@ settings:
       normal:
         J: tab-prev
         K: tab-next
-        j: cmd-run-with-count 5 scroll down
-        k: cmd-run-with-count 5 scroll up
         p: spawn --userscript qute-rbw --terminal footclient -d "fuzzel --dmenu"
   colors.webpage.bg:
     global: '#222222'
