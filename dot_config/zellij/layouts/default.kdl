@@ -7,21 +7,29 @@ layout {
 
                 border_enabled  "false"
 
-                hide_frame_for_single_pane "true"
+                hide_frame_for_single_pane "false"
 
                 mode_default_to_mode "prompt"
 
                 mode_normal         "#[fg=#222222,bg=green] Insert "
                 mode_prompt         "#[fg=#222222,bg=yellow] Normal "
-                mode_scroll         "#[fg=#222222,bg=magenta] {name} "
                 mode_search         "#[fg=#222222,bg=blue] {name} "
                 mode_enter_search   "#[fg=#222222,bg=blue] EntSch "
-                mode_locked         "#[fg=#222222,bg=green] Focsed "
+                mode_locked         "#[fg=#222222,bg=magenta] PasThr "
 
                 tab_normal          "#[fg=#6f6f6f,bg=#111111] {index} "
                 tab_active          "#[fg=#a2a2a2,bold] {index} "
             }
         }
         children
+    }
+    tab {
+        pane
+        pane borderless=true {
+            plugin location="file:zjswitcher" {
+                hide true
+                programs_in_locked_mode "nvim, yazi, sshs, lazygit, lazydocker, bluetuith, doas"
+            }
+        }
     }
 }
