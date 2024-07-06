@@ -22,7 +22,7 @@ keybinds clear-defaults=true {
         bind "Ctrl d" { CloseFocus; }
         bind "Ctrl v" { SwitchToMode "Locked"; }
         bind "i" { SwitchToMode "Normal"; }
-        bind "e" { EditScrollback; SwitchToMode "Normal"; }
+        bind "e" { EditScrollback; SwitchToMode "Locked"; }
         bind "_" { NewPane "Down"; }
         bind "|" { NewPane "Right"; }
         bind "f" { ToggleFocusFullscreen; }
@@ -56,13 +56,14 @@ keybinds clear-defaults=true {
         bind "Alt 7" { GoToTab 7; }
         bind "Alt 8" { GoToTab 8; }
         bind "Alt 9" { GoToTab 9; }
-        bind "Ctrl t" { NewTab; SwitchToMode "Normal"; }
+        bind "Ctrl t" { NewTab; }
     }
     shared_except "locked" {
         bind "Alt h" { MoveFocus "Left"; }
         bind "Alt l" { MoveFocus "Right"; }
         bind "Alt j" { MoveFocus "Down"; }
         bind "Alt k" { MoveFocus "Up"; }
+        bind "Ctrl w" { CloseTab; }
     }
 }
 
@@ -124,3 +125,5 @@ ui {
         hide_session_name true
     }
 }
+
+session_serialization false
