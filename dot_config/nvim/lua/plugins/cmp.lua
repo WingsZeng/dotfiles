@@ -1,16 +1,46 @@
+local function has_words_before()
+  local line, col = (unpack or table.unpack)(vim.api.nvim_win_get_cursor(0))
+  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
+end
+local function is_visible(cmp) return cmp.core.view:visible() or vim.fn.pumvisible() == 1 end
+
 return {
   "hrsh7th/nvim-cmp",
   dependencies = {
     { "zbirenbaum/copilot-cmp",   lazy = true },
     { "luozhiya/fittencode.nvim", lazy = true },
+    { "L3MON4D3/LuaSnip",         lazy = true },
   },
   opts = function(_, opts)
-    local cmp = require("cmp")
+    local luasnip, cmp = require "luasnip", require "cmp"
+    opts.mapping["<C-P>"] = nil
+    opts.mapping["<C-N>"] = nil
     opts.mapping["<C-U>"] = nil
     opts.mapping["<C-D>"] = nil
     opts.mapping["<C-E>"] = nil
     opts.mapping["<C-K>"] = nil
     opts.mapping["<C-J>"] = nil
+
+    opts.mapping["<Down>"] = cmp.mapping(function(fallback)
+      if is_visible(cmp) then
+        cmp.select_next_item()
+      elseif vim.api.nvim_get_mode().mode ~= "c" and luasnip.expand_or_locally_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { "i", "s" })
+
+    opts.mapping["<Up>"] = cmp.mapping(function(fallback)
+      if is_visible(cmp) then
+        cmp.select_prev_item()
+      elseif vim.api.nvim_get_mode().mode ~= "c" and luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { "i", "s" })
+
     opts.mapping["<M-Space>"] = cmp.mapping(function()
       if cmp.visible() then
         cmp.abort()
@@ -19,26 +49,18 @@ return {
       end
     end
     )
+
+    if not opts.mappings then opts.mappings = {} end
     opts.mapping["<Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
-      elseif vim.snippet and vim.snippet.active { direction = 1 } then
-        vim.schedule(function() vim.snippet.jump(1) end)
-      else
-        fallback()
-      end
-    end, { "i", "s" })
-    opts.mapping["<S-Tab>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item { behavior = cmp.SelectBehavior.Select }
-      elseif vim.snippet and vim.snippet.active { direction = -1 } then
-        vim.schedule(function() vim.snippet.jump(-1) end)
+      if is_visible(cmp) and has_words_before() then
+        cmp.select_next_item()
+      elseif vim.api.nvim_get_mode().mode ~= "c" and luasnip.expand_or_locally_jumpable() then
+        luasnip.expand_or_jump()
       else
         fallback()
       end
     end, { "i", "s" })
 
-    if not opts.sources then opts.sources = {} end
     table.insert(opts.sources, { name = "copilot", priority = 1200 })
     table.insert(opts.sources, { name = "fittencode", priority = 1200 })
   end,
