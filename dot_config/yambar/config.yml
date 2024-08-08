@@ -22,7 +22,7 @@ bar:
   height: 32
   location: top
   layer: top
-  monitor: HDMI-A-1
+  monitor: eDP-1
   background: 00000000
   foreground: *write
   margin: 20
@@ -78,15 +78,18 @@ bar:
         content:
           string: {text: eth, foreground: *prompt_color, font: *prompt_font}
     - network:
-        name: enp0s31f6
         poll-interval: 1000
         content:
           map:
-            default:
-              - string: {text: "null", foreground: *gray}
+            default: {empty: {}}
             conditions:
-              state == up && ipv4 != "":
-                - string: {text: "{dl-speed:mb}"}
+              name == enp0s31f6:
+                map:
+                  default:
+                    - string: {text: "null", foreground: *gray}
+                  conditions:
+                    state == up && ipv4 != "":
+                    - string: {text: "{dl-speed:mb}"}
 
     - *delimiter
 
@@ -94,15 +97,18 @@ bar:
         content:
           string: {text: wif, foreground: *prompt_color, font: *prompt_font}
     - network:
-        name: wlan0
         poll-interval: 1000
         content:
           map:
-            default:
-              - string: {text: "null", foreground: *gray}
+            default: {empty: {}}
             conditions:
-              state == up:
-                - string: {text: "{dl-speed:mb}"}
+              name == wlan0:
+                map:
+                  default:
+                    - string: {text: "null", foreground: *gray}
+                  conditions:
+                    state == up && ipv4 != "":
+                    - string: {text: "{dl-speed:mb}"}
 
 
   center:
