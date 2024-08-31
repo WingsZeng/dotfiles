@@ -64,6 +64,7 @@ keybinds clear-defaults=true {
         bind "Alt j" { MoveFocus "Down"; }
         bind "Alt k" { MoveFocus "Up"; }
         bind "Ctrl w" { CloseTab; }
+        bind "Alt z" { TogglePaneFrames; }
     }
 }
 
