@@ -23,6 +23,31 @@ MaxMessages 0
 ExpireUnread no
 # End profile
 
+IMAPStore zengxiangyi24@mails.ucas.ac.cn-remote
+Host mail.cstnet.cn
+Port 993
+User zengxiangyi24@mails.ucas.ac.cn
+PassCmd "pass zengxiangyi24@mails.ucas.ac.cn"
+AuthMechs LOGIN
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore zengxiangyi24@mails.ucas.ac.cn-local
+Subfolders Verbatim
+Path /home/wings/.local/share/mail/zengxiangyi24@mails.ucas.ac.cn/
+Inbox /home/wings/.local/share/mail/zengxiangyi24@mails.ucas.ac.cn/INBOX
+
+Channel zengxiangyi24@mails.ucas.ac.cn
+Expunge Both
+Far :zengxiangyi24@mails.ucas.ac.cn-remote:
+Near :zengxiangyi24@mails.ucas.ac.cn-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages 0
+ExpireUnread no
+# End profile
+
 IMAPStore xyzeng@stu.xidian.edu.cn-remote
 Host mail.stu.xidian.edu.cn
 Port 143
