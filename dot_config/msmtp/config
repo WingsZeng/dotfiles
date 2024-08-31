@@ -10,6 +10,18 @@ tls_trust_file	/etc/ssl/certs/ca-certificates.crt
 logfile /home/wings/.config/msmtp/msmtp.log
 # tls_starttls
 
+account zengxiangyi24@mails.ucas.ac.cn
+host mail.cstnet.cn
+port 465
+from zengxiangyi24@mails.ucas.ac.cn
+user zengxiangyi24@mails.ucas.ac.cn
+passwordeval "pass zengxiangyi24@mails.ucas.ac.cn"
+auth on
+tls on
+tls_trust_file	/etc/ssl/certs/ca-certificates.crt
+logfile /home/wings/.config/msmtp/msmtp.log
+tls_starttls off
+
 account xyzeng@stu.xidian.edu.cn
 host mail.stu.xidian.edu.cn
 port 25
@@ -21,4 +33,3 @@ tls off
 tls_trust_file	/etc/ssl/certs/ca-certificates.crt
 logfile /home/wings/.config/msmtp/msmtp.log
 tls_starttls on
-
