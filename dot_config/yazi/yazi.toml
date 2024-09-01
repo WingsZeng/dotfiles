@@ -3,10 +3,11 @@ ratio           = [2, 3, 4]
 linemode        = "mtime"
 show_hidden     = true
 sort_dir_first  = true
+show_symlink    = true
 
 [opener]
 extract = [
-	{ run = 'ouch d "$1" --yes', desc = "Extract here", for = "unix" },
+	{ run = 'ouch d -y "%*"', desc = "Extract here", for = "unix" },
 ]
 
 [open]
@@ -16,13 +17,15 @@ prepend_rules = [
 ]
 
 [plugin]
-prepend_preloaders = [
-	{ mime = "image/svg+xml",               run = "convert" },
-]
 prepend_previewers = [
-	{ mime = "application/x-xz",            run = "archive" },
+	# Archive previewer
+	{ mime = "application/*zip",            run = "ouch" },
+	{ mime = "application/x-tar",           run = "ouch" },
+	{ mime = "application/x-bzip2",         run = "ouch" },
+	{ mime = "application/x-7z-compressed", run = "ouch" },
+	{ mime = "application/x-rar",           run = "ouch" },
+	{ mime = "application/x-xz",            run = "ouch" },
 	{ mime = "application/vnd.gentoo.*", 		run = "code" },
-	{ mime = "image/svg+xml", 							run = "convert" },
 ]
 append_previewers = [
   { name = "*", 													run = "hexyl" },
