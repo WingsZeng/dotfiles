@@ -48,6 +48,31 @@ MaxMessages 0
 ExpireUnread no
 # End profile
 
+IMAPStore zengxiangyi@iie.ac.cn-remote
+Host mail.cstnet.cn
+Port 993
+User zengxiangyi@iie.ac.cn
+PassCmd "pass zengxiangyi@iie.ac.cn"
+AuthMechs LOGIN
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore zengxiangyi@iie.ac.cn-local
+Subfolders Verbatim
+Path /home/wings/.local/share/mail/zengxiangyi@iie.ac.cn/
+Inbox /home/wings/.local/share/mail/zengxiangyi@iie.ac.cn/INBOX
+
+Channel zengxiangyi@iie.ac.cn
+Expunge Both
+Far :zengxiangyi@iie.ac.cn-remote:
+Near :zengxiangyi@iie.ac.cn-local:
+Patterns * !"[Gmail]/All Mail"
+Create Both
+SyncState *
+MaxMessages 0
+ExpireUnread no
+# End profile
+
 IMAPStore xyzeng@stu.xidian.edu.cn-remote
 Host mail.stu.xidian.edu.cn
 Port 143
