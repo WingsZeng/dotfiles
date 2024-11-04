@@ -33,3 +33,15 @@ tls off
 tls_trust_file	/etc/ssl/certs/ca-certificates.crt
 logfile /home/wings/.config/msmtp/msmtp.log
 tls_starttls on
+account zengxiangyi@iie.ac.cn
+host mail.cstnet.cn
+port 465
+from zengxiangyi@iie.ac.cn
+user zengxiangyi@iie.ac.cn
+passwordeval "pass zengxiangyi@iie.ac.cn"
+auth on
+tls on
+tls_trust_file	/etc/ssl/certs/ca-certificates.crt
+logfile /home/wings/.config/msmtp/msmtp.log
+tls_starttls off
+
