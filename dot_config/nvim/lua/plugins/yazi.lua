@@ -8,7 +8,7 @@ return {
       opts = {
         mappings = {
           n = {
-            ["<C-y>"] = { function() require("yazi").yazi() end, desc = "Open the file manager" },
+            ["<C-Y>"] = { function() require("yazi").yazi() end, desc = "Open the file manager" },
           },
         },
       },

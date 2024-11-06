@@ -11,7 +11,7 @@ return {
         if vim.fn.executable "rg" == 1 then
           maps.n["<Leader>fw"] = false
           maps.n["<Leader>fW"] = false
-          maps.n["<C-f>"] = {
+          maps.n["<C-F>"] = {
             function()
               require("telescope.builtin").live_grep {
                 additional_args = function(args) return vim.list_extend(args, { "--hidden", "--no-ignore" }) end,

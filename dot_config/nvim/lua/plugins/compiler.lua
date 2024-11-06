@@ -21,8 +21,8 @@ return {
       opts = {
         mappings = {
           n = {
-            ["<C-b>"] = { "<cmd>CompilerOpen<cr>", desc = "Open compiler" },
-            ["<C-S-b>"] = { "<cmd>CompilerToggleResults<cr>", desc = "Toggle compiler results" },
+            ["<C-B>"] = { "<cmd>CompilerOpen<cr>", desc = "Open compiler" },
+            ["<C-S-B>"] = { "<cmd>CompilerToggleResults<cr>", desc = "Toggle compiler results" },
           },
         },
       },

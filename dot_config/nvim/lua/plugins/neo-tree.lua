@@ -7,7 +7,7 @@ return {
         n = {
           ["<Leader>e"] = false,
           ["<Leader>o"] = false,
-          ["<C-e>"] = { "<Cmd>Neotree toggle<CR>", desc = "Toggle Explorer" },
+          ["<C-E>"] = { "<Cmd>Neotree toggle<CR>", desc = "Toggle Explorer" },
         },
       },
     },
