@@ -7,7 +7,7 @@ show_symlink    = true
 
 [opener]
 extract = [
-	{ run = 'ouch d -y "%*"', desc = "Extract here", for = "unix" },
+	{ run = 'ouch d -y "$@"', desc = "Extract here", for = "unix" },
 ]
 
 [open]
