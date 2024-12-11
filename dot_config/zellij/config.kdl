@@ -34,10 +34,10 @@ keybinds clear-defaults=true {
         bind "Esc" "Enter" "G" { ScrollToBottom; }
         bind "J" { GoToPreviousTab; }
         bind "K" { GoToNextTab; }
-        bind "Ctrl h" { MovePane "Left"; }
-        bind "Ctrl j" { MovePane "Down"; }
-        bind "Ctrl k" { MovePane "Up"; }
-        bind "Ctrl l" { MovePane "Right"; }
+        bind "Shift h" { MovePane "Left"; }
+        bind "Shift j" { MovePane "Down"; }
+        bind "Shift k" { MovePane "Up"; }
+        bind "Shift l" { MovePane "Right"; }
     }
     entersearch {
         bind "Esc" { SwitchToMode "Prompt"; }
@@ -78,7 +78,7 @@ on_force_close "quit"
 // Choose the mode that zellij uses when starting up.
 // Default: normal
 //
-default_mode "prompt"
+// default_mode "prompt"
 
 // Toggle between having pane frames around the panes
 // Options:
