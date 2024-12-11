@@ -3,8 +3,7 @@ keybinds clear-defaults=true {
         bind "Esc" { SwitchToMode "Prompt"; }
     }
     locked {
-        // \u011b -> Shift + Esc
-        bind "ě" { SwitchToMode "Prompt"; }
+        bind "Shift Esc" { SwitchToMode "Prompt"; }
     }
     search {
         bind "Esc" { ScrollToBottom; SwitchToMode "Prompt"; }
