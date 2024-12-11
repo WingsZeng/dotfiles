@@ -23,13 +23,4 @@ layout {
         }
         children
     }
-    tab {
-        pane
-        pane borderless=true {
-            plugin location="file:zjswitcher" {
-                hide true
-                programs_in_locked_mode "nvim, yazi, sshs, lazygit, lazydocker, bluetuith, doas"
-            }
-        }
-    }
 }

@@ -119,6 +119,12 @@ theme "monokai-soda"
 //
 copy_command "wl-copy"                    // wayland
 
+load_plugins {
+    "file:zjswitcher" {
+        programs_in_locked_mode "nvim, yazi, sshs, lazygit, lazydocker, bluetuith, neomutt, sc-im"
+    }
+}
+
 ui {
     pane_frames {
         rounded_corners true
