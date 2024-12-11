@@ -137,3 +137,16 @@ function chg() {
     mv "$temp_file" "$file2"
 }
 ### End of functions
+
+### Hooks
+autoload -Uz add-zsh-hook
+preexec_pipe_message_to_zjswitcher() {
+    [[ -n "$ZELLIJ" ]] && zellij pipe --name Event::CommandUpdate -- $1
+}
+add-zsh-hook preexec preexec_pipe_message_to_zjswitcher
+
+precmd_pipe_message_to_zjswitcher() {
+    [[ -n "$ZELLIJ" ]] && zellij pipe --name Event::CommandUpdate -- $SHELL
+}
+add-zsh-hook precmd precmd_pipe_message_to_zjswitcher
+### End of hooks
