@@ -2,6 +2,7 @@ return {
   "folke/flash.nvim",
   -- FIX: lazy loading not working
   layz = true,
+  event = "User AstroFile",
   dependencies = {
     "AstroNvim/astrocore",
     opts = {
