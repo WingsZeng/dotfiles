@@ -5,12 +5,17 @@ return {
     opts = {
       mappings = {
         n = {
+          ["<Leader>tf"] = false,
           ["<Leader>th"] = false,
           ["<Leader>tv"] = false,
           ["<F7>"] = false,
-          ["<Leader>t_"] = { "<Cmd>ToggleTerm size=10 direction=horizontal<CR>", desc = "ToggleTerm horizontal split" },
-          ["<Leader>t|"] = { "<Cmd>ToggleTerm size=80 direction=vertical<CR>", desc = "ToggleTerm vertical split" },
+          ["<Leader>t_"] = false,
+          ["<Leader>t|"] = false,
           ["<C-S-.>"] = { "<Cmd>ToggleTerm size=10 direction=horizontal<CR>", desc = "ToggleTerm horizontal split" },
+          ["<Leader>tp"] = false,
+          ["<Leader>tl"] = false,
+          ["<Leader>tn"] = false,
+
         },
         t = {
           ["<F7>"] = false,

@@ -36,6 +36,11 @@ return {
           end,
           desc = "Horizontal split buffer from tabline",
         },
+
+
+        ["<Leader>xq"] = false,
+        ["<Leader>xl"] = false,
+
       },
     },
   },
