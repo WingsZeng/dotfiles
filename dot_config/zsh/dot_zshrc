@@ -93,7 +93,7 @@ export GRADLE_USER_HOME=$XDG_DATA_HOME/gradle
 
 ### Alias
 # eza
-alias e='eza -lah --group-directories-first --icons=always --smart-group --no-quotes --git --git-repos'
+alias e='eza -laho --group-directories-first --icons=always --smart-group --no-quotes --git --git-repos'
 alias t='eza -T --group-directories-first --icons=always --no-quotes'
 ### End of alias
 
