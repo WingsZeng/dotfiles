@@ -7,7 +7,12 @@ return {
         n = {
           ["<Leader>e"] = false,
           ["<Leader>o"] = false,
-          ["<C-E>"] = { "<Cmd>Neotree toggle<CR>", desc = "Toggle Explorer" },
+          ["<C-E>"] = {
+            function()
+              require("neo-tree.command").execute({ action = "show", toggle = true })
+            end,
+            desc = "Toggle Explorer"
+          },
         },
       },
     },
@@ -18,6 +23,7 @@ return {
       filtered_items = {
         visible = true,
       },
+      use_libuv_file_watcher = true,
     },
   },
 }
