@@ -83,13 +83,13 @@ c.bindings.commands = {
         '<F12>': 'devtools',
         'yy': 'yank pretty-url',
         'p': 'spawn --userscript qute-rbw --terminal footclient -d "fuzzel --dmenu"',
-        'ud': 'config-cycle -t -p colors.webpage.darkmode.enabled true false',
-        'uts': 'config-cycle -t -p tabs.show always multiple never switching',
-        'utt': 'tabs.position top',
-        'utl': 'tabs.position left',
-        'utr': 'tabs.position right',
-        'utb': 'tabs.position bottom',
-        'uss': 'config-cycle -t -p statusbar.show always in-mode never',
+        'Ud': 'config-cycle -t -p colors.webpage.darkmode.enabled true false',
+        'Uts': 'config-cycle -t -p tabs.show always multiple never switching',
+        'Utt': 'tabs.position top',
+        'Utl': 'tabs.position left',
+        'Utr': 'tabs.position right',
+        'Utb': 'tabs.position bottom',
+        'Uss': 'config-cycle -t -p statusbar.show always in-mode never',
     },
 }
 
@@ -155,7 +155,6 @@ config.unbind('cd', mode='normal')
 config.unbind('co', mode='normal')
 config.unbind('m', mode='normal')
 config.unbind('o', mode='normal')
-config.unbind('u', mode='normal')
 
 config.unbind('g$', mode='normal')
 config.unbind('g0', mode='normal')
