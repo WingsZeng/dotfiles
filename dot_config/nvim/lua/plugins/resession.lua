@@ -25,7 +25,6 @@ return {
               local buf_utils = require "astrocore.buffer"
               local autosave = buf_utils.sessions.autosave
               if autosave and buf_utils.is_valid_session() then
-                vim.cmd("Neotree close")
                 local save = require("resession").save
                 if autosave.last then save("Last Session", { notify = false }) end
                 if autosave.cwd then save(vim.fn.getcwd(), { dir = "dirsession", notify = false }) end
@@ -45,14 +44,23 @@ return {
                   vim.fn.getcwd(),
                   { dir = "dirsession", silence_errors = false }
                 )
-                local win = vim.api.nvim_get_current_win()
-                vim.cmd("Neotree")
-                vim.api.nvim_set_current_win(win)
               end
+              local aerial = require("aerial")
+              if not aerial.is_open() then
+                aerial.open({ focus = false })
+              end
+              require("neo-tree.command").execute({ action = "show" })
             end,
           },
         }
       end,
     },
   },
+  opts = {
+    extensions = {
+      aerial = {
+        enable_in_tab = true,
+      }
+    }
+  }
 }
