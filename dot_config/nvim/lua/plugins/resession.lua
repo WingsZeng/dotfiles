@@ -24,6 +24,10 @@ return {
             callback = function()
               local buf_utils = require "astrocore.buffer"
               local autosave = buf_utils.sessions.autosave
+              local aerial_loaded, aerial = pcall(require, "aerial")
+              if aerial_loaded and aerial.is_open() then
+                aerial.close()
+              end
               if autosave and buf_utils.is_valid_session() then
                 local save = require("resession").save
                 if autosave.last then save("Last Session", { notify = false }) end
