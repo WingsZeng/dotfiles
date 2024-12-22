@@ -6,6 +6,7 @@ c.colors.webpage.preferred_color_scheme = 'dark'
 c.fonts.default_size = '23pt'
 c.zoom.default = '200%'
 
+c.hints.chars = 'asdjkl'
 c.auto_save.session = True
 c.content.autoplay = False
 c.content.default_encoding = 'utf-8'
@@ -145,6 +146,7 @@ config.unbind('<forward>', mode='normal')
 config.unbind('B', mode='normal')
 config.unbind('D', mode='normal')
 config.unbind('T', mode='normal')
+config.unbind('O', mode='normal')
 config.unbind('U', mode='normal')
 config.unbind('ZQ', mode='normal')
 config.unbind('ZZ', mode='normal')
