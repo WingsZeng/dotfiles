@@ -1,6 +1,11 @@
 return {
   "loctvl842/monokai-pro.nvim",
   opts = {
+    override = function(c)
+      return {
+        CursorColumn = { bg = c.editor.lineHighlightBackground },
+      }
+    end,
     overridePalette = function(_)
       return {
         dark2 = "#111111",
