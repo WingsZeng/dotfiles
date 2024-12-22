@@ -37,10 +37,35 @@ return {
           desc = "Horizontal split buffer from tabline",
         },
 
-
         ["<Leader>xq"] = false,
         ["<Leader>xl"] = false,
-
+      },
+    },
+    autocmds = {
+      cursorcolumn = {
+        {
+          event = { "WinEnter", "FileType" },
+          callback = function()
+            local ft = vim.bo.filetype
+            if ft == "neo-tree" or ft == "aerial" then
+              vim.opt_local.cursorcolumn = false
+            end
+          end,
+        },
+        {
+          event = { "ModeChanged" },
+          pattern = { "n:*" },
+          callback = function()
+            vim.opt_local.cursorcolumn = false
+          end,
+        },
+        {
+          event = { "ModeChanged" },
+          pattern = { "*:n" },
+          callback = function()
+            vim.opt_local.cursorcolumn = true
+          end,
+        },
       },
     },
   },
