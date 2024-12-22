@@ -1,6 +1,5 @@
 return {
   "folke/flash.nvim",
-  -- FIX: lazy loading not working
   layz = true,
   event = "User AstroFile",
   dependencies = {
@@ -41,7 +40,7 @@ return {
     },
   },
   opts = {
-    labels = "asdfghjkl",
+    labels = "asdfjkl",
     search = {
       multi_window = false,
     },
