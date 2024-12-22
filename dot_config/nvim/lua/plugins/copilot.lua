@@ -154,5 +154,13 @@ return {
         }
       }
     },
+    specs = {
+      "OXY2DEV/markview.nvim",
+      optional = true,
+      opts = function(_, opts)
+        if not opts.filetypes then opts.filetypes = { "markdown", "quarto", "rmd", "latex" } end
+        opts.filetypes = require("astrocore").list_insert_unique(opts.filetypes, { "copilot-chat" })
+      end,
+    },
   }
 }
