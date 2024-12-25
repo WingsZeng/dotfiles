@@ -4,6 +4,7 @@ return {
     options = {
       opt = {
         signcolumn = "yes",
+        cursorcolumn = true,
       },
     },
     mappings = {

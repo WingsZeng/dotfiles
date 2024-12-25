@@ -1,1 +1,1 @@
-vim.opt.cursorcolumn = true
+if true then return end

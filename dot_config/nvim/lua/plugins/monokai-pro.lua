@@ -22,7 +22,7 @@ return {
         dimmed2 = "#888888",
         dimmed3 = "#6f6f6f",
         dimmed4 = "#555555",
-        dimmed5 = "#3c3c3c",
+        dimmed5 = "#282828",
       }
     end
   },
