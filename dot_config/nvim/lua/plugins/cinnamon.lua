@@ -24,8 +24,6 @@ return {
         local cinnamon = require "cinnamon"
 
         local keymap = {
-          ["<Home>"]   = function() cinnamon.scroll("<Home>") end,
-          ["<End>"]    = function() cinnamon.scroll("<End>") end,
           ["<PageUp>"]   = function()
             cinnamon.scroll(function()
               scroll_cursor(-vim.api.nvim_win_get_height(0))
@@ -47,6 +45,10 @@ return {
           end
         end
 
+        opts.mappings['n']["<Home>"] = function() cinnamon.scroll("<Home>") end
+        opts.mappings['n']["<End>"] = function() cinnamon.scroll("<End>") end
+        opts.mappings['v']["<Home>"] = function() cinnamon.scroll("<Home>") end
+        opts.mappings['v']["<End>"] = function() cinnamon.scroll("<End>") end
         opts.mappings['n']["*"] = function() cinnamon.scroll("*zz") end
         opts.mappings['n']["#"] = function() cinnamon.scroll("#zz") end
         opts.mappings['n']["n"] = function() cinnamon.scroll("nzz") end
