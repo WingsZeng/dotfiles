@@ -21,7 +21,7 @@ return {
       opts = {
         wordcount = {},
         surround = { separator = "right", },
-        update = { "CursorMoved", "CursorMovedI", "BufEnter", "TextChanged" },
+        update = { "CursorMoved", "CursorMovedI", "BufEnter", "TextChanged", "ModeChanged" },
       }
       return status.component.builder(status.utils.setup_providers(opts, { "wordcount" }))
     end
