@@ -16,7 +16,7 @@ local function scroll_cursor(lines)
 end
 
 return {
-  "declancm/cinnamon.nvim",
+  "WingsZeng/cinnamon.nvim",
   dependencies = {
     {
       "AstroNvim/astrocore",
