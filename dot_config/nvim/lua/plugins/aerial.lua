@@ -6,7 +6,7 @@ return {
       mappings = {
         n = {
           ["<Leader>lS"] = false,
-          ["<C-O>"] = { function() require("aerial").toggle({ focus = false }) end, desc = "Symbols outline" },
+          ["<C-s>"] = { function() require("aerial").toggle({ focus = false }) end, desc = "Symbols outline" },
         },
       },
     },
