@@ -13,6 +13,7 @@ c.content.default_encoding = 'utf-8'
 c.content.javascript.clipboard = 'access-paste'
 c.input.insert_mode.auto_enter = False
 c.input.insert_mode.auto_leave = False
+c.scrolling.smooth = True
 c.url.searchengines = {
     'DEFAULT': 'https://google.com/search?q={}'
 }
@@ -178,8 +179,6 @@ config.unbind('gu', mode='normal')
 
 config.unbind('sf', mode='normal')
 config.unbind('sk', mode='normal')
-config.unbind('sl', mode='normal')
-config.unbind('ss', mode='normal')
 
 config.unbind('th', mode='normal')
 config.unbind('tl', mode='normal')
