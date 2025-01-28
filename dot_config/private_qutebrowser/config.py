@@ -7,7 +7,6 @@ c.fonts.default_size = '23pt'
 c.zoom.default = '200%'
 
 c.hints.chars = 'asdjkl'
-c.auto_save.session = True
 c.content.autoplay = False
 c.content.default_encoding = 'utf-8'
 c.content.javascript.clipboard = 'access-paste'
