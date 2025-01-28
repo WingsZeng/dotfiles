@@ -6,9 +6,15 @@ return {
       mappings = {
         n = {
           ["<Leader>lS"] = false,
-          ["<C-s>"] = { function() require("aerial").toggle({ focus = false }) end, desc = "Symbols outline" },
+          ["<C-s>"] = { function() require("aerial").toggle { focus = false } end, desc = "Symbols outline" },
         },
       },
+    },
+  },
+  opts = {
+    layout = {
+      placement = "window",
+      resize_to_content = false,
     },
   },
 }
