@@ -5,6 +5,7 @@ return {
       opt = {
         signcolumn = "yes",
         cursorcolumn = true,
+        jumpoptions = "stack",
       },
     },
     mappings = {
@@ -23,6 +24,7 @@ return {
         ["_"] = { "<cmd>split<cr>", desc = "Horizontal Split" },
         K = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
         J = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
+        ["<C-a>"] = { function() vim.cmd "norm! ggVG" end, desc = "Select all" },
 
         -- Manage Buffers
         ["<Leader>c"] = false,
@@ -48,24 +50,18 @@ return {
           event = { "WinEnter", "FileType" },
           callback = function()
             local ft = vim.bo.filetype
-            if ft == "neo-tree" or ft == "aerial" then
-              vim.opt_local.cursorcolumn = false
-            end
+            if ft == "neo-tree" or ft == "aerial" then vim.opt_local.cursorcolumn = false end
           end,
         },
         {
           event = { "ModeChanged" },
           pattern = { "n:*" },
-          callback = function()
-            vim.opt_local.cursorcolumn = false
-          end,
+          callback = function() vim.opt_local.cursorcolumn = false end,
         },
         {
           event = { "ModeChanged" },
           pattern = { "*:n" },
-          callback = function()
-            vim.opt_local.cursorcolumn = true
-          end,
+          callback = function() vim.opt_local.cursorcolumn = true end,
         },
       },
     },
