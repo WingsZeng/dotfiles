@@ -1,3 +1,32 @@
+local keys = {
+  ["f"] = {
+    function()
+      -- HACK: shoud i use specs?
+      local multicursor_enabled, mc = pcall(require, "multicursor-nvim")
+      if multicursor_enabled and mc.numCursors() > 1 then
+        local char = vim.fn.nr2char(vim.fn.getchar())
+        vim.cmd("execute 'normal! " .. vim.v.count1 .. "f" .. char .. "'")
+      else
+        require("flash").jump()
+      end
+    end,
+    desc = "Flash",
+  },
+  ["F"] = {
+    function()
+      -- HACK: shoud i use specs?
+      local multicursor_enabled, mc = pcall(require, "multicursor-nvim")
+      if multicursor_enabled and mc.numCursors() > 1 then
+        local char = vim.fn.nr2char(vim.fn.getchar())
+        vim.cmd("execute 'normal! " .. vim.v.count1 .. "F" .. char .. "'")
+      else
+        require("flash").treesitter()
+      end
+    end,
+    desc = "Flash Treesitter",
+  },
+}
+
 return {
   "folke/flash.nvim",
   layz = true,
@@ -6,36 +35,9 @@ return {
     "AstroNvim/astrocore",
     opts = {
       mappings = {
-        x = {
-          ["f"] = {
-            function() require("flash").jump() end,
-            desc = "Flash",
-          },
-          ["F"] = {
-            function() require("flash").treesitter() end,
-            desc = "Flash Treesitter",
-          },
-        },
-        o = {
-          ["f"] = {
-            function() require("flash").jump() end,
-            desc = "Flash",
-          },
-          ["F"] = {
-            function() require("flash").treesitter() end,
-            desc = "Flash Treesitter",
-          },
-        },
-        n = {
-          ["f"] = {
-            function() require("flash").jump() end,
-            desc = "Flash",
-          },
-          ["F"] = {
-            function() require("flash").treesitter() end,
-            desc = "Flash Treesitter",
-          },
-        },
+        x = keys,
+        o = keys,
+        n = keys,
       },
     },
   },
