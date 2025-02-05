@@ -1,30 +1,6 @@
 local keys = {
-  ["f"] = {
-    function()
-      -- HACK: shoud i use specs?
-      local multicursor_enabled, mc = pcall(require, "multicursor-nvim")
-      if multicursor_enabled and mc.numCursors() > 1 then
-        local char = vim.fn.nr2char(vim.fn.getchar())
-        vim.cmd("execute 'normal! " .. vim.v.count1 .. "f" .. char .. "'")
-      else
-        require("flash").jump()
-      end
-    end,
-    desc = "Flash",
-  },
-  ["F"] = {
-    function()
-      -- HACK: shoud i use specs?
-      local multicursor_enabled, mc = pcall(require, "multicursor-nvim")
-      if multicursor_enabled and mc.numCursors() > 1 then
-        local char = vim.fn.nr2char(vim.fn.getchar())
-        vim.cmd("execute 'normal! " .. vim.v.count1 .. "F" .. char .. "'")
-      else
-        require("flash").treesitter()
-      end
-    end,
-    desc = "Flash Treesitter",
-  },
+  ["f"] = { require("flash").jump, desc = "Flash" },
+  ["F"] = { require("flash").treesitter, desc = "Flash Treesitter" },
 }
 
 return {
