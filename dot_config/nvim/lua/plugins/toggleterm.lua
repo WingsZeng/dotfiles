@@ -15,7 +15,7 @@ return {
           ["<Leader>tp"] = false,
           ["<Leader>tl"] = false,
           ["<Leader>tn"] = false,
-
+          ["<Leader>tu"] = false,
         },
         t = {
           ["<F7>"] = false,
@@ -33,6 +33,8 @@ return {
     },
   },
   opts = {
-    -- direction = "horizontal",
+    highlights = {
+      NormalFloat = { link = "Normal" },
+    },
   },
 }

@@ -1,6 +1,7 @@
 return {
   "loctvl842/monokai-pro.nvim",
   opts = {
+    terminal_colors = false,
     override = function(c)
       return {
         CursorColumn = { bg = c.editor.lineHighlightBackground },
@@ -24,6 +25,6 @@ return {
         dimmed4 = "#555555",
         dimmed5 = "#282828",
       }
-    end
+    end,
   },
 }
