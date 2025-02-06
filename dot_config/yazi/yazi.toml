@@ -1,47 +1,44 @@
 [manager]
-ratio           = [2, 3, 4]
-linemode        = "mtime"
-show_hidden     = true
-sort_dir_first  = true
-show_symlink    = true
+ratio = [2, 3, 4]
+linemode = "mtime"
+show_hidden = true
+sort_dir_first = true
+show_symlink = true
 
 [preview]
-image_quality   = 90
-max_width       = 1080
-max_height      = 1920
+image_quality = 90
+max_width = 1080
+max_height = 1920
 
 [opener]
-extract = [
-	{ run = 'ouch d -y "$@"', desc = "Extract here", for = "unix" },
-]
+extract = [{ run = 'ouch d -y "$@"', desc = "Extract here", for = "unix" }]
 
 [open]
 prepend_rules = [
-	{ mime = "application/x-xz", use = [ "extract", "reveal" ] },
-	{ mime = "application/vnd.gentoo.*", use = [ "edit", "reveal" ] },
+	{ mime = "application/x-xz", use = [
+		"extract",
+		"reveal",
+	] },
+	{ mime = "application/gentoo.*", use = [
+		"edit",
+		"reveal",
+	] },
 ]
 
 [plugin]
 prepend_previewers = [
 	# Archive previewer
-	{ mime = "application/*zip",            run = "ouch" },
-	{ mime = "application/x-tar",           run = "ouch" },
-	{ mime = "application/x-bzip2",         run = "ouch" },
-	{ mime = "application/x-7z-compressed", run = "ouch" },
-	{ mime = "application/x-rar",           run = "ouch" },
-	{ mime = "application/x-xz",            run = "ouch" },
-	{ mime = "application/vnd.gentoo.*", 		run = "code" },
+	{ mime = "application/{*zip,tar,bzip2,7z-compressed,rar,xz}", run = "ouch" },
+	{ mime = "application/gentoo.*", run = "code" },
 ]
-append_previewers = [
-  { name = "*", 													run = "hexyl" },
-]
+append_previewers = [{ name = "*", run = "hexyl" }]
 
 [[plugin.prepend_fetchers]]
-id   = "git"
+id = "git"
 name = "*"
-run  = "git"
+run = "git"
 
 [[plugin.prepend_fetchers]]
-id   = "git"
+id = "git"
 name = "*/"
-run  = "git"
+run = "git"
