@@ -34,20 +34,15 @@ zinit light-mode for \
 
 ### End of Zinit's installer chunk
 
-### Promot
-# starship
-export STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship/starship.toml
-zinit ice as"command" from"gh-r" \
-	atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
-	atpull"%atclone" src"init.zsh"
-zinit light starship/starship
-### End of promot
-
 ### Plugins
+# a hack to use system wide starship and zoxide
+export STARSHIP_CONFIG=$XDG_CONFIG_HOME/starship/starship.toml
+zinit ice \
+    atclone"starship init zsh > starship.zsh; zoxide init zsh > zoxide.zsh" \
+    run-atpull atpull"%atclone" multisrc"{starship,zoxide}.zsh"
+zinit light zdharma-continuum/null
+
 zinit wait lucid light-mode for \
-	atinit"export _ZL_DATA=$XDG_DATA_HOME/zsh/zlua" \
-	atload"export ZLUA_SCRIPT=$ZINIT[PLUGINS_DIR]/skywind3000---z.lua/z.lua" \
-		skywind3000/z.lua \
 	Aloxaf/fzf-tab \
 	joshskidmore/zsh-fzf-history-search \
 	atinit"zicompinit; zicdreplay" \
