@@ -106,31 +106,6 @@ function yy() {
 	fi
 	rm -f -- "$tmp"
 }
-# change 2 files
-function chg() {
-    if [ $# -ne 2 ]; then
-        echo "Usage: chg <file1> <file2>"
-        return 1
-    fi
-
-    local file1="$1"
-    local file2="$2"
-
-    if [ ! -e "$file1" ]; then
-        echo "$file1 does not exist."
-        return 1
-    fi
-
-    if [ ! -e "$file2" ]; then
-        echo "$file2 does not exist."
-        return 1
-    fi
-
-    local temp_file=".swap_temp"
-    mv "$file1" "$temp_file"
-    mv "$file2" "$file1"
-    mv "$temp_file" "$file2"
-}
 ### End of functions
 
 ### Hooks
