@@ -83,7 +83,7 @@ c.bindings.commands = {
         '<Ctrl-S>': 'download',
         '<F12>': 'devtools',
         'yy': 'yank pretty-url',
-        'p': 'spawn --userscript qute-rbw --terminal footclient -d "fuzzel --dmenu"',
+        'p': 'spawn --userscript qute-rbw -d "fuzzel --dmenu"',
         'Ud': 'config-cycle -t -p colors.webpage.darkmode.enabled true false',
         'Uts': 'config-cycle -t -p tabs.show always multiple never switching',
         'Utt': 'tabs.position top',
