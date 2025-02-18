@@ -158,7 +158,6 @@ config.unbind('d', mode='normal')
 config.unbind('b', mode='normal')
 config.unbind('cd', mode='normal')
 config.unbind('co', mode='normal')
-config.unbind('m', mode='normal')
 config.unbind('o', mode='normal')
 
 config.unbind('g$', mode='normal')
