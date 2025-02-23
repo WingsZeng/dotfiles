@@ -54,9 +54,23 @@ zinit wait lucid light-mode for \
 ### End of plugins
 
 ### Key binding
+bindkey -d
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
 bindkey "^[[3~" delete-char
+# bindkey "^[[5~" _history-complete-newer
+# bindkey "^[[6~" _history-complete-older
+bindkey "^D" self-insert
+bindkey "^G" self-insert
+bindkey "^H" self-insert
+bindkey "^L" self-insert
+bindkey "^Q" self-insert
+bindkey "^U" self-insert
+bindkey "^V" self-insert
+bindkey "^W" self-insert
+bindkey -r "^["
+bindkey -r "^[,"
+bindkey -r "^[/"
 ### End of key binding
 
 ### Environment
@@ -84,6 +98,8 @@ export DOCKER_CONFIG=$XDG_DATA_HOME/docker
 export WGETRC=$XDG_CONFIG_HOME/wget/wgetrc
 # gradle home
 export GRADLE_USER_HOME=$XDG_DATA_HOME/gradle
+# go home
+export GOPATH="$XDG_DATA_HOME"/go
 ### End of environment
 
 ### Alias
@@ -133,4 +149,8 @@ _aichat_zsh() {
 }
 zle -N _aichat_zsh
 bindkey '^[^M' _aichat_zsh
+
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^[e' edit-command-line
 ### End of line editor
