@@ -28,7 +28,9 @@ return {
     optional = true,
     opts = {
       formatters_by_ft = {
-        sh = { "shfmt" },
+        sh = { "shfmt", "shellcheck" },
+        zsh = { "shfmt", "shellcheck" },
+        bash = { "shfmt", "shellcheck" },
       },
     },
   },
