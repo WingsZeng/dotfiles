@@ -15,6 +15,7 @@ return {
         ["<Leader>q"] = false,
         ["<Leader>Q"] = false,
         ["<Leader>n"] = false,
+        ["<Leader>R"] = false,
         ["<C-S>"] = false,
         ["\\"] = false,
 
@@ -39,6 +40,8 @@ return {
           end,
           desc = "Horizontal split buffer from tabline",
         },
+
+        ["<Leader>br"] = { function() require("astrocore").rename_file() end, desc = "Rename file" },
 
         ["<Leader>xq"] = false,
         ["<Leader>xl"] = false,
