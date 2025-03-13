@@ -1,5 +1,4 @@
 ---@diagnostic disable: undefined-field
--- if true then return {} end
 local M = {}
 
 local ns_id = vim.api.nvim_create_namespace "spinner"
@@ -189,6 +188,65 @@ return {
   lazy = true,
   cmd = { "CodeCompanion", "CodeCompanionActions", "CodeCompanionChat", "CodeCompanionCmd" },
   opts = function(_, opts)
+    -- HACK: create 2 adapters for volce, to use in chat and inline mode but with different default modes
+    local volce = function(default_mode)
+      return function()
+        return require("codecompanion.adapters").extend("openai_compatible", {
+          env = {
+            url = "https://ark.cn-beijing.volces.com/api",
+            api_key = "cmd:pass api_key/volce",
+            chat_url = "/v3/chat/completions",
+          },
+          -- BUG: display bug when showing reasoning
+          -- handlers = require("codecompanion.adapters.deepseek").handlers,
+          schema = {
+            model = {
+              order = 1,
+              mapping = "parameters",
+              type = "enum",
+              desc = "ID of the model to use. See the model endpoint compatibility table for details on which models work with the Chat API.",
+              ---@type string|fun(): string
+              default = default_mode,
+              choices = {
+                "deepseek-v3-241226",
+                ["deepseek-r1-250120"] = { opts = { can_reason = true } },
+                ["deepseek-r1-distill-qwen-7b-250120"] = { opts = { can_reason = true } },
+                ["deepseek-r1-distill-qwen-32b-250120"] = { opts = { can_reason = true } },
+              },
+            },
+            temperature = {
+              order = 2,
+              mapping = "parameters",
+              type = "number",
+              optional = true,
+              default = 0.8,
+              desc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. We generally recommend altering this or top_p but not both.",
+              validate = function(n) return n >= 0 and n <= 2, "Must be between 0 and 2" end,
+            },
+            max_tokens = {
+              order = 3,
+              mapping = "parameters",
+              type = "integer",
+              optional = true,
+              default = nil,
+              desc = "An upper bound for the number of tokens that can be generated for a completion.",
+              validate = function(n) return n > 0, "Must be greater than 0" end,
+            },
+            top_p = {
+              order = 4,
+              mapping = "parameters",
+              type = "number",
+              optional = true,
+              default = 0,
+              desc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered. We generally recommend altering this or temperature but not both.",
+              validate = function(n) return n >= 0 and n <= 1, "Must be between 0 and 1" end,
+            },
+          },
+        })
+      end
+    end
+
+    opts.language = "Chinese"
     opts.adapters = {
       gemini = function()
         return require("codecompanion.adapters").extend("gemini", {
@@ -197,10 +255,27 @@ return {
           },
         })
       end,
+      volce = volce "deepseek-v3-241226",
+      volce_reasoning = volce "deepseek-r1-250120",
+    }
+    opts.display = {
+      diff = {
+        provider = "mini_diff",
+      },
+      chat = {
+        window = {
+          full_height = false,
+          width = 0.3,
+        },
+        show_settings = true,
+      },
     }
     opts.strategies = {
+      inline = {
+        adapter = "volce",
+      },
       chat = {
-        adapter = "copilot",
+        adapter = "volce_reasoning",
         keymaps = {
           send = {
             modes = { n = "<M-CR>", i = "<M-CR>" },
@@ -212,24 +287,6 @@ return {
             modes = { n = "<C-c>" },
           },
         },
-      },
-      inline = {
-        adapter = "copilot",
-      },
-    }
-    opts.display = {
-      diff = {
-        provider = "mini_diff",
-      },
-      chat = {
-        window = {
-          width = 0.3,
-        },
-        show_settings = true,
-      },
-    }
-    opts.strategies = {
-      chat = {
         slash_commands = {
           ["buffer"] = {
             callback = "strategies.chat.slash_commands.buffer",
