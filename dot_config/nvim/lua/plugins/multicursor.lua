@@ -24,6 +24,7 @@ local enter_hook = function()
   if illuminate_loaded then illuminate.invisible_buf() end
   for key, _ in pairs(keymaps) do
     vim.api.nvim_buf_set_keymap(0, "n", key, "", { noremap = true, silent = true, callback = keymaps[key] })
+    vim.api.nvim_buf_set_keymap(0, "v", key, "", { noremap = true, silent = true, callback = keymaps[key] })
   end
 end
 
@@ -34,6 +35,7 @@ local exit_hook = function()
   if illuminate_loaded then illuminate.visible_buf() end
   for key, _ in pairs(keymaps) do
     pcall(vim.api.nvim_buf_del_keymap, 0, "n", key)
+    pcall(vim.api.nvim_buf_del_keymap, 0, "v", key)
   end
 end
 
