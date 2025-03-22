@@ -8,10 +8,8 @@ return {
           ["<Leader>e"] = false,
           ["<Leader>o"] = false,
           ["<C-E>"] = {
-            function()
-              require("neo-tree.command").execute({ action = "show", toggle = true })
-            end,
-            desc = "Toggle Explorer"
+            function() require("neo-tree.command").execute { action = "show", toggle = true } end,
+            desc = "Toggle Explorer",
           },
         },
       },
