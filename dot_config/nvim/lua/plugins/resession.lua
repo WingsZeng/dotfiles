@@ -1,6 +1,6 @@
+local current_path = nil
 return {
   "stevearc/resession.nvim",
-  -- FIX: resession directory or fallback.
   dependencies = {
     {
       "AstroNvim/astrocore",
@@ -20,21 +20,12 @@ return {
         maps.n["<Leader>s"] = vim.tbl_get(opts, "_map_sections", "S")
         maps.n["<Leader>sl"] = { function() require("resession").load "Last Session" end, desc = "Load last session" }
         maps.n["<Leader>ss"] = { function() require("resession").save() end, desc = "Save this session" }
-        maps.n["<Leader>sS"] = {
-          function() require("resession").save(vim.fn.getcwd(), { dir = "dirsession" }) end,
-          desc = "Save this dirsession",
-        }
-        maps.n["<Leader>st"] = { function() require("resession").save_tab() end, desc = "Save this tab's session" }
         maps.n["<Leader>sd"] = { function() require("resession").delete() end, desc = "Delete a session" }
         maps.n["<Leader>sD"] =
           { function() require("resession").delete(nil, { dir = "dirsession" }) end, desc = "Delete a dirsession" }
         maps.n["<Leader>sf"] = { function() require("resession").load() end, desc = "Load a session" }
         maps.n["<Leader>sF"] =
           { function() require("resession").load(nil, { dir = "dirsession" }) end, desc = "Load a dirsession" }
-        maps.n["<Leader>s."] = {
-          function() require("resession").load(vim.fn.getcwd(), { dir = "dirsession" }) end,
-          desc = "Load current dirsession",
-        }
 
         opts.autocmds.resession_auto_save = {
           {
@@ -46,7 +37,9 @@ return {
               if autosave and buf_utils.is_valid_session() then
                 local save = require("resession").save
                 if autosave.last then save("Last Session", { notify = false }) end
-                if autosave.cwd then save(vim.fn.getcwd(), { dir = "dirsession", notify = false }) end
+                if autosave.cwd and current_path ~= nil then
+                  save(current_path, { dir = "dirsession", notify = false })
+                end
               end
             end,
           },
@@ -58,9 +51,17 @@ return {
             nested = true,
             callback = function()
               local argc = vim.fn.argc(-1)
-              if argc == 1 and vim.fn.argv()[1] == "." then
-                require("resession").load(vim.fn.getcwd(), { dir = "dirsession", silence_errors = true })
+              if argc == 1 then
+                local path = vim.fn.argv()[1]
+                if vim.fn.isdirectory(path) == 1 then
+                  current_path = vim.fn.fnamemodify(path, ":p")
+                  if #current_path > 1 and current_path:sub(-1) == "/" then current_path = current_path:sub(1, -2) end
+                  require("resession").load(current_path, { dir = "dirsession", silence_errors = true })
+                end
               end
+              if current_path == nil then current_path = vim.fn.getcwd() end
+              -- HACK:
+              vim.api.nvim_exec_autocmds("User", { pattern = "Restore" })
             end,
           },
         }
