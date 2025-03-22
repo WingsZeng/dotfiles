@@ -10,8 +10,5 @@ return {
   },
   opts = {
     completion_mode = 'source',
-    disable_specific_inline_completion = {
-      suffixes = { "copilot-chat" },
-    },
   },
 }
