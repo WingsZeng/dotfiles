@@ -57,6 +57,8 @@ return {
               end,
               desc = "Toggle autoformatting (global)",
             },
+            -- HACK: don't why this should be set here but in astrolsp if I want to hover in outline
+            [";"] = { function() vim.lsp.buf.hover() end, desc = "Hover symbol details" },
           },
         },
       },
