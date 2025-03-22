@@ -2,6 +2,6 @@ return {
   "okuuva/auto-save.nvim",
   event = { "InsertLeave", "User AstroFile" },
   opts = {
-    debounce_delay = 100,
+    debounce_delay = 300,
   },
 }
