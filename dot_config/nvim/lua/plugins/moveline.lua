@@ -1,9 +1,7 @@
 return {
   'willothy/moveline.nvim',
   build = 'make',
-  lazy = true,
   event = "User AstroFile",
-  -- FIX: make it lazy
   dependencies = {
     "AstroNvim/astrocore",
     opts = {
