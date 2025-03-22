@@ -1,5 +1,32 @@
 return {
   "AstroNvim/astroui",
+  dependencies = {
+    "AstroNvim/astrocore",
+    opts = {
+      autocmds = {
+        close_if_not_file_buffer = {
+          {
+            event = "QuitPre",
+            callback = function()
+              local current_win = vim.api.nvim_get_current_win()
+              local wins = vim.api.nvim_list_wins()
+              local nonessential_wins = vim.tbl_filter(function(win)
+                local buf = vim.api.nvim_win_get_buf(win)
+                local ft = vim.bo[buf].filetype
+                return vim.tbl_contains({ "neo-tree", "Outline" }, ft)
+              end, wins)
+
+              if #wins - #nonessential_wins == 1 and not vim.tbl_contains(nonessential_wins, current_win) then
+                for _, win in ipairs(nonessential_wins) do
+                  vim.api.nvim_win_close(win, true)
+                end
+              end
+            end,
+          },
+        },
+      },
+    },
+  },
   opts = {
     lazygit = false,
     highlights = {
