@@ -45,7 +45,7 @@ return {
     "AstroNvim/astrocore",
     opts = function(_, opts)
       local maps = assert(opts.mappings)
-      maps.n["<c-m>"] = { require("multicursor-nvim").toggleCursor, desc = "Toggle cursor" }
+      maps.n["<CR>"] = { require("multicursor-nvim").toggleCursor, desc = "Toggle cursor" }
 
       maps.n["<c-up>"] = {
         function()
@@ -79,7 +79,7 @@ return {
         end,
         desc = "Add cursor to previous matched",
       }
-      maps.n["<c-s-m>"] = { require("multicursor-nvim").alignCursors, desc = "Align cursors" }
+      maps.n["<c-s-a>"] = { require("multicursor-nvim").alignCursors, desc = "Align cursors" }
 
       maps.n["<c-left>"] = { require("multicursor-nvim").prevCursor, desc = "Move main cursor to previous cursor" }
       maps.n["<c-right>"] = { require("multicursor-nvim").nextCursor, desc = "Move main cursor to next cursor" }
