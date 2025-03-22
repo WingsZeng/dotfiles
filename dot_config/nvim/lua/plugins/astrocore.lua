@@ -12,6 +12,7 @@ return {
     options = {
       opt = {
         signcolumn = "yes",
+        foldcolumn = "0",
         cursorcolumn = true,
         jumpoptions = "stack",
       },
