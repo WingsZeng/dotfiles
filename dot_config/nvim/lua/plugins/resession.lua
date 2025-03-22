@@ -27,10 +27,10 @@ return {
         maps.n["<Leader>st"] = { function() require("resession").save_tab() end, desc = "Save this tab's session" }
         maps.n["<Leader>sd"] = { function() require("resession").delete() end, desc = "Delete a session" }
         maps.n["<Leader>sD"] =
-        { function() require("resession").delete(nil, { dir = "dirsession" }) end, desc = "Delete a dirsession" }
+          { function() require("resession").delete(nil, { dir = "dirsession" }) end, desc = "Delete a dirsession" }
         maps.n["<Leader>sf"] = { function() require("resession").load() end, desc = "Load a session" }
         maps.n["<Leader>sF"] =
-        { function() require("resession").load(nil, { dir = "dirsession" }) end, desc = "Load a dirsession" }
+          { function() require("resession").load(nil, { dir = "dirsession" }) end, desc = "Load a dirsession" }
         maps.n["<Leader>s."] = {
           function() require("resession").load(vim.fn.getcwd(), { dir = "dirsession" }) end,
           desc = "Load current dirsession",
@@ -43,10 +43,6 @@ return {
             callback = function()
               local buf_utils = require "astrocore.buffer"
               local autosave = buf_utils.sessions.autosave
-              local aerial_loaded, aerial = pcall(require, "aerial")
-              if aerial_loaded and aerial.is_open() then
-                aerial.close()
-              end
               if autosave and buf_utils.is_valid_session() then
                 local save = require("resession").save
                 if autosave.last then save("Last Session", { notify = false }) end
@@ -63,27 +59,13 @@ return {
             callback = function()
               local argc = vim.fn.argc(-1)
               if argc == 1 and vim.fn.argv()[1] == "." then
-                require("resession").load(
-                  vim.fn.getcwd(),
-                  { dir = "dirsession", silence_errors = true }
-                )
+                require("resession").load(vim.fn.getcwd(), { dir = "dirsession", silence_errors = true })
               end
-              local aerial = require("aerial")
-              if not aerial.is_open() then
-                aerial.open({ focus = false })
-              end
-              require("neo-tree.command").execute({ action = "show" })
             end,
           },
         }
       end,
     },
   },
-  opts = {
-    extensions = {
-      aerial = {
-        enable_in_tab = true,
-      }
-    }
-  }
+  opts = {},
 }
