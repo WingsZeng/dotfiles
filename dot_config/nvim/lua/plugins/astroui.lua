@@ -29,10 +29,14 @@ return {
                 end,
               },
               {
+                -- HACK: Do not know how to ensure resession is installed
+                -- use a User event to trigger the autocmd in resession
                 event = { "User" },
-                pattern = { "AstroFile" },
+                pattern = "Restore",
                 callback = function()
-                  if vim.o.columns >= 110 then require("neo-tree.command").execute { action = "show" } end
+                  if vim.fn.argc(-1) > 0 and vim.o.columns >= 110 then
+                    require("neo-tree.command").execute { action = "show" }
+                  end
                 end,
               },
             },
@@ -61,7 +65,7 @@ return {
               },
               {
                 event = { "User" },
-                pattern = { "AstroFile" },
+                pattern = { "AstroFile", "Restore" },
                 callback = function()
                   if vim.o.columns >= 126 then require("outline").open() end
                 end,
