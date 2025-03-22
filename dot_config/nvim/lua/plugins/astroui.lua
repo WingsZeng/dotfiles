@@ -1,8 +1,13 @@
 return {
   "AstroNvim/astroui",
   opts = {
-    colorscheme = "monokai-pro",
     lazygit = false,
+    highlights = {
+      init = {
+        CursorColumn = { link = "CursorLine" },
+        ["@markup.raw.block.markdown"] = { bg = "NONE" },
+      },
+    },
   },
   specs = {
     {

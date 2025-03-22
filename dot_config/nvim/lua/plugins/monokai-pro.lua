@@ -1,12 +1,13 @@
 return {
   "loctvl842/monokai-pro.nvim",
+  dependencies = {
+    "AstroNvim/astroui",
+    opts = {
+      colorscheme = "monokai-pro",
+    },
+  },
   opts = {
     terminal_colors = false,
-    override = function(c)
-      return {
-        CursorColumn = { bg = c.editor.lineHighlightBackground },
-      }
-    end,
     overridePalette = function(_)
       return {
         dark2 = "#111111",
@@ -26,5 +27,34 @@ return {
         dimmed5 = "#282828",
       }
     end,
+  },
+  specs = {
+    {
+      "hedyhli/outline.nvim",
+      optional = true,
+      dependencies = {
+        "AstroNvim/astroui",
+        opts = function(_, opts)
+          if not opts.highlights["monokai-pro"] then opts.highlights["monokai-pro"] = {} end
+          opts.highlights["monokai-pro"]["OutlineFoldMarker"] =
+            { fg = require("monokai-pro.colorscheme").get("classic").base.dimmed1 }
+        end,
+      },
+    },
+    {
+      "echasnovski/mini.diff",
+      optinal = true,
+      dependencies = {
+        "AstroNvim/astroui",
+        opts = function(_, opts)
+          if not opts.highlights["monokai-pro"] then opts.highlights["monokai-pro"] = {} end
+          opts.highlights["monokai-pro"]["MiniDiffSignAdd"] =
+            { fg = require("monokai-pro.colorscheme").get("classic").base.green }
+          opts.highlights["monokai-pro"]["MiniDiffSignDelete"] =
+            { fg = require("monokai-pro.colorscheme").get("classic").base.red }
+          opts.highlights["monokai-pro"]["MiniDiffSignChange"] = { link = "Special" }
+        end,
+      },
+    },
   },
 }
