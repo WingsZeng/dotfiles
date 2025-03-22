@@ -1,3 +1,11 @@
+local function scroll_lines(lines)
+  local cursor = vim.api.nvim_win_get_cursor(0)
+  local total_lines = vim.api.nvim_buf_line_count(0)
+  local new_line = math.max(1, math.min(total_lines, cursor[1] + lines))
+
+  vim.api.nvim_win_set_cursor(0, { new_line, cursor[2] })
+end
+
 return {
   "AstroNvim/astrocore",
   opts = {
@@ -45,26 +53,22 @@ return {
 
         ["<Leader>xq"] = false,
         ["<Leader>xl"] = false,
-      },
-    },
-    autocmds = {
-      cursorcolumn = {
-        {
-          event = { "WinEnter", "FileType" },
-          callback = function()
-            local ft = vim.bo.filetype
-            if ft == "neo-tree" or ft == "aerial" then vim.opt_local.cursorcolumn = false end
+
+        ["<PageUp>"] = {
+          function()
+            local height = vim.api.nvim_win_get_height(0)
+            scroll_lines(-height)
+            vim.cmd "normal! zz"
           end,
+          desc = "Scroll up",
         },
-        {
-          event = { "ModeChanged" },
-          pattern = { "n:*" },
-          callback = function() vim.opt_local.cursorcolumn = false end,
-        },
-        {
-          event = { "ModeChanged" },
-          pattern = { "*:n" },
-          callback = function() vim.opt_local.cursorcolumn = true end,
+        ["<PageDown>"] = {
+          function()
+            local height = vim.api.nvim_win_get_height(0)
+            scroll_lines(height)
+            vim.cmd "normal! zz"
+          end,
+          desc = "Scroll down",
         },
       },
     },
