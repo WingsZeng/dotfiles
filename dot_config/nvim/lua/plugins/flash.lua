@@ -1,6 +1,6 @@
 local keys = {
-  ["f"] = { require("flash").jump, desc = "Flash" },
-  ["F"] = { require("flash").treesitter, desc = "Flash Treesitter" },
+  ["f"] = { function() require("flash").jump() end, desc = "Flash" },
+  ["F"] = { function() require("flash").treesitter() end, desc = "Flash Treesitter" },
 }
 
 return {
