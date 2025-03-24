@@ -322,6 +322,14 @@ return {
       "OXY2DEV/markview.nvim",
       optional = true,
       ft = function(_, ft) return require("astrocore").list_insert_unique(ft, { "codecompanion" }) end,
+      opts = function(_, opts)
+        if opts.preview == nil then opts.preview = {} end
+        if opts.preview.filetypes == nil then
+          opts.preview.filetypes = { "codecompanion" }
+        else
+          opts.preview.filetypes = require("astrocore").list_insert_unique(opts.preview.filetypes, { "codecompanion" })
+        end
+      end,
     },
   },
 }
