@@ -46,7 +46,7 @@ return {
           autocmds = {
             toggle_neotree = {
               {
-                event = { "VimResized" },
+                event = "VimResized",
                 callback = function()
                   if vim.o.columns >= 110 then
                     require("neo-tree.command").execute { action = "show" }
@@ -58,12 +58,10 @@ return {
               {
                 -- HACK: Do not know how to ensure resession is installed
                 -- use a User event to trigger the autocmd in resession
-                event = { "User" },
+                event = "User",
                 pattern = "Restore",
                 callback = function()
-                  if vim.fn.argc(-1) > 0 and vim.o.columns >= 110 then
-                    require("neo-tree.command").execute { action = "show" }
-                  end
+                  if vim.o.columns >= 110 then require("neo-tree.command").execute { action = "show" } end
                 end,
               },
             },
@@ -80,7 +78,7 @@ return {
           autocmds = {
             toggle_outline = {
               {
-                event = { "VimResized" },
+                event = "VimResized",
                 callback = function()
                   if
                     (vim.o.columns >= 126 and not require("outline").is_open())
@@ -91,8 +89,8 @@ return {
                 end,
               },
               {
-                event = { "User" },
-                pattern = { "AstroFile", "Restore" },
+                event = "User",
+                pattern = { "Restore", "AstroFile" },
                 callback = function()
                   if vim.o.columns >= 126 then require("outline").open() end
                 end,
