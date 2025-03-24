@@ -18,4 +18,11 @@ return {
     },
   },
   opts = {},
+  specs = {
+    {
+      "hrsh7th/nvim-cmp",
+      optional = true,
+      opts = function(_, opts) table.insert(opts.sources, { name = "copilot", priority = 1200 }) end,
+    },
+  },
 }

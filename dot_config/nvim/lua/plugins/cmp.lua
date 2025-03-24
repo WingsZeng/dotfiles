@@ -7,9 +7,7 @@ local function is_visible(cmp) return cmp.core.view:visible() or vim.fn.pumvisib
 return {
   "hrsh7th/nvim-cmp",
   dependencies = {
-    { "zbirenbaum/copilot-cmp",   lazy = true },
-    { "luozhiya/fittencode.nvim", lazy = true },
-    { "L3MON4D3/LuaSnip",         lazy = true },
+    { "L3MON4D3/LuaSnip" },
   },
   opts = function(_, opts)
     local luasnip, cmp = require "luasnip", require "cmp"
@@ -29,8 +27,7 @@ return {
       else
         cmp.complete()
       end
-    end
-    )
+    end)
 
     opts.mapping["<Tab>"] = cmp.mapping(function(fallback)
       if is_visible(cmp) and has_words_before() then
@@ -41,8 +38,5 @@ return {
         fallback()
       end
     end, { "i", "s" })
-
-    table.insert(opts.sources, { name = "copilot", priority = 1200 })
-    table.insert(opts.sources, { name = "fittencode", priority = 1200 })
   end,
 }
