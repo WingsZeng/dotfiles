@@ -1,5 +1,6 @@
 return {
   "zbirenbaum/copilot-cmp",
+  event = "User AstroFile",
   dependencies = {
     {
       "zbirenbaum/copilot.lua",

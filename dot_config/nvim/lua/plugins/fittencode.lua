@@ -1,5 +1,6 @@
 return {
   "luozhiya/fittencode.nvim",
+  event = "User AstroFile",
   dependencies = {
     "onsails/lspkind.nvim",
     opts = {
