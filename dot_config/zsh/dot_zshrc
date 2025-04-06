@@ -116,6 +116,7 @@ function build_universal() {
 # yazi
 function yy() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+    [[ -n "$ZELLIJ" && -z "$NVIM" ]] && zellij pipe --name Event::CommandUpdate -- yazi
 	yazi "$@" --cwd-file="$tmp"
 	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
 		cd -- "$cwd"
