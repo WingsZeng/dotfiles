@@ -1,24 +1,16 @@
 return {
   "danymat/neogen",
   lazy = true,
-  dependencies = {
+  specs = {
     "AstroNvim/astrocore",
-    opts = {
-      mappings = {
-        n = {
-          ["<C-S-/>"] = {
-            function() require('neogen').generate({}) end,
-            desc = "Generate annotation",
-          },
-        },
-        i = {
-          ["<C-S-/>"] = {
-            function() require('neogen').generate({}) end,
-            desc = "Generate annotation",
-          },
-        },
-      },
-    },
+    opts = function(_, opts)
+      local keymap = {
+        function() require("neogen").generate {} end,
+        desc = "Generate annotation",
+      }
+      opts.mappings["n"]["<C-S-/>"] = keymap
+      opts.mappings["i"]["<C-S-/>"] = keymap
+    end,
   },
-  config = true,
+  opts = {},
 }

@@ -1,6 +1,6 @@
 return {
   "akinsho/toggleterm.nvim",
-  dependencies = {
+  specs = {
     "AstroNvim/astrocore",
     opts = {
       mappings = {

@@ -15,28 +15,28 @@ return {
         foldcolumn = "0",
         cursorcolumn = true,
         jumpoptions = "stack",
+        clipboard = "unnamedplus",
       },
     },
     mappings = {
       n = {
-        -- Standard Operations
         ["<Leader>w"] = false,
         ["<Leader>q"] = false,
         ["<Leader>Q"] = false,
         ["<Leader>n"] = false,
         ["<Leader>R"] = false,
         ["<C-S>"] = false,
+        ["<Leader>xq"] = false,
+        ["<Leader>xl"] = false,
+        ["<Leader>/"] = false,
         ["\\"] = false,
 
         ["<C-S-Q>"] = { "<cmd>qa<cr>", desc = "Quit all" },
         ["<C-q>"] = { "<cmd>confirm q<cr>", desc = "Quit" },
         ["<C-W>"] = { function() require("astrocore.buffer").close() end, desc = "Close buffer" },
         ["_"] = { "<cmd>split<cr>", desc = "Horizontal Split" },
-        K = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
-        J = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
         ["<C-a>"] = { function() vim.cmd "norm! ggVG" end, desc = "Select all" },
 
-        -- Manage Buffers
         ["<Leader>c"] = false,
         ["<Leader>C"] = false,
         ["<Leader>b\\"] = false,
@@ -49,11 +49,7 @@ return {
           end,
           desc = "Horizontal split buffer from tabline",
         },
-
         ["<Leader>br"] = { function() require("astrocore").rename_file() end, desc = "Rename file" },
-
-        ["<Leader>xq"] = false,
-        ["<Leader>xl"] = false,
 
         ["<PageUp>"] = {
           function()
@@ -71,6 +67,11 @@ return {
           end,
           desc = "Scroll down",
         },
+
+        ["<C-/>"] = { "gcc", remap = true, desc = "Toggle comment line" },
+      },
+      x = {
+        ["<C-/>"] = { "gc", remap = true, desc = "Toggle comment" },
       },
     },
   },

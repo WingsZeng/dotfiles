@@ -1,7 +1,8 @@
 return {
   "zbirenbaum/copilot-cmp",
   event = "User AstroFile",
-  dependencies = {
+  opts = {},
+  specs = {
     {
       "zbirenbaum/copilot.lua",
       opts = {
@@ -10,20 +11,36 @@ return {
       },
     },
     {
-      "onsails/lspkind.nvim",
+      "Saghen/blink.cmp",
+      optional = true,
+      specs = {
+        { "Saghen/blink.compat", version = "*", lazy = true, opts = {} },
+        { "fang2hou/blink-copilot" },
+      },
       opts = {
-        symbol_map = {
-          Copilot = "",
+        sources = {
+          default = { "copilot" },
+          providers = {
+            copilot = {
+              name = "copilot",
+              module = "blink-copilot",
+              score_offset = 100,
+              async = true,
+              opts = {
+                max_completitions = 3,
+              },
+            },
+          },
         },
       },
     },
-  },
-  opts = {},
-  specs = {
     {
-      "hrsh7th/nvim-cmp",
+      "onsails/lspkind.nvim",
       optional = true,
-      opts = function(_, opts) table.insert(opts.sources, { name = "copilot", priority = 1200 }) end,
+      opts = function(_, opts)
+        if not opts.symbol_map then opts.symbol_map = {} end
+        opts.symbol_map.Copilot = ""
+      end,
     },
   },
 }

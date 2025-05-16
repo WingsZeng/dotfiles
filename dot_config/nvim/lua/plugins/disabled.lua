@@ -6,4 +6,6 @@ return {
   { "rcarriga/cmp-dap", enabled = false },
   { "rcarriga/nvim-dap-ui", enabled = false },
   { "jay-babu/mason-nvim-dap.nvim", enabled = false },
+  { "chomosuke/typst-preview.nvim", enabled = false },
+  { "echasnovski/mini.icons", enabled = false },
 }

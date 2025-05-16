@@ -3,9 +3,32 @@ return {
   "hedyhli/outline.nvim",
   lazy = true,
   cmd = { "Outline", "OutlineOpen" },
-  dependencies = {
+  specs = {
+    { "stevearc/aerial.nvim", optional = true, enabled = false },
     { "epheien/outline-treesitter-provider.nvim" },
-    { "stevearc/aerial.nvim", enabled = false },
+    {
+      "onsails/lspkind.nvim",
+      opts = function(_, opts)
+        local outline_only_symbols = {
+          Namespace = "󰅩",
+          Package = "󰏗",
+          String = "󱀍",
+          Number = "󰎠",
+          Boolean = "󰨙",
+          Array = "󰅪",
+          Object = "󰊱",
+          Key = "",
+          Null = "",
+          Component = "󰅴",
+          Fragment = "󰅴",
+          TypeAlias = "󰉿",
+          Parameter = "",
+          StaticMethod = "󰆧",
+          Macro = "󰘦",
+        }
+        opts.symbol_map = vim.tbl_extend("keep", opts.symbol_map or {}, outline_only_symbols)
+      end,
+    },
     {
       "AstroNvim/astrocore",
       opts = {
@@ -34,44 +57,8 @@ return {
     preview_window = {
       winhl = "NormalFloat:NormalFloat",
     },
-    keymaps = {
-      hover_symbol = ";",
-    },
     symbols = {
-      icons = {
-        File = { icon = "󰪸", hl = "Label" },
-        Module = { icon = "󰮄", hl = "Include" },
-        Namespace = { icon = "󰅩", hl = "Include" },
-        Package = { icon = "󰏗", hl = "Include" },
-        Class = { icon = "", hl = "Structure" },
-        Method = { icon = "󰆧", hl = "Function" },
-        Property = { icon = "", hl = "Label" },
-        Field = { icon = "󰆨", hl = "Label" },
-        Constructor = { icon = "", hl = "Special" },
-        Enum = { icon = "", hl = "Special" },
-        Interface = { icon = "", hl = "Special" },
-        Function = { icon = "󰊕", hl = "Function" },
-        Variable = { icon = "󰀫", hl = "Constant" },
-        Constant = { icon = "󰫰", hl = "Constant" },
-        String = { icon = "󱌯", hl = "String" },
-        Number = { icon = "", hl = "Number" },
-        Boolean = { icon = "⊨", hl = "Boolean" },
-        Array = { icon = "󰅪", hl = "Constant" },
-        Object = { icon = "󰊱", hl = "Special" },
-        Key = { icon = "", hl = "Special" },
-        Null = { icon = "󱥸", hl = "Special" },
-        EnumMember = { icon = "", hl = "Label" },
-        Struct = { icon = "󰙅", hl = "Structure" },
-        Event = { icon = "", hl = "Special" },
-        Operator = { icon = "󰆕", hl = "Label" },
-        TypeParameter = { icon = "𝙏", hl = "Label" },
-        Component = { icon = "󰅴", hl = "Function" },
-        Fragment = { icon = "󰅴", hl = "Constant" },
-        TypeAlias = { icon = " ", hl = "Special" },
-        Parameter = { icon = " ", hl = "Label" },
-        StaticMethod = { icon = "󰆧", hl = "Function" },
-        Macro = { icon = "󰘦", hl = "Function" },
-      },
+      icon_source = "lspkind",
     },
   },
 }

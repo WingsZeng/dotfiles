@@ -3,7 +3,6 @@ local M = {}
 
 local ns_id = vim.api.nvim_create_namespace "spinner"
 
--- TODO: background color of spinner
 M.config = {
   spinner = {
     text = "",
@@ -127,7 +126,7 @@ end
 
 return {
   "olimorris/codecompanion.nvim",
-  dependencies = {
+  specs = {
     { "nvim-lua/plenary.nvim" },
     { "nvim-treesitter/nvim-treesitter" },
     { "echasnovski/mini.diff" },
@@ -142,14 +141,14 @@ return {
         local codecompanion = require "codecompanion"
 
         maps.n[prefix] = { desc = astroui.get_icon("CodeCompanion", 1, true) .. "CodeCompanion" }
-        maps.v[prefix] = { desc = astroui.get_icon("CodeCompanion", 1, true) .. "CodeCompanion" }
+        maps.v[prefix] = maps.n[prefix]
 
         maps.n[prefix .. "a"] = { "<Cmd>CodeCompanionActions<CR>", desc = "Action Palette" }
-        maps.v[prefix .. "a"] = { "<Cmd>CodeCompanionActions<CR>", desc = "Action Palette" }
+        maps.v[prefix .. "a"] = maps.n[prefix .. "a"]
         maps.n[prefix .. "c"] = { "<Cmd>CodeCompanionChat Toggle<CR>", desc = "Toggle Chat" }
-        maps.v[prefix .. "c"] = { "<Cmd>CodeCompanionChat Toggle<CR>", desc = "Toggle Chat" }
+        maps.v[prefix .. "c"] = maps.n[prefix .. "c"]
         maps.n[prefix .. "C"] = { "<Cmd>CodeCompanionChat<CR>", desc = "New Chat" }
-        maps.n[prefix .. "C"] = { "<Cmd>CodeCompanionChat<CR>", desc = "New Chat" }
+        maps.v[prefix .. "C"] = maps.n[prefix .. "C"]
         maps.n[prefix .. "i"] = {
           function()
             vim.ui.input({ prompt = "Prompt: " }, function(input)
@@ -158,7 +157,7 @@ return {
           end,
           desc = "Prompt Inline",
         }
-        maps.v[prefix .. "i"] = { "<Cmd>'<,'>CodeCompanion<CR>", desc = "Prompt Inline" }
+        maps.v[prefix .. "i"] = { ":CodeCompanion<CR>", desc = "Prompt Inline" }
         maps.v[prefix .. "e"] = { function() codecompanion.prompt "explain" end, desc = "Explain Code" }
         maps.v[prefix .. "f"] = { function() codecompanion.prompt "fix" end, desc = "Fix Code" }
         maps.n[prefix .. "l"] = { function() codecompanion.prompt "lsp" end, desc = "Explain LSP Diagnostics" }
@@ -187,67 +186,9 @@ return {
   },
   lazy = true,
   cmd = { "CodeCompanion", "CodeCompanionActions", "CodeCompanionChat", "CodeCompanionCmd" },
-  opts = function(_, opts)
-    -- HACK: create 2 adapters for volce, to use in chat and inline mode but with different default modes
-    local volce = function(default_mode)
-      return function()
-        return require("codecompanion.adapters").extend("openai_compatible", {
-          env = {
-            url = "https://ark.cn-beijing.volces.com/api",
-            api_key = "cmd:pass api_key/volce",
-            chat_url = "/v3/chat/completions",
-          },
-          -- BUG: display bug when showing reasoning
-          -- handlers = require("codecompanion.adapters.deepseek").handlers,
-          schema = {
-            model = {
-              order = 1,
-              mapping = "parameters",
-              type = "enum",
-              desc = "ID of the model to use. See the model endpoint compatibility table for details on which models work with the Chat API.",
-              ---@type string|fun(): string
-              default = default_mode,
-              choices = {
-                "deepseek-v3-241226",
-                ["deepseek-r1-250120"] = { opts = { can_reason = true } },
-                ["deepseek-r1-distill-qwen-7b-250120"] = { opts = { can_reason = true } },
-                ["deepseek-r1-distill-qwen-32b-250120"] = { opts = { can_reason = true } },
-              },
-            },
-            temperature = {
-              order = 2,
-              mapping = "parameters",
-              type = "number",
-              optional = true,
-              default = 0.8,
-              desc = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. We generally recommend altering this or top_p but not both.",
-              validate = function(n) return n >= 0 and n <= 2, "Must be between 0 and 2" end,
-            },
-            max_tokens = {
-              order = 3,
-              mapping = "parameters",
-              type = "integer",
-              optional = true,
-              default = nil,
-              desc = "An upper bound for the number of tokens that can be generated for a completion.",
-              validate = function(n) return n > 0, "Must be greater than 0" end,
-            },
-            top_p = {
-              order = 4,
-              mapping = "parameters",
-              type = "number",
-              optional = true,
-              default = 0,
-              desc = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered. We generally recommend altering this or temperature but not both.",
-              validate = function(n) return n >= 0 and n <= 1, "Must be between 0 and 1" end,
-            },
-          },
-        })
-      end
-    end
-
-    opts.language = "Chinese"
-    opts.adapters = {
+  opts = {
+    language = "Chinese",
+    adapters = {
       gemini = function()
         return require("codecompanion.adapters").extend("gemini", {
           env = {
@@ -255,10 +196,29 @@ return {
           },
         })
       end,
-      volce = volce "deepseek-v3-241226",
-      volce_reasoning = volce "deepseek-r1-250120",
-    }
-    opts.display = {
+      -- copilot = function()
+      --   return require("codecompanion.adapters").extend("copilot", {
+      --     schema = {
+      --       model = {
+      --         default = "o4-mini",
+      --       },
+      --     },
+      --   })
+      -- end,
+      copilot_gemini = function()
+        return require("codecompanion.adapters").extend("copilot", {
+          schema = {
+            model = {
+              default = "gemini-2.5-pro",
+            },
+            max_tokens = {
+              default = 128000,
+            },
+          },
+        })
+      end,
+    },
+    display = {
       diff = {
         provider = "mini_diff",
       },
@@ -269,67 +229,24 @@ return {
         },
         show_settings = true,
       },
-    }
-    opts.strategies = {
+    },
+    strategies = {
       inline = {
-        adapter = "volce",
+        adapter = "copilot",
       },
       chat = {
-        adapter = "volce_reasoning",
+        adapter = "copilot_gemini",
         keymaps = {
-          send = {
-            modes = { n = "<M-CR>", i = "<M-CR>" },
-          },
-          close = {
-            modes = { n = { "<C-q>", "q" }, i = {} },
-          },
-          stop = {
-            modes = { n = "<C-c>" },
-          },
+          send = { modes = { n = "<M-CR>", i = "<M-CR>" } },
+          close = { modes = { n = { "<C-q>", "q" }, i = {} } },
+          stop = { modes = { n = "<C-c>" } },
         },
         slash_commands = {
-          ["buffer"] = {
-            callback = "strategies.chat.slash_commands.buffer",
-            description = "Insert open buffers",
-            opts = {
-              contains_code = true,
-              provider = "fzf_lua", -- default|telescope|mini_pick|fzf_lua
-            },
-          },
-          ["file"] = {
-            callback = "strategies.chat.slash_commands.file",
-            description = "Insert a file",
-            opts = {
-              contains_code = true,
-              max_lines = 1000,
-              provider = "fzf_lua", -- default|telescope|mini_pick|fzf_lua
-            },
-          },
-          ["symbols"] = {
-            callback = "strategies.chat.slash_commands.symbols",
-            description = "Insert symbols for a selected file",
-            opts = {
-              contains_code = true,
-              provider = "fzf_lua", -- default|telescope|mini_pick|fzf_lua
-            },
-          },
+          ["buffer"] = { opts = { provider = "fzf_lua" } },
+          ["file"] = { opts = { provider = "fzf_lua" } },
+          ["symbols"] = { opts = { provider = "fzf_lua" } },
         },
       },
-    }
-  end,
-  specs = {
-    {
-      "OXY2DEV/markview.nvim",
-      optional = true,
-      ft = function(_, ft) return require("astrocore").list_insert_unique(ft, { "codecompanion" }) end,
-      opts = function(_, opts)
-        if opts.preview == nil then opts.preview = {} end
-        if opts.preview.filetypes == nil then
-          opts.preview.filetypes = { "codecompanion" }
-        else
-          opts.preview.filetypes = require("astrocore").list_insert_unique(opts.preview.filetypes, { "codecompanion" })
-        end
-      end,
     },
   },
 }

@@ -4,20 +4,22 @@
 return {
   "tummetott/reticle.nvim",
   event = "User AstroFile",
-  dependencies = {
-    "AstroNvim/astrocore",
-    opts = {
-      autocmds = {
-        cursorcolumn_toggle_on_mode_change = {
-          {
-            event = { "ModeChanged" },
-            pattern = { "n:*" },
-            callback = function() vim.opt_local.cursorcolumn = false end,
-          },
-          {
-            event = { "ModeChanged" },
-            pattern = { "*:n" },
-            callback = function() vim.opt_local.cursorcolumn = true end,
+  specs = {
+    {
+      "AstroNvim/astrocore",
+      opts = {
+        autocmds = {
+          cursorcolumn_toggle_on_mode_change = {
+            {
+              event = { "ModeChanged" },
+              pattern = { "n:*" },
+              callback = function() vim.opt_local.cursorcolumn = false end,
+            },
+            {
+              event = { "ModeChanged" },
+              pattern = { "*:n" },
+              callback = function() vim.opt_local.cursorcolumn = true end,
+            },
           },
         },
       },
@@ -46,6 +48,7 @@ return {
       cursorcolumn = {
         "neo-tree",
         "Outline",
+        "snacks_dashboard",
       },
     },
   },

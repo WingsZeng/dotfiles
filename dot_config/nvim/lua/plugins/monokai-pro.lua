@@ -16,13 +16,8 @@ local dimmed5 = "#282828"
 
 return {
   "loctvl842/monokai-pro.nvim",
-  dependencies = {
-    "AstroNvim/astroui",
-    opts = {
-      colorscheme = "monokai-pro",
-    },
-  },
   opts = {
+    background_clear = { "float_win" },
     terminal_colors = false,
     overridePalette = function(_)
       return {
@@ -46,26 +41,32 @@ return {
   },
   specs = {
     {
+      "AstroNvim/astroui",
+      opts = { colorscheme = "monokai-pro" },
+    },
+    {
       "hedyhli/outline.nvim",
       optional = true,
-      dependencies = {
+      specs = {
         "AstroNvim/astroui",
         opts = function(_, opts)
-          if not opts.highlights["monokai-pro"] then opts.highlights["monokai-pro"] = {} end
-          opts.highlights["monokai-pro"]["OutlineFoldMarker"] = { fg = dimmed1 }
+          local outline_hl = { OutlineFoldMarker = { fg = dimmed1 } }
+          opts.highlights["monokai-pro"] = vim.tbl_extend("force", opts.highlights["monokai-pro"] or {}, outline_hl)
         end,
       },
     },
     {
-      "echasnovski/mini.diff",
-      optinal = true,
-      dependencies = {
+      "folke/snacks.nvim",
+      optional = true,
+      specs = {
         "AstroNvim/astroui",
         opts = function(_, opts)
           if not opts.highlights["monokai-pro"] then opts.highlights["monokai-pro"] = {} end
-          opts.highlights["monokai-pro"]["MiniDiffSignAdd"] = { fg = green }
-          opts.highlights["monokai-pro"]["MiniDiffSignDelete"] = { fg = red }
-          opts.highlights["monokai-pro"]["MiniDiffSignChange"] = { link = "Special" }
+          local mini_icons_hl = {
+            SnacksIndent = { fg = dimmed4 },
+            SnacksIndentScope = { fg = dimmed3 },
+          }
+          opts.highlights["monokai-pro"] = vim.tbl_extend("force", opts.highlights["monokai-pro"] or {}, mini_icons_hl)
         end,
       },
     },
