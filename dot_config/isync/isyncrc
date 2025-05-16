@@ -4,7 +4,7 @@ Port 993
 User wings.xiangyi.zeng@gmail.com
 PassCmd "pass wings.xiangyi.zeng@gmail.com"
 AuthMechs LOGIN
-SSLType IMAPS
+TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
 MaildirStore wings.xiangyi.zeng@gmail.com-local
@@ -29,7 +29,7 @@ Port 993
 User zengxiangyi24@mails.ucas.ac.cn
 PassCmd "pass zengxiangyi24@mails.ucas.ac.cn"
 AuthMechs LOGIN
-SSLType IMAPS
+TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
 MaildirStore zengxiangyi24@mails.ucas.ac.cn-local
@@ -54,7 +54,7 @@ Port 993
 User zengxiangyi@iie.ac.cn
 PassCmd "pass zengxiangyi@iie.ac.cn"
 AuthMechs LOGIN
-SSLType IMAPS
+TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
 MaildirStore zengxiangyi@iie.ac.cn-local
@@ -79,7 +79,7 @@ Port 143
 User xyzeng@stu.xidian.edu.cn
 PassCmd "pass xyzeng@stu.xidian.edu.cn"
 AuthMechs LOGIN
-SSLType None
+TLSType None
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
 MaildirStore xyzeng@stu.xidian.edu.cn-local
