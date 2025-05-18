@@ -163,6 +163,8 @@ return {
         maps.n[prefix .. "l"] = { function() codecompanion.prompt "lsp" end, desc = "Explain LSP Diagnostics" }
         maps.n[prefix .. "m"] = { function() codecompanion.prompt "commit" end, desc = "Generate Commit Message" }
         maps.v[prefix .. "t"] = { function() codecompanion.prompt "tests" end, desc = "Generate Unit Tests" }
+        maps.v[prefix .. "/"] = { function() codecompanion.prompt "comments" end, desc = "Generate Comments" }
+        maps.v[prefix .. "r"] = { function() codecompanion.prompt "refactor" end, desc = "Refactor Code" }
 
         opts.autocmds.codecompanion = {
           {
@@ -196,6 +198,8 @@ return {
           },
         })
       end,
+      -- TODO: wait for the fix of inline mode
+
       -- copilot = function()
       --   return require("codecompanion.adapters").extend("copilot", {
       --     schema = {
@@ -250,6 +254,93 @@ return {
           ["buffer"] = { opts = { provider = "fzf_lua" } },
           ["file"] = { opts = { provider = "fzf_lua" } },
           ["symbols"] = { opts = { provider = "fzf_lua" } },
+        },
+      },
+    },
+    prompt_library = {
+      ["Refactor Code"] = {
+        strategy = "chat",
+        description = "Refactor and optimize the selected code",
+        opts = {
+          modes = { "v" },
+          short_name = "refactor",
+          auto_submit = true,
+          user_prompt = false,
+        },
+        -- TODO: improve the prompt, as its response contains comments and information outside code block.
+        prompts = {
+          {
+            role = "system",
+            content = function(context)
+              return [[## Role
+
+You are a highly skilled software engineer specializing in code refactoring and optimization.
+
+## Task
+
+Refactor and optimize the provided code snippet in ]] .. context.filetype .. [[. Improve its internal structure, performance, and readability without changing its external behavior. Aim for seamless integration into the existing codebase.
+## Focus Areas
+
+1. Structural Improvements: Abstract common logic, encapsulate functionality, break down complex parts, improve organization.
+2. Performance Optimization: Use more efficient algorithms, data structures, methods.
+3. Readability and Maintainability: Improve clarity and code style.
+4. Code Duplication (DRY principle): Eliminate repetitive code blocks.
+5. Modern Syntax and Best Practices: Apply idiomatic and modern language features.
+6. Resource Management: Ensure efficient resource handling.
+
+## Constraints
+
+- Use standard, descriptive naming conventions appropriate for the programming language and context.
+- Do not include any text, explanations, examples, test cases, or conversational remarks.
+- Do not use comments to explain the refactoring changes.
+- Your response must be a single markdown code block for ]] .. context.filetype .. [[ containing only the refactored code snippet.]]
+            end,
+          },
+          {
+            role = "user",
+            content = "Code to refactor:",
+            opts = {
+              contains_code = true,
+            },
+          },
+        },
+      },
+      ["Add Comments"] = {
+        strategy = "chat",
+        description = "Add high-level comments and remove low-level comments.",
+        opts = {
+          modes = { "v" },
+          short_name = "comments",
+          auto_submit = true,
+          user_prompt = false,
+        },
+        prompts = {
+          {
+            role = "system",
+            content = function(context)
+              return [[You are a highly skilled software engineer specializing in code readability and documentation. Your task is to modify the comments in the provided code snippet in ]]
+                .. context.filetype
+                .. [[.
+
+Specifically:
+- Add high-level comments, including documentation comments (like docstrings, etc.) for classes and functions to explain their overall purpose, inputs, and outputs.
+- Remove low-level or unnecessary comments that explain obvious code, restate the code, or are outdated/irrelevant.
+- Ensure the comments added follow standard conventions for ]]
+                .. context.filetype
+                .. [[.
+- Maintain the original code's structure, logic, and naming conventions. Focus *only* on comment management.
+- Your response must be a single markdown code block for ]]
+                .. context.filetype
+                .. [[ containing only the code snippet.]]
+            end,
+          },
+          {
+            role = "user",
+            content = "Code to manage comments for",
+            opts = {
+              contains_code = true,
+            },
+          },
         },
       },
     },
