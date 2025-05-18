@@ -207,6 +207,8 @@ return {
       -- end,
       copilot_gemini = function()
         return require("codecompanion.adapters").extend("copilot", {
+          name = "copilot_gemini",
+          formatted_name = "Copilot Gemini 2.5 Pro",
           schema = {
             model = {
               default = "gemini-2.5-pro",
@@ -235,6 +237,9 @@ return {
         adapter = "copilot",
       },
       chat = {
+        roles = {
+          llm = function(adapter) return adapter.formatted_name end,
+        },
         adapter = "copilot_gemini",
         keymaps = {
           send = { modes = { n = "<M-CR>", i = "<M-CR>" } },
