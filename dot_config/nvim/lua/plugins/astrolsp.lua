@@ -10,5 +10,32 @@ return {
         enabled = false,
       },
     },
+    config = {
+      tinymist = {
+        settings = {
+          exportPdf = "onType",
+        },
+      },
+      basedpyright = {
+        settings = {
+          basedpyright = {
+            analysis = {
+              diagnosticSeverityOverrides = {
+                reportWildcardImportFromLibrary = "none",
+              },
+            },
+          },
+        },
+      },
+      ruff = {
+        init_options = {
+          settings = {
+            lint = {
+              enable = false,
+            },
+          },
+        },
+      },
+    },
   },
 }
