@@ -46,8 +46,8 @@ c.bindings.commands = {
         '<Alt-`>': 'tab-focus last',
         '<Ctrl-P>': 'print',
         '<Ctrl-T>': 'open -t',
-        'J': 'tab-prev',
-        'K': 'tab-next',
+        '[b': 'tab-prev',
+        ']b': 'tab-next',
         'oo': 'cmd-set-text -s :open',
         'OO': 'cmd-set-text -s :open -t',
         'oe': 'cmd-set-text -s :open {url:pretty}',
@@ -148,6 +148,8 @@ config.unbind('<forward>', mode='normal')
 
 config.unbind('B', mode='normal')
 config.unbind('D', mode='normal')
+config.unbind('J', mode='normal')
+config.unbind('K', mode='normal')
 config.unbind('T', mode='normal')
 config.unbind('O', mode='normal')
 config.unbind('U', mode='normal')
