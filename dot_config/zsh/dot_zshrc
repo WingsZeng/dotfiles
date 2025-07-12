@@ -100,15 +100,47 @@ export WGETRC=$XDG_CONFIG_HOME/wget/wgetrc
 export GRADLE_USER_HOME=$XDG_DATA_HOME/gradle
 # go home
 export GOPATH="$XDG_DATA_HOME"/go
+# used for llm-functions with aichat
+export LLM_FUNCTIONS_DIR="$XDG_CONFIG_HOME/aichat/llm-functions"
 ### End of environment
 
-### Alias
-# eza
-alias e='eza -laho --group-directories-first --icons=always --smart-group --no-quotes --git --git-repos'
-alias t='eza -T --group-directories-first --icons=always --no-quotes'
-### End of alias
-
 ### Functions
+# aichat mcp client
+aichat_mcp_lock_file="/tmp/aichat_mcp.lock"
+
+aichat_mcp_start() {
+  pushd "$LLM_FUNCTIONS_DIR" > /dev/null || return
+
+  if [[ ! -f "$aichat_mcp_lock_file" ]]; then
+    echo 1 > "$aichat_mcp_lock_file"
+    argc mcp start || { rm -f "$aichat_mcp_lock_file"; popd > /dev/null || return; return 1; }
+  else
+    n=$(<"$aichat_mcp_lock_file")
+    n=$((n+1))
+    echo "$n" > "$aichat_mcp_lock_file"
+  fi
+
+  popd > /dev/null || return
+}
+
+aichat_mcp_stop() {
+  pushd "$LLM_FUNCTIONS_DIR" > /dev/null || return
+
+  if [[ -f "$aichat_mcp_lock_file" ]]; then
+    n=$(<"$aichat_mcp_lock_file")
+    n=$((n-1))
+    if (( n <= 0 )); then
+      argc mcp stop
+      rm -f "$aichat_mcp_lock_file"
+    else
+      echo "$n" > "$aichat_mcp_lock_file"
+    fi
+  else
+    echo "Warning: MCP lock file not found; nothing to stop" >&2
+  fi
+
+  popd > /dev/null || return
+}
 # docker gcc for universal build
 function build_universal() {
     docker run --rm -v "$PWD":/codes -w /codes wingszeng/gcc "$@"
@@ -155,3 +187,12 @@ autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '^[e' edit-command-line
 ### End of line editor
+
+### Alias
+# eza
+alias e='eza -laho --group-directories-first --icons=always --smart-group --no-quotes --git --git-repos'
+alias t='eza -T --group-directories-first --icons=always --no-quotes'
+# aichat roles
+alias trans='aichat -r trans'
+alias idamcp='aichat_mcp_start && aichat -r ida; aichat_mcp_stop'
+### End of alias
