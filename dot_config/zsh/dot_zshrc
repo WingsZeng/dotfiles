@@ -148,11 +148,11 @@ function build_universal() {
 }
 # yazi
 function yy() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
     [[ -n "$ZELLIJ" && -z "$NVIM" ]] && zellij pipe --name Event::CommandUpdate -- yazi
 	yazi "$@" --cwd-file="$tmp"
 	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		cd -- "$cwd"
+		cd -- "$cwd" || exit
 	fi
 	rm -f -- "$tmp"
 }
@@ -161,12 +161,12 @@ function yy() {
 ### Hooks
 autoload -Uz add-zsh-hook
 preexec_pipe_message_to_zjswitcher() {
-    [[ -n "$ZELLIJ" && -z "$NVIM" ]] && zellij pipe --name Event::CommandUpdate -- $1
+    [[ -n "$ZELLIJ" && -z "$NVIM" ]] && zellij pipe --name Event::CommandUpdate -- "$1"
 }
 add-zsh-hook preexec preexec_pipe_message_to_zjswitcher
 
 precmd_pipe_message_to_zjswitcher() {
-    [[ -n "$ZELLIJ" && -z "$NVIM" ]] && zellij pipe --name Event::CommandUpdate -- $SHELL
+    [[ -n "$ZELLIJ" && -z "$NVIM" ]] && zellij pipe --name Event::CommandUpdate -- "$SHELL"
 }
 add-zsh-hook precmd precmd_pipe_message_to_zjswitcher
 ### End of hooks
