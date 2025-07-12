@@ -100,6 +100,8 @@ export WGETRC=$XDG_CONFIG_HOME/wget/wgetrc
 export GRADLE_USER_HOME=$XDG_DATA_HOME/gradle
 # go home
 export GOPATH="$XDG_DATA_HOME"/go
+# IDA Pro venv
+export IDAPYTHON_VENV_EXECUTABLE="$HOME"/.idapro/.venv/bin/python3
 # used for llm-functions with aichat
 export LLM_FUNCTIONS_DIR="$XDG_CONFIG_HOME/aichat/llm-functions"
 ### End of environment
