@@ -18,18 +18,37 @@ notify() {
     string:$body \
     array:string: \
     dict:string:string: \
-    int32:$expire_time > /dev/null
+    int32:$expire_time >/dev/null
 }
+
+rc-service sing-box status
+if [ $? -ne 0 ]; then
+  output=$(doas rc-service sing-box start 2>&1)
+  if [ $? -ne 0 ]; then
+    notify sing-box "Failed to start sing-box" "$output"
+  fi
+  sleep 0.1
+fi
 
 proxies=$(curl localhost:9090/proxies 2>/dev/null | jq -r '.proxies.proxy | .all[]')
 
-proxy=$(echo $proxies | fuzzel --dmenu -p "Proxies: ")
+if [[ -z $proxies ]]; then
+  notify sing-box "" "sing-box is not running" 5000
+  exit 1
+fi
+
+proxy=$(echo "$proxies\ndirect" | fuzzel --dmenu -p "Proxies: ")
 
 if [[ -z $proxy ]]; then
   exit 1
 fi
 
-respons=$(curl -w "%{http_code}" -X PUT -H "Content-Type: application/json" -d '{"name":"'$proxy'"}' localhost:9090/proxies/proxy 2>/dev/null)
+if [[ $proxy == "direct" ]]; then
+  doas rc-service sing-box stop
+  exit 0
+fi
+
+respons=$(curl -w "%{http_code}" -X PUT -d '{"name":"'$proxy'"}' localhost:9090/proxies/proxy 2>/dev/null)
 code=$(echo $respons | tail -n 1)
 body=$(echo $respons | head -n -1)
 message=$(echo $body | jq -r '.message')
