@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "ida-pro-mcp": {
+      "command": "/home/wings/.idapro/.venv/bin/python3",
+      "args": [
+        "/home/wings/.idapro/.venv/lib/python3.13/site-packages/ida_pro_mcp/server.py"
+      ],
+      "timeout": 1800,
+      "disabled": false
+    }
+  }
+}
