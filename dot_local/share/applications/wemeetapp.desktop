@@ -1,0 +1,15 @@
+[Desktop Entry]
+Name=WemeetApp
+Name[zh_CN]=腾讯会议
+Exec=env QT_SCALE_FACTOR=2 wemeetapp %u
+Icon=wemeetapp
+Type=Application
+Terminal=false
+Categories=AudioVideo;
+MimeType=x-scheme-handler/wemeet;
+Comment=Tencent Meeting Linux Client
+
+Comment[zh_CN]=腾讯会议Linux客户端
+
+Keywords=wemeet;tencent;meeting;
+

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=IDA Pro 9.1
+Type=Application
+Comment=IDA Interactive Disasssembler
+Exec=env QT_QPA_PLATFORM=xcb QT_SCALE_FACTOR=1.5 IDAPYTHON_VENV_EXECUTABLE=/home/wings/.idapro/.venv/bin/python3 ida
+TryExec=ida
+Icon=idapro
+Categories=Development;
