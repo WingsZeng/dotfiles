@@ -18,6 +18,7 @@ return {
         clipboard = "unnamedplus",
       },
     },
+    auto_quit = nil,
     mappings = {
       n = {
         ["<Leader>w"] = false,
