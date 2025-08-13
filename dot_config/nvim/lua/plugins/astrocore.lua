@@ -35,7 +35,6 @@ return {
         ["<C-q>"] = { "<cmd>confirm q<cr>", desc = "Quit" },
         ["<C-W>"] = { function() require("astrocore.buffer").close() end, desc = "Close buffer" },
         ["_"] = { "<cmd>split<cr>", desc = "Horizontal Split" },
-        ["<C-a>"] = { function() vim.cmd "norm! ggVG" end, desc = "Select all" },
 
         ["<Leader>c"] = false,
         ["<Leader>C"] = false,
