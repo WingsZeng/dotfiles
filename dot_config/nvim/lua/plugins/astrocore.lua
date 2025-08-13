@@ -19,6 +19,13 @@ return {
       },
     },
     auto_quit = nil,
+    autocmds = {
+      checktime = {
+        event = { "FocusGained", "BufEnter", "CursorHold", "CursorHoldI", "TermClose", "TermLeave" },
+        desc = "Check if buffers changed on disk",
+        command = "checktime",
+      },
+    },
     mappings = {
       n = {
         ["<Leader>w"] = false,
