@@ -55,3 +55,12 @@ end
 create_quit_command "q"
 create_quit_command "wq"
 create_quit_command "x"
+
+-- Don't know how to disable in astrocore so i add them here
+-- vim.keymap.del('n', 'gr')
+vim.keymap.del('n', 'grr')
+vim.keymap.del('n', 'gra')
+vim.keymap.del('n', 'gri')
+vim.keymap.del('n', 'grn')
+vim.keymap.del('n', 'grt')
+
