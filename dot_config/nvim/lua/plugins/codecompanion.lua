@@ -131,6 +131,7 @@ return {
     { "nvim-treesitter/nvim-treesitter" },
     { "echasnovski/mini.diff" },
     { "ibhagwan/fzf-lua" },
+    { "ravitemer/codecompanion-history.nvim" },
     {
       "AstroNvim/astrocore",
       ---@param opts AstroCoreOpts
@@ -152,7 +153,7 @@ return {
         maps.n[prefix .. "i"] = {
           function()
             vim.ui.input({ prompt = "Prompt: " }, function(input)
-              if input and input ~= "" then vim.cmd("CodeCompanion #buffer " .. input) end
+              if input and input ~= "" then vim.cmd("CodeCompanion #{buffer} " .. input) end
             end)
           end,
           desc = "Prompt Inline",
@@ -246,20 +247,26 @@ return {
         },
         adapter = "copilot_gemini",
         keymaps = {
-          send = { modes = { n = "<M-CR>", i = "<M-CR>" } },
+          send = { modes = { n = "<CR>", i = {} } },
           close = { modes = { n = { "<C-q>", "q" }, i = {} } },
           stop = { modes = { n = "<C-c>" } },
+          system_prompt = { modes = { n = {} } },
         },
         slash_commands = {
           ["buffer"] = { opts = { provider = "fzf_lua" } },
           ["file"] = { opts = { provider = "fzf_lua" } },
           ["symbols"] = { opts = { provider = "fzf_lua" } },
         },
+        tools = {
+          opts = {
+            wait_timeout = 86400000,
+          },
+        },
       },
     },
     prompt_library = {
       ["Refactor Code"] = {
-        strategy = "chat",
+        strategy = "inline",
         description = "Refactor and optimize the selected code",
         opts = {
           modes = { "v" },
@@ -267,38 +274,60 @@ return {
           auto_submit = true,
           user_prompt = false,
         },
-        -- TODO: improve the prompt, as its response contains comments and information outside code block.
         prompts = {
           {
             role = "system",
-            content = function(context)
-              return [[## Role
+            content = [[When asked to refactor and optimize code, follow these steps:
 
-You are a highly skilled software engineer specializing in code refactoring and optimization.
+1.  **Analyze & Understand**:
+    * Identify the programming language of the provided code snippet.
+    * Thoroughly understand its current functionality to ensure external behavior can be strictly preserved during refactoring.
 
-## Task
+2.  **Refactor & Optimize**:
+    * Systematically improve the code's internal structure, performance, readability, and maintainability.
+    * Apply established refactoring techniques and best practices appropriate for the identified language.
 
-Refactor and optimize the provided code snippet in ]] .. context.filetype .. [[. Improve its internal structure, performance, and readability without changing its external behavior. Aim for seamless integration into the existing codebase.
-## Focus Areas
+3.  **Prepare Final Code**:
+    * Construct a single markdown code block containing *only* the refactored code.
+    * Ensure the programming language is specified at the start of the code block (e.g., ```python or ```lua).
 
-1. Structural Improvements: Abstract common logic, encapsulate functionality, break down complex parts, improve organization.
-2. Performance Optimization: Use more efficient algorithms, data structures, methods.
-3. Readability and Maintainability: Improve clarity and code style.
-4. Code Duplication (DRY principle): Eliminate repetitive code blocks.
-5. Modern Syntax and Best Practices: Apply idiomatic and modern language features.
-6. Resource Management: Ensure efficient resource handling.
+Important: The response must *not* include any explanations of the changes, surrounding text, conversational remarks, or additional comments outside of the code itself that describe the refactoring process.
 
-## Constraints
+Ensure the refactored code exhibits the following qualities:
 
-- Use standard, descriptive naming conventions appropriate for the programming language and context.
-- Do not include any text, explanations, examples, test cases, or conversational remarks.
-- Do not use comments to explain the refactoring changes.
-- Your response must be a single markdown code block for ]] .. context.filetype .. [[ containing only the refactored code snippet.]]
-            end,
+-   **Behavioral Equivalence**: The refactored code must behave externally identically to the original code.
+-   **Improved Structure**: Enhanced organization, clear abstraction, proper encapsulation, and be a complete replacement for the original snippet within its existing context.
+-   **Optimized Performance**: Utilization of more efficient algorithms and data structures where applicable, without altering external behavior.
+-   **Enhanced Readability**: Clear, concise, and idiomatic code following language-specific style conventions.
+-   **Maintainability**: Code that is easier to understand, modify, and debug. This includes the use of descriptive naming conventions.
+-   **DRY Principle**: Elimination of significant code duplication.
+-   **Modern Practices**: Adherence to modern syntax and established best practices of the programming language.
+-   **Resource Consciousness**: Efficient use of resources, where relevant to the provided snippet.
+]],
+            opts = {
+              visible = false,
+            },
           },
           {
             role = "user",
-            content = "Code to refactor:",
+            content = function(context)
+              local code = require("codecompanion.helpers.actions").get_code(context.start_line, context.end_line)
+
+              return string.format(
+                [[Please refactor and optimize the following %s code from buffer %d.
+The code to refactor is:
+
+
+```%s
+%s
+```
+]],
+                context.filetype,
+                context.bufnr,
+                context.filetype,
+                code
+              )
+            end,
             opts = {
               contains_code = true,
             },
@@ -306,7 +335,7 @@ Refactor and optimize the provided code snippet in ]] .. context.filetype .. [[.
         },
       },
       ["Add Comments"] = {
-        strategy = "chat",
+        strategy = "inline",
         description = "Add high-level comments and remove low-level comments.",
         opts = {
           modes = { "v" },
@@ -317,30 +346,75 @@ Refactor and optimize the provided code snippet in ]] .. context.filetype .. [[.
         prompts = {
           {
             role = "system",
-            content = function(context)
-              return [[You are a highly skilled software engineer specializing in code readability and documentation. Your task is to modify the comments in the provided code snippet in ]]
-                .. context.filetype
-                .. [[.
+            content = [[When asked to manage code comments, follow these steps:
 
-Specifically:
-- Add high-level comments, including documentation comments (like docstrings, etc.) for classes and functions to explain their overall purpose, inputs, and outputs.
-- Remove low-level or unnecessary comments that explain obvious code, restate the code, or are outdated/irrelevant.
-- Ensure the comments added follow standard conventions for ]]
-                .. context.filetype
-                .. [[.
-- Maintain the original code's structure, logic, and naming conventions. Focus *only* on comment management.
-- Your response must be a single markdown code block for ]]
-                .. context.filetype
-                .. [[ containing only the code snippet.]]
-            end,
+1. **Add High-Level Comments**: Insert documentation comments (like docstrings or header comments) for classes and functions, clearly stating their purpose, expected inputs, and outputs.
+2. **Remove Low-Level/Redundant Comments**: Delete any comments that state the obvious, repeat the code, or are outdated/irrelevant.
+3. **Follow Convention**: Ensure all added comments follow the standard conventions for the relevant programming language.
+4. **Preserve Code Structure**: Do not change the code's logic, structure, or naming. Only modify comments.
+5. **Keep Special Comments**: If there are comments with prefixes like `TODO:`, `HACK:`, `FIX:`, `BUG:` etc., keep them in their relevant position as they usually mark important pending work or known issues.
+
+Your response must be a single markdown code block (with the programming language specified) containing only the updated code.]],
+            opts = {
+              visible = false,
+            },
           },
           {
             role = "user",
-            content = "Code to manage comments for",
-            opts = {
-              contains_code = true,
-            },
+            content = function(context)
+              local code = require("codecompanion.helpers.actions").get_code(context.start_line, context.end_line)
+
+              return string.format(
+                [[Please improve the comments in this code from buffer %d according to best practices:
+
+```%s
+%s
+```
+]],
+                context.bufnr,
+                context.filetype,
+                code
+              )
+            end,
+            opts = { contains_code = true },
           },
+        },
+      },
+    },
+    extensions = {
+      history = {
+        enabled = true,
+        opts = {
+          -- Keymap to open history from chat buffer (default: gh)
+          keymap = "gh",
+          -- Keymap to save the current chat manually (when auto_save is disabled)
+          save_chat_keymap = "gs",
+          -- Save all chats by default (disable to save only manually using 'sc')
+          auto_save = false,
+          -- Number of days after which chats are automatically deleted (0 to disable)
+          expiration_days = 0,
+          -- Picker interface (auto resolved to a valid picker)
+          picker = "fzf-lua",
+          ---Automatically generate titles for new chats
+          auto_generate_title = true,
+          -- title_generation_opts = {
+          --   ---Adapter for generating titles (defaults to current chat adapter)
+          --   adapter = nil, -- "copilot"
+          --   ---Model for generating titles (defaults to current chat model)
+          --   model = nil, -- "gpt-4o"
+          --   ---Number of user prompts after which to refresh the title (0 to disable)
+          --   refresh_every_n_prompts = 0, -- e.g., 3 to refresh after every 3rd user prompt
+          --   ---Maximum number of times to refresh the title (default: 3)
+          --   max_refreshes = 3,
+          -- },
+          ---On exiting and entering neovim, loads the last chat on opening chat
+          continue_last_chat = false,
+          ---When chat is cleared with `gx` delete the chat from history
+          -- delete_on_clearing_chat = false,
+          ---Directory path to save the chats
+          dir_to_save = vim.fn.stdpath "data" .. "/codecompanion-history",
+          ---Enable detailed logging for history extension
+          -- enable_logging = false,
         },
       },
     },
