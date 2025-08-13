@@ -197,8 +197,3 @@ alias t='eza -T --group-directories-first --icons=always --no-quotes'
 alias trans='aichat -r trans'
 alias idamcp='aichat_mcp_start && aichat -r ida; aichat_mcp_stop'
 ### End of alias
-
-### Let's Zellij!
-if [[ -z "$ZELLIJ" ]]; then
-  zellij && exit
-fi
