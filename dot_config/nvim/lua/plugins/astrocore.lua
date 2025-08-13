@@ -70,6 +70,7 @@ return {
         ["<C-/>"] = { "gcc", remap = true, desc = "Toggle comment line" },
       },
       x = {
+        ["<Leader>/"] = false,
         ["<C-/>"] = { "gc", remap = true, desc = "Toggle comment" },
       },
     },
