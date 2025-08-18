@@ -199,17 +199,15 @@ return {
           },
         })
       end,
-      -- TODO: wait for the fix of inline mode
-
-      -- copilot = function()
-      --   return require("codecompanion.adapters").extend("copilot", {
-      --     schema = {
-      --       model = {
-      --         default = "o4-mini",
-      --       },
-      --     },
-      --   })
-      -- end,
+      copilot = function()
+        return require("codecompanion.adapters").extend("copilot", {
+          schema = {
+            model = {
+              default = "o4-mini",
+            },
+          },
+        })
+      end,
       copilot_gemini = function()
         return require("codecompanion.adapters").extend("copilot", {
           name = "copilot_gemini",
