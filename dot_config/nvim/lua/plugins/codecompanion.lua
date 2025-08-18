@@ -152,11 +152,13 @@ return {
         maps.v[prefix .. "C"] = maps.n[prefix .. "C"]
         maps.n[prefix .. "i"] = {
           function()
-            vim.ui.input({ prompt = "Prompt: " }, function(input)
-              if input and input ~= "" then vim.cmd("CodeCompanion #{buffer} " .. input) end
-            end)
+            vim.cmd "CodeCompanion"
+            vim.defer_fn(function()
+              local keys = vim.api.nvim_replace_termcodes("#{buffer} ", true, false, true)
+              vim.api.nvim_feedkeys(keys, "i", false)
+            end, 10)
           end,
-          desc = "Prompt Inline",
+          desc = "Prompt Inline (prefill #{buffer})",
         }
         maps.v[prefix .. "i"] = { ":CodeCompanion<CR>", desc = "Prompt Inline" }
         maps.v[prefix .. "e"] = { function() codecompanion.prompt "explain" end, desc = "Explain Code" }
