@@ -26,7 +26,6 @@ return {
         "                                      ░░░░░░          ",
       },
     },
-    picker = { enabled = false },
     gitbrowse = { enabled = false },
   },
 }
