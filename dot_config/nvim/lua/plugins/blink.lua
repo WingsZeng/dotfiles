@@ -5,6 +5,7 @@ end
 
 return {
   "Saghen/blink.cmp",
+  build = "cargo +nightly build --release",
   specs = {
     {
       "AstroNvim/astrocore",
