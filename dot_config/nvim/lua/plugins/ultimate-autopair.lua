@@ -1,10 +1,6 @@
 return {
   "altermo/ultimate-autopair.nvim",
   opts = {
-    fastwarp = {
-      multi = true,
-      { faster = true, map = "<C-A-e>" },
-    },
     config_internal_pairs = {
       { "[", "]", suround = true },
       { "(", ")", suround = true },
