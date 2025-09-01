@@ -21,7 +21,7 @@ notify() {
     int32:$expire_time >/dev/null
 }
 
-rc-service sing-box status
+doas rc-service sing-box status
 if [ $? -ne 0 ]; then
   output=$(doas rc-service sing-box start 2>&1)
   if [ $? -ne 0 ]; then
