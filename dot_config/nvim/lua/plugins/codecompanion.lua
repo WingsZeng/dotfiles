@@ -195,38 +195,29 @@ return {
   opts = {
     language = "Chinese",
     adapters = {
-      gemini = function()
-        return require("codecompanion.adapters").extend("gemini", {
-          env = {
-            api_key = "cmd:pass api_key/gemini",
-          },
-        })
-      end,
-      copilot = function()
-        return require("codecompanion.adapters").extend("copilot", {
-          schema = {
-            model = {
-              default = "o4-mini",
+      http = {
+        gemini = function()
+          return require("codecompanion.adapters").extend("gemini", {
+            env = {
+              api_key = "cmd:pass api_key/gemini",
             },
-          },
-        })
-      end,
-      copilot_gemini = function()
-        return require("codecompanion.adapters").extend("copilot", {
-          name = "copilot_gemini",
-          formatted_name = "Copilot Gemini 2.5 Pro",
-          schema = {
-            model = {
-              default = "gemini-2.5-pro",
+          })
+        end,
+        copilot = function()
+          return require("codecompanion.adapters").extend("copilot", {
+            schema = {
+              model = {
+                default = "claude-sonnet-4",
+              },
             },
-            max_tokens = {
-              default = 128000,
-            },
-          },
-        })
-      end,
+          })
+        end,
+      },
     },
     display = {
+      action_palette = {
+        provider = "fzf_lua",
+      },
       diff = {
         provider = "mini_diff",
       },
@@ -235,18 +226,32 @@ return {
           full_height = false,
           width = 0.3,
         },
-        show_settings = true,
+        -- show_settings = true,
       },
     },
     strategies = {
       inline = {
         adapter = "copilot",
+        keymaps = {
+          accept_change = {
+            modes = { n = "ga" },
+            description = "Accept the suggested change",
+          },
+          reject_change = {
+            modes = { n = "gr" },
+            opts = { nowait = true },
+            description = "Reject the suggested change",
+          },
+        },
       },
       chat = {
         roles = {
           llm = function(adapter) return adapter.formatted_name end,
         },
-        adapter = "copilot_gemini",
+        adapter = {
+          name = "copilot",
+          model = "gemini-2.5-pro",
+        },
         keymaps = {
           send = { modes = { n = "<CR>", i = {} } },
           close = { modes = { n = { "<C-q>", "q" }, i = {} } },
