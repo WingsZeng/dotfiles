@@ -1,20 +1,19 @@
 return {
-  "zbirenbaum/copilot-cmp",
-  event = "User AstroFile",
-  opts = {},
-  specs = {
-    {
-      "zbirenbaum/copilot.lua",
-      opts = {
-        suggestion = { enabled = false },
-        panel = { enabled = false },
-      },
+  "zbirenbaum/copilot.lua",
+  cmd = "Copilot",
+  event = "InsertEnter",
+  opts = {
+    suggestion = { enabled = false },
+    panel = { enabled = false },
+    filetypes = {
+      ["*"] = true,
     },
+  },
+  specs = {
     {
       "Saghen/blink.cmp",
       optional = true,
       specs = {
-        { "Saghen/blink.compat", version = "*", lazy = true, opts = {} },
         { "fang2hou/blink-copilot" },
       },
       opts = {
@@ -27,7 +26,7 @@ return {
               score_offset = 100,
               async = true,
               opts = {
-                max_completitions = 3,
+                max_compeletitions = 3,
               },
             },
           },
