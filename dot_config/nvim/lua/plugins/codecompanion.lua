@@ -212,6 +212,16 @@ return {
             },
           })
         end,
+        ["free-llm"] = function()
+          return require("codecompanion.adapters").extend("openai_compatible", {
+            name = "free-llm",
+            formatted_name = "Free LLM",
+            env = {
+              url = "https://free-llm.cupsfunny.com",
+              api_key = "cmd:pass api_key/free-llm",
+            },
+          })
+        end,
       },
     },
     display = {
