@@ -68,6 +68,7 @@ keybinds clear-defaults=true {
         bind "|" { NewPane "right"; }
         bind "esc" { ScrollToBottom; }
         bind "enter" { ScrollToBottom; }
+        bind "d" { Detach; }
     }
 }
 themes {
