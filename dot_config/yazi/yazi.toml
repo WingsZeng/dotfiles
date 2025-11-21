@@ -30,6 +30,7 @@ prepend_previewers = [
 	# Archive previewer
 	{ mime = "application/{*zip,tar,bzip2,7z-compressed,rar,xz}", run = "ouch" },
 	{ mime = "application/gentoo.*", run = "code" },
+	{ name = "*.docx", run = "doxx" },
 ]
 append_previewers = [{ name = "*", run = "hexyl" }]
 
