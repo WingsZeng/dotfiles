@@ -31,7 +31,7 @@ local -a actions=(${(f)"$(rc-service -C $service describe 2>&1)"})
 shift actions                                          
 actions=(${actions# \* })                              
 actions=(${actions/:*})                                
-actions=(stop start restart describe zap ${actions[@]})
+actions=(stop start describe zap ${actions[@]})
 action=$(echo ${(j.\n.)actions} | fuzzel --dmenu -p "Action for $service: ")
 
 if [[ -z $action ]]; then
