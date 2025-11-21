@@ -193,7 +193,6 @@ return {
   lazy = true,
   cmd = { "CodeCompanion", "CodeCompanionActions", "CodeCompanionChat", "CodeCompanionCmd" },
   opts = {
-    language = "Chinese",
     adapters = {
       http = {
         gemini = function()
@@ -207,7 +206,7 @@ return {
           return require("codecompanion.adapters").extend("copilot", {
             schema = {
               model = {
-                default = "claude-sonnet-4",
+                default = "gpt-4.1",
               },
             },
           })
