@@ -30,9 +30,9 @@ prepend_previewers = [
 	# Archive previewer
 	{ mime = "application/{*zip,tar,bzip2,7z-compressed,rar,xz}", run = "ouch" },
 	{ mime = "application/gentoo.*", run = "code" },
-	{ name = "*.docx", run = "doxx" },
+	{ url = "*.docx", run = "doxx" },
 ]
-append_previewers = [{ name = "*", run = "hexyl" }]
+append_previewers = [{ url = "*", run = "hexyl" }]
 
 [[plugin.prepend_fetchers]]
 id = "git"
