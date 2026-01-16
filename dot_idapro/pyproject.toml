@@ -1,5 +1,5 @@
 [project]
-name = "idapro"
+name = "ida"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -8,7 +8,7 @@ dependencies = [
     "asciinet>=0.3.1",
     "bs4>=0.0.2",
     "flare-capa>=9.2.1",
-    "ida-pro-mcp>=1.3.0",
+    "ida-pro-mcp",
     "keystone-engine>=0.9.2",
     "langchain>=0.3.26",
     "langchain-google-genai>=2.1.6",
@@ -18,5 +18,9 @@ dependencies = [
     "requests>=2.32.4",
     "tabulate>=0.9.0",
     "tenacity>=9.1.2",
+    "toml>=0.10.2",
     "yara-python>=4.5.4",
 ]
+
+[tool.uv.sources]
+ida-pro-mcp = { url = "https://github.com/WinMin/ida-pro-mcp/archive/refs/heads/main.zip" }
