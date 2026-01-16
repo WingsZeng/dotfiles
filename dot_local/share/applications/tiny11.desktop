@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Tiny 11
+Exec=/home/wings/.local/share/vm/tiny11/tiny11-core.sh
+Type=Application
+Terminal=false
