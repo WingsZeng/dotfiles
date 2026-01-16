@@ -171,7 +171,7 @@ precmd_pipe_message_to_zjswitcher() {
 add-zsh-hook precmd precmd_pipe_message_to_zjswitcher
 ### End of hooks
 
-### Line editor
+### aichat
 _aichat_zsh() {
     if [[ -n "$BUFFER" ]]; then
         local _old=$BUFFER
@@ -183,7 +183,25 @@ _aichat_zsh() {
 }
 zle -N _aichat_zsh
 bindkey '^[^M' _aichat_zsh
+### End of aichat
 
+### goose
+GOOSE_SESSION_ID="TERM_$(date +%Y%m%d%H%M)_$$"
+export GOOSE_SESSION_ID
+alias @goose='/usr/bin/goose term run'
+alias @g='/usr/bin/goose term run'
+
+goose_preexec() {
+    [[ "$1" =~ ^goose\ term ]] && return
+    [[ "$1" =~ ^(@goose|@g)($|[[:space:]]) ]] && return
+    ('/usr/bin/goose' term log "$1" &) 2>/dev/null
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook preexec goose_preexec
+### End of goose
+
+### Line editor
 autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey '^[e' edit-command-line
