@@ -186,19 +186,16 @@ bindkey '^[^M' _aichat_zsh
 ### End of aichat
 
 ### goose
-GOOSE_SESSION_ID="TERM_$(date +%Y%m%d%H%M)_$$"
-export GOOSE_SESSION_ID
-alias @goose='/usr/bin/goose term run'
-alias @g='/usr/bin/goose term run'
-
-goose_preexec() {
-    [[ "$1" =~ ^goose\ term ]] && return
-    [[ "$1" =~ ^(@goose|@g)($|[[:space:]]) ]] && return
-    ('/usr/bin/goose' term log "$1" &) 2>/dev/null
+__goose_inited=0
+__goose_init() {
+  (( __goose_inited )) && return 0
+  __goose_inited=1
+  eval "$(/usr/bin/goose term init zsh)" || { __goose_inited=0; return 1; }
+  unalias @g @goose 2>/dev/null
 }
 
-autoload -Uz add-zsh-hook
-add-zsh-hook preexec goose_preexec
+@g() { __goose_init || return $?; /usr/bin/goose term run "$@"; }
+@gr() { __goose_inited=0; unset GOOSE_SESSION_ID; }
 ### End of goose
 
 ### Line editor
