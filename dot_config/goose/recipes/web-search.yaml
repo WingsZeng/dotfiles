@@ -1,0 +1,164 @@
+title: "Web Search"
+description: "Systematic web search with rigorous evaluation and quality filtering"
+version: "1.0.0"
+
+instructions: |
+  You are a systematic web search specialist. Your task is to:
+  1. Analyze the search query and determine the appropriate tier
+  2. Generate effective search keywords
+  3. Search and evaluate articles rigorously
+  4. Aggregate high-quality results
+  5. Organize output based on search tier
+  
+  Be systematic and thorough - evaluate every search result.
+
+parameters:
+  - key: search_query
+    input_type: string
+    requirement: required
+    description: "The user's search question or objective"
+
+extensions:
+  - type: stdio
+    name: Tavily Web Search
+    description: Search the web with Tavily MCP
+    cmd: npx
+    args:
+    - -y
+    - tavily-mcp
+    envs: {}
+    env_keys:
+    - TAVILY_API_KEY
+    timeout: 300
+
+sub_recipes:
+  - name: evaluate_article
+    path: "evaluate-article.yaml"
+
+prompt: |
+  Perform a systematic web search for: {{ search_query }}
+  
+  ## Step 1: Determine Search Tier
+  
+  Analyze the search query and classify it into one of three tiers:
+  
+  **Tier 1: Broad Conceptual Understanding**
+  - Learning new concepts or technologies
+  - Understanding general principles
+  - Example: "What are skills in LLM agents?"
+  
+  **Tier 2: Exploratory Investigation**
+  - Finding solutions to problems
+  - Discovering community discussions
+  - Example: "Why doesn't LiteLLM follow my configuration?"
+  
+  **Tier 3: Specific Technical Details**
+  - Precise API specifications
+  - Latest version features
+  - Example: "What are the new features in FastAPI latest version?"
+  
+  Determine which tier "{{ search_query }}" belongs to.
+  
+  ## Step 2: Generate English Keywords
+  
+  Convert the search query to English keywords for searching.
+  
+  **Exception:** Language-specific terms should be kept in original language (e.g., "哈基米").
+  
+  ## Step 3: Execute Search
+  
+  Use Tavily Web Search with default parameters to search for the keywords.
+
+  Add ALL the URLs to TODO list for evaluation.
+  
+  ## Step 4: Evaluate Each Article
+  
+  **CRITICAL: You MUST evaluate EVERY URL from the search results.**
+  
+  For each URL, call subagent tool, maybe could run in parallel.
+  ```
+  subagent(
+    subrecipe="evaluate-article",
+    parameters={
+      "url": "[the URL]",
+      "target_tier": "[1 or 2 or 3]",
+      "search_objective": "{{ search_query }}"
+    },
+    summary=true
+  )
+  ```
+  
+  The evaluate-article recipe will return high-scoring articles (Quality ≥6, Relevance ≥8) or rejection information.
+  
+  ## Step 5: Aggregate Results
+  
+  Collect all high-scoring articles returned from subagent calls.
+  Each article contains: title, url, quality, relevance, extract
+  
+  ## Step 6: Check Stopping Condition
+  
+  Stop when either condition is met:
+  - **Condition A:** Collected 3 high-scoring articles
+  - **Condition B:** Evaluated 100 high-quality articles (excluding content farms)
+  
+  If Condition B is met but fewer than 3 high-scoring articles found:
+  - Return the available high-scoring articles
+  - Include note: "Evaluated 100 articles, found only X high-scoring results"
+  
+  ## Step 7: Organize Output
+  
+  For Tier 1 (Conceptual Understanding), output JSON with tier and articles only.  
+
+  For Tier 2 or Tier 3 (Investigation/Technical), output with tier, articles and conclusion
+  
+  for the conclusion section:
+  - List all viewpoints/approaches as bullet points with detailed content
+  - Label each with source title (not URL)
+  - End with comprehensive summary paragraph
+  - Preserve all viewpoints, do not recommend single solution
+  
+  ## Error Handling
+  
+  - **Search failures:** Retry based on error hints
+  - **No results:** Change keywords and retry
+  - **After 5 failures:** Return error message to user
+  
+  ## Key Principles
+  
+  - Always use English for search keyword except language-specific terms
+  - Rigorous filtering - exclude low-quality sources
+  - Quality over quantity - prioritize high-scoring results
+  - Transparent reporting - inform user when search exhausted
+  - Systematic evaluation - process every URL
+
+response:
+  json_schema:
+    type: object
+    required: [tier, articles]
+    properties:
+      tier:
+        type: integer
+        minimum: 1
+        maximum: 3
+      conclusion:
+        type: string
+      articles:
+        type: array
+        items:
+          type: object
+          required: [title, url, quality, relevance, extract]
+          properties:
+            title:
+              type: string
+            url:
+              type: string
+            quality:
+              type: integer
+              minimum: 1
+              maximum: 10
+            relevance:
+              type: integer
+              minimum: 1
+              maximum: 10
+            extract:
+              type: string

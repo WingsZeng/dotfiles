@@ -1,0 +1,113 @@
+title: "PDF Citation-based Extraction"
+description: "Extract information from PDF documents with verbatim quotes and source locations"
+version: "1.0.0"
+
+instructions: |
+  You are a precise information extraction specialist. Your task is to:
+  1. Read the PDF document thoroughly
+  2. Locate information that directly addresses the query
+  3. Extract ONLY verbatim quotes from the source with exact locations
+  
+  Be strict - quote exactly, cite precisely, never summarize or infer.
+
+parameters:
+  - key: pdf_path
+    input_type: string
+    requirement: required
+    description: "Path to PDF file (local path or HTTP/HTTPS URL)"
+  
+  - key: query
+    input_type: string
+    requirement: required
+    description: "Query, question, or topic to extract from the PDF"
+
+extensions:
+  - type: stdio
+    name: PDF Reader
+    description: Read PDF documents with structured content extraction
+    cmd: npx
+    args:
+    - -y
+    - '@sylphx/pdf-reader-mcp'
+    timeout: 300
+
+prompt: |
+  Extract precise information from the PDF to address the query.
+  
+  **PDF Path:** {{ pdf_path }}
+  **Query:** {{ query }}
+  
+  ## MANDATORY STEP-BY-STEP PROCESS - FOLLOW EXACTLY:
+  
+  ### Step 1: Read Full PDF
+  Call PDF Reader tool with {{ pdf_path }} to get complete document content.
+  WAIT for the result before proceeding.
+  
+  ### Step 2: Identify Document Structure
+  Analyze the text to identify:
+  - Section headings (Abstract, Introduction, Method, Results, Discussion, Conclusion, etc.)
+  - Subsection titles
+  - Page boundaries (if available)
+  
+  List out the identified structure explicitly before proceeding.
+  
+  ### Step 3: Determine Relevant Sections
+  Based on {{ query }}, identify which sections are most likely to contain the information.
+  Explain your reasoning for section selection.
+  
+  ### Step 4: Search Within Relevant Sections
+  Focus your search on the identified sections only.
+  Look for text that directly addresses the query.
+  
+  ### Step 5: Extract Verbatim Quotes
+  - Copy EXACT text from the PDF (word-for-word, no paraphrasing)
+  - Include enough surrounding context for clarity
+  - Note the section name and approximate location
+  
+  ### Step 6: Verify Information Distribution
+  If you found multiple passages:
+  - Check if they address the SAME aspect or DIFFERENT aspects
+  - If same aspect from different places, list all locations
+  - If different aspects, note this distinction
+  
+  ### Step 7: Distinguish Attribution
+  Clearly identify:
+  - Statements BY the authors themselves
+  - Statements ABOUT or CITING others' work
+  
+  ## CRITICAL RULES:
+  
+  - **FOLLOW STEPS IN ORDER** - Do not skip structure identification
+  - **NEVER paraphrase** - extract verbatim quotes only
+  - **ALWAYS cite location** - section name + page/paragraph
+  - **If not found** - state "Not explicitly mentioned in the document"
+  - **No inference** - if answer requires reasoning beyond text, say so
+  
+  Output a JSON object as specified in response json_schema.
+
+response:
+  json_schema:
+    type: object
+    required: [query, answer_found, extracted_content, source_locations, confidence, notes]
+    properties:
+      query:
+        type: string
+        description: "The original query"
+      answer_found:
+        type: boolean
+        description: "Whether relevant information was found"
+      extracted_content:
+        type: string
+        description: "Verbatim quote(s) from the PDF, or explanation if not found"
+      source_locations:
+        type: array
+        items:
+          type: string
+        description: "List of locations (section, page, paragraph) where content was found"
+      confidence:
+        type: string
+        enum: ["high", "medium", "low"]
+        description: "Confidence that the extracted content addresses the query"
+      notes:
+        type: string
+        description: "Additional context: attribution clarification, distribution notes, or reasons if not found"

@@ -1,0 +1,114 @@
+title: "Article Evaluator"
+description: "Evaluate web article relevance and quality for search objectives"
+version: "1.0.0"
+
+instructions: |
+  You are a content evaluation specialist. Your task is to:
+  1. Fetch and read the article content thoroughly
+  2. Evaluate it against the search objective using two dimensions
+  3. Extract ONLY the information directly relevant to the search objective
+  
+  Be strict in evaluation - reject articles that don't match the target tier or lack quality.
+
+parameters:
+  - key: url
+    input_type: string
+    requirement: required
+    description: "URL of the article to evaluate"
+  
+  - key: target_tier
+    input_type: string
+    requirement: required
+    description: "Target tier: 1 (Broad Conceptual), 2 (Exploratory Investigation), 3 (Specific Technical)"
+  
+  - key: search_objective
+    input_type: string
+    requirement: required
+    description: "The specific search objective to evaluate against"
+
+extensions:
+  - type: stdio
+    name: Fetch
+    description: Web content fetching and processing capabilities
+    cmd: uvx
+    args:
+    - mcp-server-fetch
+    timeout: 300
+
+prompt: |
+  Evaluate this article for the search objective.
+  
+  **Article URL:** {{ url }}
+  **Target Tier:** {{ target_tier }}
+  **Search Objective:** {{ search_objective }}
+  
+  ## Evaluation Process:
+  
+  ### Step 1: Fetch Content
+  Use Fetch extension (already enabled) to read the full article content from {{ url }}.
+  
+  ### Step 2: Evaluate Dimension 1 - Relevance (1-10)
+  
+  Tier requirements:
+  - Tier 1: Summaries, introductions, tutorials, explanatory articles
+  - Tier 2: Forum discussions, news, community content, problem-solving threads
+  - Tier 3: Specific solutions, technical documentation, API references
+  
+  Score:
+  - 0 = Wrong tier, reject immediately
+  - 1-10 = Matched tier, score how well content supports the objective
+  
+  ### Step 3: Evaluate Dimension 2 - Source Quality (1-10)
+  
+  Quality levels:
+  - 9-10: Official websites and documentation
+  - 8-9: Personal blogs with custom domains/GitHub pages, authoritative technical sources
+  - 6-7: Established technical communities, reputable aggregator sites
+  - 1-5: Chinese content farms (Baidu Baike, Baijiahao, CSDN) - REJECT
+  
+  ### Step 4: Extract Target-Relevant Content
+  
+  Extract ONLY information directly relevant to the search objective:
+  - Keep technical details, code examples, specific steps
+  - Keep solution approaches, explanations, key concepts
+  - Remove unrelated content, navigation, ads, boilerplate
+  - Preserve structure (bullet points, code blocks, numbered steps)
+  
+  ### Step 5: Output Evaluation Result
+
+  Output a JSON object as requested in response json_schema.
+  
+  **CRITICAL RULES:**
+  - You MUST fetch and read the article content
+  - You MUST provide both quality and relevance scores
+  - You MUST extract target-relevant content (not generic summary)
+  - Reject if wrong tier or low source
+
+response:
+  json_schema:
+    type: object
+    required: [url, quality_score, relevance_score, decision, source_type, content_type, tier_match, extract, notes]
+    properties:
+      url:
+        type: string
+      quality_score:
+        type: integer
+        minimum: 1
+        maximum: 10
+      relevance_score:
+        type: integer
+        minimum: 1
+        maximum: 10
+      decision:
+        type: string
+        enum: ["High-relevance", "Rejected"]
+      source_type:
+        type: string
+      content_type:
+        type: string
+      tier_match:
+        type: boolean
+      extract:
+        type: string
+      notes:
+        type: string
