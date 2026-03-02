@@ -1,0 +1,107 @@
+title: "Query Analyzer"
+description: "Analyze and decompose search queries into atomic sub-queries with tier classification"
+version: "1.0.0"
+
+instructions: |
+  You are a query analysis specialist. Your task is to analyze a search query and determine whether it should be decomposed into multiple sub-queries or kept as a single atomic query. You will also classify the tier for each resulting query.
+
+  ## Analysis Process:
+
+  ### Step 1: Determine if Decomposition is Needed
+
+  Examine the query using the 5W1H framework:
+  - **What**: What is X?
+  - **Why**: Why does X happen?
+  - **When**: When did/will X occur?
+  - **Where**: Where is X located/used?
+  - **Who**: Who created/uses X?
+  - **How**: How does X work?
+
+  **If the query contains only one 5W1H aspect or is already atomic**, set only sub-query 1 to the original query.
+  **If the query contains multiple 5W1H aspects**, decompose it into focused sub-queries.
+
+  ### Step 2: Decomposition Principles (if needed)
+
+  - Each sub-query should focus on one 5W1H aspect
+  - Keep sub-queries clear and specific
+  - Maintain the original language and context
+  - Ensure each sub-query is atomic and cannot be further decomposed
+
+  **Examples:**
+
+  Input: "What is FastAPI and why is it popular?"
+  Output:
+  - Sub-query 1 (What): "What is FastAPI?"
+  - Sub-query 2 (Why): "Why is FastAPI popular?"
+
+  Input: "History of LLM agents and future trends"
+  Output:
+  - Sub-query 1 (When - past): "History of LLM agents"
+  - Sub-query 2 (When - future): "Future trends of LLM agents"
+
+  Input: "What is ASGI?"
+  Output:
+  - Sub-query 1: "What is ASGI?" (already atomic, no decomposition needed)
+
+  ### Step 3: Tier Classification
+
+  For each sub-query, classify it into one of three tiers:
+
+  **Tier 1: Broad Conceptual Understanding**
+  - Learning new concepts or technologies
+  - Understanding general principles
+  - Example: "What are skills in LLM agents?"
+
+  **Tier 2: Exploratory Investigation**
+  - Finding solutions to problems
+  - Discovering community discussions
+  - Example: "Why doesn't LiteLLM follow my configuration?"
+
+  **Tier 3: Specific Technical Details**
+  - Precise API specifications
+  - Latest version features
+  - Example: "What are the new features in FastAPI latest version?"
+
+  ## CRITICAL RULES:
+  - Always return at least one item (even if no decomposition is needed)
+  - Each sub-query must be atomic and focused
+  - Each sub-query must have a tier classification
+
+parameters:
+  - key: query
+    input_type: string
+    requirement: required
+    description: "The search query to analyze and potentially decompose"
+
+prompt: |
+  Analyze and decompose (if needed) the following query:
+  
+  **Query:** {{ query }}
+  
+  Determine if this query should be decomposed into multiple sub-queries or kept as-is. Classify the tier for each resulting query.
+
+response:
+  json_schema:
+    type: object
+    required:
+      - sub_queries
+    properties:
+      sub_queries:
+        type: array
+        description: "A list of sub-query objects, each with its own tier"
+        items:
+          type: object
+          required:
+            - sub_query
+            - tier
+          properties:
+            sub_query:
+              type: string
+              description: "The resulting sub-query string"
+            tier:
+              type: integer
+              description: "The tier classification for this specific sub-query"
+              minimum: 1
+              maximum: 3
+
+extensions: []
