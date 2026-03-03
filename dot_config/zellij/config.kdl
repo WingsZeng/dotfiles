@@ -216,8 +216,9 @@ plugins {
 // eg. "https://example.com/my-plugin.wasm"
 load_plugins {
     file:zjswitcher {
-        programs_in_locked_mode "nvim, yazi, sshs, lazygit, lazydocker, bluetuith, neomutt, sc-im"
+        programs_in_locked_mode "nvim, yazi, sshs, lazygit, lazydocker, bluetuith, neomutt, sc-im, goose, claude, codex"
     }
+    file:zellij-pane-tracker
 }
 ui {
     pane_frames {
