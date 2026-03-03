@@ -9,6 +9,7 @@ return {
         Added = { link = "SignAdd" },
         Changed = { link = "SignChange" },
         Deleted = { link = "SignDelete" },
+        Removed = { link = "SignDelete" },
         DiffText = { underline = true },
       },
     },

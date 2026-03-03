@@ -19,7 +19,7 @@ return {
   opts = {
     background_clear = { "float_win" },
     terminal_colors = false,
-    overridePalette = function(_)
+    override_palette = function(_)
       return {
         dark2 = dark2,
         dark1 = dark1,
@@ -42,7 +42,16 @@ return {
   specs = {
     {
       "AstroNvim/astroui",
-      opts = { colorscheme = "monokai-pro" },
+      opts = {
+        colorscheme = "monokai-pro",
+        highlights = {
+          init = {
+            SignAdd = { fg = green },
+            SignChange = { fg = orange },
+            SignDelete = { fg = red },
+          },
+        },
+      },
     },
     {
       "hedyhli/outline.nvim",
