@@ -32,7 +32,7 @@ return {
           components = {
             kind_icon = {
               text = function(ctx)
-                local icon = require("lspkind").symbolic(ctx.kind, { mode = "symbol" })
+                local icon = require("lspkind").symbolic(ctx.kind)
                 ctx.kind_icon = icon or ""
                 return ctx.kind_icon or ctx.kind
               end,
