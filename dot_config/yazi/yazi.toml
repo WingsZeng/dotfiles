@@ -35,11 +35,11 @@ prepend_previewers = [
 append_previewers = [{ url = "*", run = "hexyl" }]
 
 [[plugin.prepend_fetchers]]
-id = "git"
-name = "*"
+id  = "git"
+url = "*"
 run = "git"
 
 [[plugin.prepend_fetchers]]
-id = "git"
-name = "*/"
+id  = "git"
+url = "*/"
 run = "git"
