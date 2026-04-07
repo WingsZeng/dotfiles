@@ -2,7 +2,7 @@
 Name=IDA Pro 9.2
 Type=Application
 Comment=IDA Interactive Disasssembler
-Exec=env QT_SCALE_FACTOR=1.5 IDAPYTHON_VENV_EXECUTABLE=/home/wings/.idapro/.venv/bin/python3 ida
+Exec=env QT_SCALE_FACTOR=1.5 IDAUSR=/home/wings/.local/share/idapro IDAPYTHON_VENV_EXECUTABLE=/home/wings/.local/share/idapro/.venv/bin/python3 ida
 TryExec=ida
 Icon=idapro
 Categories=Development;
