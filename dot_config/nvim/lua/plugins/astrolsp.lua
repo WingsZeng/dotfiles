@@ -14,6 +14,12 @@ return {
       tinymist = {
         settings = {
           exportPdf = "onType",
+          formatterMode = "typstyle",
+          lint = {
+            enable = true,
+            when = "onType",
+          },
+          projectResolution = "lockDatabase",
         },
       },
       basedpyright = {
