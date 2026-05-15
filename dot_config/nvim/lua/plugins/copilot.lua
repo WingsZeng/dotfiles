@@ -11,7 +11,7 @@ return {
   },
   specs = {
     {
-      "Saghen/blink.cmp",
+      "saghen/blink.cmp",
       optional = true,
       specs = {
         { "fang2hou/blink-copilot" },
