@@ -13,5 +13,14 @@ return {
         return { timeout_ms = 500 }
       end
     end,
+
+    formatters_by_ft = {
+      rust = { "rustfmt" },
+    },
+    formatters = {
+      rustfmt = {
+        prepend_args = { "+nightly" },
+      },
+    },
   },
 }
