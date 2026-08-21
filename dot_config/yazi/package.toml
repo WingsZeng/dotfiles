@@ -28,5 +28,10 @@ use = "nerdyslacker/doxx"
 rev = "b2cdcf2"
 hash = "8eb14e8799ae821e86e331df9ebba9bf"
 
+[[plugin.deps]]
+use = "nerdyslacker/xleak"
+rev = "b77895e"
+hash = "be9cf3a76daa598ded0e13684b276e11"
+
 [flavor]
 deps = []

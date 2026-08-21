@@ -31,15 +31,11 @@ prepend_previewers = [
 	{ mime = "application/{*zip,tar,bzip2,7z-compressed,rar,xz}", run = "ouch" },
 	{ mime = "application/gentoo.*", run = "code" },
 	{ url = "*.docx", run = "doxx" },
+	{ url = "*.{xlsx,xls,xlsm,xlsb,ods}", run = "xleak" }
 ]
 append_previewers = [{ url = "*", run = "hexyl" }]
 
-[[plugin.prepend_fetchers]]
-id  = "git"
-url = "*"
-run = "git"
-
-[[plugin.prepend_fetchers]]
-id  = "git"
-url = "*/"
-run = "git"
+prepend_fetchers = [
+  { id = "git", url = "*",  run = "git", group = "git" },
+  { id = "git", url = "*/", run = "git", group = "git" },
+]
