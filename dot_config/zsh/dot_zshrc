@@ -104,6 +104,8 @@ export IDAUSR=$XDG_DATA_HOME/idapro
 export IDAPYTHON_VENV_EXECUTABLE=$IDAUSR/.venv/bin/python3
 # used for llm-functions with aichat
 export LLM_FUNCTIONS_DIR="$XDG_CONFIG_HOME/aichat/llm-functions"
+# serena
+export SERENA_HOME="$XDG_DATA_HOME"/serena
 ### End of environment
 
 ### Functions
@@ -212,4 +214,6 @@ alias t='eza -T --group-directories-first --icons=always --no-quotes'
 # aichat roles
 alias trans='aichat -r trans'
 alias idamcp='aichat_mcp_start && aichat -r ida; aichat_mcp_stop'
+# claude with serena
+alias claude='claude --system-prompt="$(serena prompts print-cc-system-prompt-override)"'
 ### End of alias
