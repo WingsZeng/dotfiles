@@ -1,0 +1,33 @@
+local home = os.getenv("HOME")
+
+hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
+hl.env("XDG_SESSION_TYPE", "wayland")
+hl.env("XDG_SESSION_DESKTOP", "Hyprland")
+hl.env("QT_QPA_PLATFORM", "wayland;xcb")
+hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
+hl.env("QT_IM_MODULE", "fcitx")
+hl.env("QSG_RHI_BACKEND", "vulkan")
+hl.env("EGL_PLATFORM", "wayland")
+
+hl.env("XCURSOR_THEME", "Bibata-Modern-Classic")
+hl.env("XCURSOR_SIZE", "24")
+
+hl.env("XDG_CONFIG_HOME", home .. "/.config")
+hl.env("XDG_CACHE_HOME", home .. "/.cache")
+hl.env("XDG_DATA_HOME", home .. "/.local/share")
+hl.env("XDG_STATE_HOME", home .. "/.local/state")
+
+hl.env("XDG_DESKTOP_DIR", home .. "/Desktop")
+hl.env("XDG_DOCUMENTS_DIR", home .. "/Documents")
+hl.env("XDG_DOWNLOAD_DIR", home .. "/Downloads")
+hl.env("XDG_MUSIC_DIR", home .. "/Music")
+hl.env("XDG_PICTURES_DIR", home .. "/Pictures")
+hl.env("XDG_PUBLICSHARE_DIR", home .. "/Public")
+hl.env("XDG_TEMPLATES_DIR", home .. "/Templates")
+hl.env("XDG_VIDEOS_DIR", home .. "/Videos")
+hl.env("XDG_SCREENSHOTS_DIR", home .. "/Pictures/screenshots")
+
+hl.env("ZDOTDIR", home .. "/.config/zsh")
+hl.env("TERMCMD", "footclient")
+hl.env("LIBVA_DRIVER_NAME", "nvidia")
+hl.env("__GLX_VENDOR_LIBRARY_NAME", "nvidia")
