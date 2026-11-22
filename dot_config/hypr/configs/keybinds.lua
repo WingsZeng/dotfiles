@@ -2,7 +2,7 @@
 hl.bind("SUPER + return", hl.dsp.exec_cmd("footclient zellij"))
 hl.bind("SUPER + A", hl.dsp.exec_cmd("fuzzel"))
 hl.bind("SUPER + V", hl.dsp.exec_cmd("cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"))
-hl.bind("SUPER + P", hl.dsp.exec_cmd([[action=$(echo -e "lock-session\npoweroff\nreboot\nlogout" | fuzzel --dmenu); [ -n "$action" ] && ([ $action = "logout" ] && hyprctl dispatch exit || loginctl $action)]]))
+hl.bind("SUPER + P", hl.dsp.exec_cmd([[action=$(echo -e "lock-session\npoweroff\nreboot\nlogout" | fuzzel --dmenu); [ -n "$action" ] && ([ $action = "logout" ] && hyprshutdown || loginctl $action)]]))
 hl.bind("SUPER + M", hl.dsp.exec_cmd("$XDG_CONFIG_HOME/hypr/scripts/monitor.sh"))
 hl.bind("SUPER + S", hl.dsp.exec_cmd("$XDG_CONFIG_HOME/hypr/scripts/service.sh"))
 hl.bind("SUPER + T", hl.dsp.exec_cmd("$XDG_CONFIG_HOME/hypr/scripts/toggle-touchpad.sh"))
