@@ -64,11 +64,7 @@ hl.bind("SUPER + 3", virtual_desktop("vdesk", "3"))
 hl.bind("SUPER + 4", virtual_desktop("vdesk", "4"))
 hl.bind("SUPER + grave", hl.dsp.workspace.toggle_special(""))
 
-hl.bind("SUPER + ALT + L", hl.dsp.window.move({ direction = "right" }))
-hl.bind("SUPER + ALT + H", hl.dsp.window.move({ direction = "left" }))
-hl.bind("SUPER + minus", hl.dsp.layout("colresize -conf"))
-hl.bind("SUPER + equal", hl.dsp.layout("colresize +conf"))
-hl.bind("SUPER + SHIFT + equal", hl.dsp.layout("center"))
+hl.bind("SUPER + C", hl.dsp.layout("togglefocus"))
 
 -- Hardware controls
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("$XDG_CONFIG_HOME/hypr/scripts/brightnessctl.sh -"), { repeating = true })
