@@ -19,7 +19,6 @@ return {
   { import = "astrocommunity.pack.java" },
   { import = "astrocommunity.editing-support.conform-nvim" },
   { import = "astrocommunity.scrolling.satellite-nvim" },
-  { import = "astrocommunity.scrolling.mini-animate" },
   { import = "astrocommunity.fuzzy-finder.fzf-lua" },
   { import = "astrocommunity.git.mini-diff" },
   { import = "astrocommunity.editing-support.dial-nvim" },
