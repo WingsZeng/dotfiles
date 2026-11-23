@@ -1,3 +1,16 @@
+{{- $host := .chezmoi.hostname -}}
+{{- $knownHosts := list "xenthorium" "relboron" -}}
+{{- $batteryHosts := list "relboron" -}}
+{{- $wifiHosts := list "xenthorium" "relboron" -}}
+{{- $bigSizeHosts := list "xenthorium" -}}
+{{- $wiredInterfaces := dict "xenthorium" "eno1" "relboron" "enp0s31f6" -}}
+{{- $unknown := not (has $host $knownHosts) -}}
+{{- $hasBattery := has $host $batteryHosts -}}
+{{- $hasWifi := has $host $wifiHosts -}}
+{{- $bigSize := has $host $bigSizeHosts -}}
+{{- $wired := get $wiredInterfaces $host -}}
+{{- $xenthorium := eq $host "xenthorium" -}}
+{{- $relboron := eq $host "relboron" -}}
 color:
   red: &red f92672ff
   green: &green a6e22eff
@@ -19,18 +32,17 @@ delimiter: &delimiter
     content:
       *delimiter_str
 
-prompt_font: &prompt_font "UbuntuMono Nerd Font:style=bold:size=32"
+prompt_font: &prompt_font "UbuntuMono Nerd Font:style=bold:size={{ if $bigSize }}64{{ else }}32{{ end }}"
 
 bar:
-  height: 32
+  height: {{ if $bigSize }}64{{ else }}32{{ end }}
   location: top
   layer: top
-  monitor: eDP-1
   background: 00000000
   foreground: *write
-  margin: 20
-  spacing: 8
-  font: "UbuntuMono Nerd Font:size=28"
+  margin: {{ if $bigSize }}40{{ else }}20{{ end }}
+  spacing: {{ if $bigSize }}16{{ else }}8{{ end }}
+  font: "UbuntuMono Nerd Font:size={{ if $bigSize }}56{{ else }}28{{ end }}"
 
   left:
 
@@ -67,13 +79,14 @@ bar:
               percent_used >= 60:
                 - string: {text: "{percent_used}%", foreground: *yellow}
 
+{{ if not $unknown }}
     - network:
         poll-interval: 1000
         content:
           map:
             default: {empty: {}}
             conditions:
-              name == enp0s31f6:
+              name == {{ $wired }}:
                 map:
                   default: {empty: {}}
                   conditions:
@@ -86,7 +99,7 @@ bar:
           map:
             default: {empty: {}}
             conditions:
-              name == enp0s31f6:
+              name == {{ $wired }}:
                 map:
                   default: {empty: {}}
                   conditions:
@@ -99,26 +112,30 @@ bar:
           map:
             default: {empty: {}}
             conditions:
-              name == enp0s31f6:
+              name == {{ $wired }}:
                 map:
                   default: {empty: {}}
                   conditions:
                     state == up && ipv4 != "":
-                    - string: {text: "{dl-speed:mb}"}
+                    - string: {text: "{{ if $xenthorium }}{dl-speed:mb} {ul-speed:mb}{{ else }}{dl-speed:mb}{{ end }}"}
 
+{{ if $relboron }}
     - network:
         poll-interval: 1000
         content:
           map:
             default: {empty: {}}
             conditions:
-              name == enp0s31f6:
+              name == {{ $wired }}:
                 map:
                   default: {empty: {}}
                   conditions:
                     state == up && ipv4 != "":
                     - string: {text: "{ul-speed:mb}"}
-                    
+{{ end }}
+
+{{ end }}
+{{ if $hasWifi }}
     - network:
         poll-interval: 1000
         content:
@@ -145,6 +162,7 @@ bar:
                     state == up && ipv4 != "":
                     - string: {text: "wlan", foreground: *prompt_color, font: *prompt_font}
 
+{{ if $relboron }}
     - network:
         poll-interval: 1000
         content:
@@ -157,6 +175,7 @@ bar:
                   conditions:
                     state == up && ipv4 != "":
                     - string: {text: "{ssid}"}
+{{ end }}
 
     - network:
         poll-interval: 1000
@@ -169,8 +188,9 @@ bar:
                   default: {empty: {}}
                   conditions:
                     state == up && ipv4 != "":
-                    - string: {text: "{dl-speed:mb}"}
+                    - string: {text: "{{ if $xenthorium }}{dl-speed:mb} {ul-speed:mb}{{ else }}{dl-speed:mb}{{ end }}"}
 
+{{ if $relboron }}
     - network:
         poll-interval: 1000
         content:
@@ -183,13 +203,15 @@ bar:
                   conditions:
                     state == up && ipv4 != "":
                     - string: {text: "{ul-speed:mb}"}
+{{ end }}
+{{ end }}
 
   center:
     - clock:
         time-format: "%H:%M:%S"
         date-format: "%b %d %a"
         content:
-          string: {text: "{date}  {time}", font: "UbuntuMono Nerd Font:size=32"}
+          string: {text: "{date}  {time}", font: "UbuntuMono Nerd Font:size={{ if $bigSize }}64{{ else }}32{{ end }}"}
 
 
   right:
@@ -234,6 +256,7 @@ bar:
                     cubic_volume > 100:
                       - string: {text: "{cubic_volume}%", foreground: *yellow}
 
+{{ if $hasBattery }}
     - *delimiter
 
     - label:
@@ -268,3 +291,4 @@ bar:
             conditions:
               state == charging:
                 - string: {text: "{capacity}%", foreground: *green}
+{{ end }}
