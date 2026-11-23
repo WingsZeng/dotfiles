@@ -1,7 +1,7 @@
 #!/bin/zsh
 
-# Read monitors config
-monitors_config_file="$XDG_CONFIG_HOME/hypr/configs/monitors.conf"
+# Read monitor rules
+monitors_config_file="$XDG_CONFIG_HOME/hypr/configs/monitors.lua"
 config_lines=()
 
 while IFS= read -r line; do
@@ -23,18 +23,13 @@ else
   chosen_monitor=$monitors_name
 fi
 
-# Check if the chosen monitor is in the config file
+# Check if the chosen monitor has a rule
 config_line=""
 for line in "${config_lines[@]}"; do
-  # Skip lines that contain 'disabled'
-  if [[ $line == *"disabled"* ]]; then
+  if [[ $line == *"disabled = true"* ]]; then
     continue
   fi
-  # Split the line by ',' and trim spaces
-  IFS=',' read -r monitor_name _ <<<"$line"
-  monitor_name=$(echo "$monitor_name" | xargs) # Trim spaces
-  # Check if the line starts with 'monitor =' and compare the monitor name
-  if [[ $monitor_name == "monitor = $chosen_monitor" ]]; then
+  if [[ $line == "hl.monitor({ output = \"$chosen_monitor\","* ]]; then
     config_line=$line
     break
   fi
@@ -158,24 +153,27 @@ case $action in
   ;;
 esac
 
-# Update config file
-new_config_line="monitor = $chosen_monitor, $monitor_resolution, $monitor_position, $monitor_scale"
+# Update monitor rules
+new_config_line="hl.monitor({ output = \"$chosen_monitor\", mode = \"$monitor_resolution\", position = \"$monitor_position\", scale = $monitor_scale"
 if [ "$monitor_transform" != "0" ]; then
-  new_config_line+=", transform, $monitor_transform"
+  new_config_line+=", transform = $monitor_transform"
 fi
 if [ "$monitor_mirrored" != "none" ]; then
-  new_config_line+=", mirror, $monitor_mirrored"
+  new_config_line+=", mirror = \"$monitor_mirrored\""
 fi
+new_config_line+=" })"
+
 if [ -n "$config_line" ]; then
   sed -i "/^$config_line$/c$new_config_line" "$monitors_config_file"
 else
   echo "$new_config_line" >>"$monitors_config_file"
 fi
 
+disabled_config_line="hl.monitor({ output = \"$chosen_monitor\", disabled = true })"
 if ((monitor_disabled)); then
-  echo "monitor = $chosen_monitor, disabled" >>"$monitors_config_file"
+  echo "$disabled_config_line" >>"$monitors_config_file"
 else
-  sed -i "/^monitor = $chosen_monitor, disabled$/d" "$monitors_config_file"
+  sed -i "/^$disabled_config_line$/d" "$monitors_config_file"
 fi
 
 # Reload yambar
