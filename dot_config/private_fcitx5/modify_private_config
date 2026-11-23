@@ -1,0 +1,24 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import os
+exec((Path(os.environ["CHEZMOI_SOURCE_DIR"]) / ".chezmoitemplates/modify_ini.py").read_text())
+
+patch(
+    {
+        "Hotkey": {
+            "EnumerateWithTriggerKeys": "False",
+            "AltTriggerKeys": "",
+            "EnumerateGroupForwardKeys": "",
+            "EnumerateGroupBackwardKeys": "",
+            "ActivateKeys": "",
+            "DeactivateKeys": "",
+            "PrevCandidate": "",
+            "NextCandidate": "",
+            "TogglePreedit": "",
+        },
+        "Hotkey/TriggerKeys": {"0": "Control+space"},
+        "Hotkey/PrevPage": {"0": "minus"},
+        "Hotkey/NextPage": {"0": "equal"},
+    },
+    exact_sections={"Hotkey/TriggerKeys", "Hotkey/PrevPage", "Hotkey/NextPage"},
+)

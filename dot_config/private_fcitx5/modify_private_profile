@@ -1,0 +1,14 @@
+#!/usr/bin/env python3
+from pathlib import Path
+import os
+exec((Path(os.environ["CHEZMOI_SOURCE_DIR"]) / ".chezmoitemplates/modify_ini.py").read_text())
+
+patch(
+    {
+        "Groups/0": {"DefaultIM": "pinyin"},
+        "Groups/0/Items/0": {"Name": "keyboard-us"},
+        "Groups/0/Items/1": {"Name": "pinyin"},
+        "GroupOrder": {"0": "Default"},
+    },
+    exact_sections={"GroupOrder"},
+)
