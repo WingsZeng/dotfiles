@@ -4,6 +4,7 @@ return {
     features = {
       inlay_hints = true,
       semantic_tokens = true,
+      codelens = false,
     },
     formatting = {
       format_on_save = {
