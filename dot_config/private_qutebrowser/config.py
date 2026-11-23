@@ -210,4 +210,26 @@ config.unbind('yP', mode='normal')
 config.unbind('yY', mode='normal')
 config.unbind('yp', mode='normal')
 
+# Switch fcitx5 back to English whenever a window returns to normal mode.
+from qutebrowser.keyinput import modeman
+from qutebrowser.qt.core import QProcess
+from qutebrowser.utils import usertypes
+
+if not getattr(modeman.init, '_fcitx_hooked', False):
+    _modeman_init = modeman.init
+
+    def _modeman_init_fcitx(win_id, parent):
+        mm = _modeman_init(win_id, parent)
+
+        def on_left(_old, new, _win_id):
+            # fcitx5-remote acts on the focused app; skip if we're in the background
+            if new == usertypes.KeyMode.normal and parent.isActiveWindow():
+                QProcess.startDetached('fcitx5-remote', ['-c'])
+
+        mm.left.connect(on_left)
+        return mm
+
+    _modeman_init_fcitx._fcitx_hooked = True
+    modeman.init = _modeman_init_fcitx
+
 config.load_autoconfig()
