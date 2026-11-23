@@ -276,6 +276,8 @@ theme "monokai-soda"
 //   - false
 // 
 // mouse_mode false
+
+scroll_mode_sync false
  
 // Toggle having pane frames around the panes
 // Options:
@@ -320,7 +322,6 @@ on_force_close "quit"
 // copy_command "wl-copy"                    // wayland
 // copy_command "pbcopy"                     // osx
 // 
-copy_command "wl-copy"
  
 // Choose the destination for copied text
 // Allows using the primary selection buffer (on x11/wayland) instead of the system clipboard.
