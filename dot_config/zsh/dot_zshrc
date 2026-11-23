@@ -102,49 +102,14 @@ export GOPATH="$XDG_DATA_HOME"/go
 # IDA Pro
 export IDAUSR=$XDG_DATA_HOME/idapro
 export IDAPYTHON_VENV_EXECUTABLE=$IDAUSR/.venv/bin/python3
-# used for llm-functions with aichat
-export LLM_FUNCTIONS_DIR="$XDG_CONFIG_HOME/aichat/llm-functions"
-# serena
-export SERENA_HOME="$XDG_DATA_HOME"/serena
+# omp
+export PI_CONFIG_DIR=".config/omp"
+export PI_CODING_AGENT_DIR="$XDG_CONFIG_HOME/omp/agent"
+export OMP_WORKTREE_DIR="$XDG_DATA_HOME/omp/wt"
+export OMP_GITHUB_CACHE_DB="$XDG_CACHE_HOME/omp/github-cache.db"
 ### End of environment
 
 ### Functions
-# aichat mcp client
-aichat_mcp_lock_file="/tmp/aichat_mcp.lock"
-
-aichat_mcp_start() {
-  pushd "$LLM_FUNCTIONS_DIR" > /dev/null || return
-
-  if [[ ! -f "$aichat_mcp_lock_file" ]]; then
-    echo 1 > "$aichat_mcp_lock_file"
-    argc mcp start || { rm -f "$aichat_mcp_lock_file"; popd > /dev/null || return; return 1; }
-  else
-    n=$(<"$aichat_mcp_lock_file")
-    n=$((n+1))
-    echo "$n" > "$aichat_mcp_lock_file"
-  fi
-
-  popd > /dev/null || return
-}
-
-aichat_mcp_stop() {
-  pushd "$LLM_FUNCTIONS_DIR" > /dev/null || return
-
-  if [[ -f "$aichat_mcp_lock_file" ]]; then
-    n=$(<"$aichat_mcp_lock_file")
-    n=$((n-1))
-    if (( n <= 0 )); then
-      argc mcp stop
-      rm -f "$aichat_mcp_lock_file"
-    else
-      echo "$n" > "$aichat_mcp_lock_file"
-    fi
-  else
-    echo "Warning: MCP lock file not found; nothing to stop" >&2
-  fi
-
-  popd > /dev/null || return
-}
 # docker gcc for universal build
 function build_universal() {
     docker run --rm -v "$PWD":/codes -w /codes wingszeng/gcc "$@"
@@ -174,33 +139,6 @@ precmd_pipe_message_to_zjswitcher() {
 add-zsh-hook precmd precmd_pipe_message_to_zjswitcher
 ### End of hooks
 
-### aichat
-_aichat_zsh() {
-    if [[ -n "$BUFFER" ]]; then
-        local _old=$BUFFER
-        BUFFER+="⌛"
-        zle -I && zle redisplay
-        BUFFER=$(aichat -e "$_old")
-        zle end-of-line
-    fi
-}
-zle -N _aichat_zsh
-bindkey '^[^M' _aichat_zsh
-### End of aichat
-
-### goose
-__goose_inited=0
-__goose_init() {
-  (( __goose_inited )) && return 0
-  __goose_inited=1
-  eval "$(/usr/bin/goose term init zsh)" || { __goose_inited=0; return 1; }
-  unalias @g @goose 2>/dev/null
-}
-
-@g() { __goose_init || return $?; /usr/bin/goose term run "$@"; }
-@gr() { __goose_inited=0; unset GOOSE_SESSION_ID; }
-### End of goose
-
 ### Line editor
 autoload -Uz edit-command-line
 zle -N edit-command-line
@@ -215,5 +153,5 @@ alias t='eza -T --group-directories-first --icons=always --no-quotes'
 alias trans='aichat -r trans'
 alias idamcp='aichat_mcp_start && aichat -r ida; aichat_mcp_stop'
 # claude with serena
-alias claude='claude --system-prompt="$(serena prompts print-cc-system-prompt-override)"'
+alias claude-serena='claude --system-prompt="$(serena prompts print-cc-system-prompt-override)"'
 ### End of alias
