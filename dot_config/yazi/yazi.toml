@@ -33,7 +33,7 @@ prepend_previewers = [
 	{ url = "*.docx", run = "doxx" },
 	{ url = "*.{xlsx,xls,xlsm,xlsb,ods}", run = "xleak" }
 ]
-append_previewers = [{ url = "*", run = "hexyl" }]
+append_previewers = [{ url = "*", run = 'piper -- hexyl --border=none --terminal-width=$w "$1"' }]
 
 prepend_fetchers = [
   { id = "git", url = "*",  run = "git", group = "git" },
