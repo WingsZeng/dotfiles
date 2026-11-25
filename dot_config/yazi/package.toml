@@ -33,5 +33,10 @@ use = "nerdyslacker/xleak"
 rev = "b77895e"
 hash = "be9cf3a76daa598ded0e13684b276e11"
 
+[[plugin.deps]]
+use = "WingsZeng/btrbk"
+rev = "d1ac2c1"
+hash = "adbace82f3623cd39fffe572f6b8c32"
+
 [flavor]
 deps = []
